@@ -1,0 +1,162 @@
+.btn{
+    transition: var(--fast);
+    border-radius: 10px;
+    font-weight: noraml;
+    font-size: 90%;
+    padding: var(--padding) calc(var(--padding) * 2);
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid;
+    
+    &:hover{
+        transition: var(--fast);
+    }
+
+    &.rounded {
+        border-radius: 30px;
+    }
+
+    &.default{
+        background-color: var(--primary-color);
+        padding: var(--padding) calc(var(--padding) * 2);
+        color: var(--color-white);
+        margin: 0 1.5rem;
+        transition: all .4s ease-in-out;
+        background-size: 300% 100%;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-color: var(--primary-color);
+
+        transition: all .4s ease-in-out;
+        &:hover {
+            transition: all .4s ease-in-out;
+            background-color: var(--color-white);
+            color: var(--primary-color);
+        }
+        &.primary {
+            font-size: 12px;
+            text-transform: unset;
+        }
+    }
+
+    &.outline{
+        background: transparent;
+        border: 1px solid var(--primary-color);
+        color: white;
+        padding: var(--padding) calc(var(--padding) * 3);
+
+        &:hover{
+            background: var(--color-third);
+            border-color: var(--color-third);
+        }
+
+        &.primary {
+            border-color: var(--primary-color);
+            color: var(--color-fourth);
+            padding: var(--padding) calc(var(--padding) * 2);
+            font-size: 12px;
+
+            &:hover{
+                border-color: var(--primary-color);
+                color: var(--color-white);
+                background-color: var(--primary-color);
+            }    
+        }
+        &.second {
+            border: 0;
+            border-bottom: 2px solid;
+            border-color: var(--primary-color);
+            color: var(--color-fourth);
+            padding: calc(var(--padding) / 2) calc(var(--padding) * 2);
+
+            &:hover{
+                border-color: var(--primary-color);
+                color: var(--color-fourth);
+                background-color: var(--primary-color);
+                color: var(--color-white);
+            }    
+        }
+    }
+
+    &.disable {
+        cursor: unset;
+    }
+
+    &.status {
+        padding: var(--padding) calc(var(--padding) * 2);
+        border: 1px solid;
+        color: var(--color-white);
+        margin: 0 1.5rem;
+        transition: all .4s ease-in-out;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        transition: all .4s ease-in-out;
+        &:hover {
+            transition: all .4s ease-in-out;
+            background-color: var(--color-white);
+            color: var(--primary-color);
+        } 
+
+        &.isOpen {
+            background-color: var(--color-danger);
+            border-color: var(--color-danger);
+            &:hover {
+                background-color: var(--color-white);
+                border-color: var(--color-danger);
+                color: var(--color-danger);
+            }
+        }
+        &.isPay {
+            background-color: var(--color-success);
+            border-color: var(--color-success);
+            &:hover {
+                background-color: var(--color-white);
+                border-color: var(--color-success);
+                color: var(--color-success);
+            } 
+        }
+        &.isDelay {
+            background-color: var(--color-error);
+            border-color: var(--color-error);
+            &:hover {
+                background-color: var(--color-white);
+                border-color: var(--color-error);
+                color: var(--color-error);
+            } 
+        }
+    }
+
+    &.whats {
+        background-color: var(--fourth--color);
+        color: var(--color-white);
+        padding: 1.3rem 3rem;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 20px;
+        svg {
+            fill: var(--color-white);
+            margin-right: .5rem;
+        }
+        @media(max-width: 769px) {
+            font-size: 12px;
+            svg {
+                width: 60px;
+                height: auto;
+            }
+        }
+        @media(max-width: 500px) {
+            svg {
+                width: 60px;
+                height: auto;
+            }
+        }
+        &:hover {
+            background-color: var(--fourth--color);
+            color: var(--color-white);
+        }
+    }
+}

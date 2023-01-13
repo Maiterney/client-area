@@ -1,0 +1,59 @@
+:root{
+    //COLORS PALLETE
+    --primary-color: rgba(0,26,87,1);
+    --second-color: #FF9900;
+    --third-color: rgba(111, 111, 111, 0.1);
+    --fourth--color: #66B945;
+
+    --text-color: rgba(0,26,87,1);
+
+    --gray: #adadad;
+    --gray-dark: #54595F;
+
+
+    --color-success: #00FF66;
+    --color-danger: #FF9900;
+    --color-error: #FF0000;
+
+    --color-blue: #3B5997;
+    --color-white: #fff;
+
+    //SPACMENT 
+    --padding: 1em;
+    --margin: 1em;
+
+    //SIDEBAR WIDTH
+    --sidebar-width: 225px;
+
+    //NAVBAR HEIGHT
+    --navbar-height: 80px;
+
+    //FONT
+    --font-kumbh: 'Kumbh Sans', sans-serif;
+    --font-size: 20px;
+    --font-name: 'Roboto', sans-serif;
+
+    //DEFAULT SIZE
+    --small-size: 5px;
+    --normal-size: 10px;
+    --double-size: 20px;
+
+    //DEFAULT BORDER-RADIUS
+    --normal-bd: 5px;
+    --large-bd: 40px;
+
+    //DEFAULT TRANSITION
+    --slow: all 1s;
+    --normal: all .45s;
+    --fast: all .25s;
+
+    //DEFAULT SHADOW
+    --shadow:  0px 0px 10px 0px rgba(117,117,117,0.15);
+
+    @media only screen and (max-width:992px){
+        --pading: .5em;
+        --margin: .5em;
+        --font-size: 12px;
+        --normal-size:5px;
+    }
+}

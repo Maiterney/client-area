@@ -1,0 +1,51 @@
+.main {
+    .container {
+        margin: 0 auto;
+        @media(max-width: 500px) {
+            padding: 0 calc(var(--padding) / 2);
+        }
+        @media(min-width: 576px) {
+            max-width: 540px;
+        }
+        @media(min-width: 768px) {
+            max-width: 720px;
+        }
+        @media(min-width: 992px) {
+            max-width: 960px;
+        }
+        @media(min-width: 1200px) {
+            max-width: 1140px;
+        }
+        @media(min-width: 1400px) {
+            max-width: 1320px;
+        }
+    }
+    &.mainDashboard {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .contentDashboard {
+        background-color: #D9D9D9;
+        flex: 1;
+        display: flex;
+    }
+}
+
+.p-component {
+    border-radius: 5px;
+    overflow: hidden;
+    font-family: var(--font-kumbh);
+}
+
+.statusText {
+    &.isOpen {
+        color: var(--color-danger);
+    }
+    &.isPay {
+        color: var(--color-success);
+    }
+    &.isDelay {
+        color: var(--color-error);
+    }
+}

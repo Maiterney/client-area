@@ -1,0 +1,34 @@
+.main {
+    height: 100%;
+    .login {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #dcdcdc;
+        .loginContent {
+            background-color: var(--color-white);
+            padding: calc(var(--padding) * 3) calc(var(--padding) * 2) calc(var(--padding) * 2);
+            border-radius: 10px;
+            .logo {
+                display: flex;
+                justify-content: center;
+                padding-bottom: calc(var(--padding) * 2);
+                svg {
+                    width: 70%;
+                }
+            }
+            form {
+                input {
+                    border: 0;
+                    border-bottom: 1px solid var(--primary-color);
+                }
+                .submitButton {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: calc(var(--margin) * 1.2);
+                }
+            }
+        }
+    }
+}

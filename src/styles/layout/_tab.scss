@@ -1,0 +1,22 @@
+.tabView {
+    .p-tabview-nav {
+        .p-unselectable-text {
+            flex: 1;
+            .p-tabview-nav-link {
+                justify-content: center;
+                &:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
+            }
+        }
+    }
+    &.historicTab {
+        .p-tabview-nav {
+            .p-unselectable-text {
+                flex: 1;
+                margin: 0 calc(var(--margin) * 5);
+            }
+        }
+    }
+}

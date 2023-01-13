@@ -1,0 +1,36 @@
+.accordion {
+    .p-accordion-tab {
+        .p-accordion-header  {
+            .p-accordion-header-link {
+                background: var(--color-white) ;
+                border: 0;
+                border-bottom: 1px solid rgba(0,26,87,.2);
+                border-radius: 0;
+                &:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
+                .p-accordion-header-text {
+                    width: 95%;
+                }
+            }
+            .p-accordion-toggle-icon {
+                position: absolute;
+                right: 15px;
+            }
+            &:not(.p-disabled) {
+                &.p-highlight {
+                    .p-accordion-header-link {
+                        background: var(--color-white);
+                        border: 0;
+                    }
+                }
+            }
+        }
+        .p-accordion-content {
+            border: 0;
+            border-bottom: 1px solid rgba(0,26,87,.2);
+            border-radius: 0;
+        }
+    }
+}

@@ -1,0 +1,137 @@
+form {
+    .titleForm {
+        text-align: center;
+        padding-bottom: var(--padding);
+        border-bottom: 1px solid var(--color-third);
+    }
+    .formController {
+        .formRow {
+            display: flex;
+            .formGroup {
+                margin: 0 calc(var(--margin) / 2);
+                padding: calc(var(--padding) / 4) 0;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                position: relative;
+                justify-content: flex-end;
+                width: 100%;
+                label {
+                    padding-bottom: calc(var(--padding) / 1.5);
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                input,select, textarea {
+                    background: transparent;
+                    border: 1px solid var(--primary-color);
+                    padding: 0 var(--padding);
+                    border-radius: 5px;
+                    width: 100%;
+                    color: var(--color-fourth);
+                    height: 40px;
+                    &:focus {
+                        outline: unset;
+                        color: var(--color-black);
+                        border-color: var(--color-primary);
+                    }
+                }
+                textarea {
+                    padding: calc(var(--padding) / 2);
+                    max-width: 100%;
+                    min-width: 100%;
+                    min-height: 100px;
+                    max-height: 500px;
+                }
+                .errors {
+                    position: absolute;
+                    right: 0;
+                    font-size: 12px;
+                    color: var(--color-red);
+                    top: 1.2rem;
+                }
+                &:first-child{
+                    margin-left: 0;
+                }
+                &:last-child{
+                    margin-right: 0;
+                } 
+                &.small {
+                    flex: unset;
+                    width: 25%;
+                }
+            }
+        }
+        .submitButton {
+            margin: var(--margin) 0;
+            display: flex;
+            justify-content: center;
+        }
+        .forgotPassword {
+            text-align: center;
+            a {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--color-white);
+                text-decoration: none;
+                svg {
+                    margin-right: calc(var(--margin) / 2);
+                    width: 15px;
+                }
+            }
+        }
+    }
+    &.login {
+        .formController {
+            .formRow {
+                .formGroup {
+                    position: relative;
+                    margin-bottom: calc(var(--margin) * 1.2);
+                    label {
+                        position: absolute;
+                        pointer-events: none;
+                        top: 50%;
+                        margin-top: -.5rem;
+                        transition-property: all;
+                        transition-timing-function: ease;
+                        line-height: 1;
+                        padding: 0;
+                        transition: all .5s ease-in-out;
+                        
+                    }
+                    input {
+                        border: 0;
+                        border-bottom: 2px solid var(--gray);
+                        min-width: 250px;
+                        color: var(--gray);
+                        box-shadow: unset;
+                        padding-left: calc(var(--padding) * 2.5);
+                        &:focus {
+                            border-bottom: 2px solid var(--primary-color);
+                            color: var(--primary-color);
+                            padding-left: calc(var(--padding) * 2.5);
+                        }
+                    }
+                    .iconLabel {
+                        position: absolute;
+                        bottom: 35%;
+                        left: 5%;
+                        color: var(--gray);
+                        color: var(--primary-color);
+                    }
+                    .p-error {
+                        position: absolute;
+                        bottom: -15px;
+                    }
+                }
+            }
+        }
+    }
+    @media(max-width: 769px) {
+        .formController {
+            .formRow {
+                flex-direction: column;
+            }
+        }
+    }
+}

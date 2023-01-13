@@ -1,0 +1,48 @@
+.sidebar {
+    background-color: var(--color-white);
+    padding: calc(var(--padding) * 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .navbar {
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 135px;
+        a {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: calc(var(--margin) / 1.5);
+            color: var(--primary-color);
+            position: relative;
+            &:before {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                background-color: var(--primary-color);
+                bottom: -3px;
+                transition: all .3s ease-in-out;
+            }
+            svg {
+                width: 25px;
+                margin-right: calc(var(--margin) / 2);
+            }
+            span {
+                font-size: 18px;
+            }
+            &:hover {
+                &::before {
+                    transition: all .3s ease-in-out;
+                    width: 80%;
+                }
+            }
+        }
+    }
+    .logo {
+        width: 150px;
+        svg {
+            width: 100%;
+        }
+    }
+}
