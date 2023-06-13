@@ -1,6 +1,8 @@
 
 import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
+import { HeaderV2 } from "@/components/v2/Header"
+import SidebarV2 from "@/components/v2/Sidebar"
 import { api } from "@/utils"
 import { cookies } from "next/dist/client/components/headers"
 
@@ -35,9 +37,9 @@ export default async function AdminLayout({ children, params }: { children: Reac
 
   return (
     <main className="main mainDashboard">
-      <Navbar token={token} userData={user} installationsData={installations}/>
+      <SidebarV2 />
       <div className="contentDashboard">
-        <Sidebar/>
+        <HeaderV2 user={user} installations={installations}/>
         {children}
       </div>
     </main>

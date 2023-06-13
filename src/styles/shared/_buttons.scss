@@ -128,35 +128,10 @@
         }
     }
 
-    &.whats {
-        background-color: var(--fourth--color);
-        color: var(--color-white);
-        padding: 1.3rem 3rem;
-        display: inline-flex;
-        align-items: center;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 20px;
-        svg {
-            fill: var(--color-white);
-            margin-right: .5rem;
-        }
-        @media(max-width: 769px) {
-            font-size: 12px;
-            svg {
-                width: 60px;
-                height: auto;
-            }
-        }
-        @media(max-width: 500px) {
-            svg {
-                width: 60px;
-                height: auto;
-            }
-        }
-        &:hover {
-            background-color: var(--fourth--color);
-            color: var(--color-white);
-        }
+    &.clean {
+        background-color: transparent;
+        border: 0;
+        padding: 0;
+        margin: 0;
     }
 }

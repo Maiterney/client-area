@@ -11,6 +11,8 @@ import { Toast } from 'primereact/toast'
 import { SkeletonAccount } from '../SkeletonAccounts/index'
 import { useTabNumber } from '@/store/tabAccount'
 import { useBills } from '@/store/bills'
+import { api } from '@/utils'
+import { useParams } from 'next/navigation'
 
 type ToastMessage = {
     title: string,
@@ -19,13 +21,6 @@ type ToastMessage = {
     time?:number
 }
 
-const PaymentStatus = {
-    '0': 'Aberto',
-    '1': 'Aprovação',
-    '2': 'Aguardando',
-    '3': 'Pago',
-    '4': 'Vencido'
-  };
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 const paymentStatus = [
@@ -58,481 +53,17 @@ export const ListAccounts = ({date,billsData}:any) => {
     const [ displayResponsive, setDisplayResponsive ] = useState(false);
     const toast = useRef<Toast>(null);
     const [ isAccounts, setIsAccounts ] = useState<any>([])
-    const [ isLoader, setIsLoader ] = useState(false)
+    const [ isLoader, setIsLoader ] = useState(true)
     const {setBills, bills} = useBills()
+    const { installation } = useParams()
     useEffect(() => {
         setBills(billsData)
+        setIsLoader(false)
     },[billsData])
-
-    let data2022 = [
-        {
-            id:'01',
-            mes: 'Jan/2022',
-            title: 'Janeiro 2022',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Em aberto',
-            qr_code: '/images/qrcode.png',
-            cod_barra: '5452145421215454',
-            pdf: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'02',
-            mes: 'Fev/2022',
-            title: 'Fevereiro 2022',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Em atraso',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'03',
-            mes: 'Mar/2022',
-            title: 'Março 2022',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Paga',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'04',
-            mes: 'Abril/2022',
-            title: 'Abril 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'05',
-            mes: 'Maio/2022',
-            title: 'Maio 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'06',
-            mes:'Jun/2022',
-            title: 'Junho 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'07',
-            mes: 'Jul/2022',
-            title: 'Julho 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'08',
-            mes: 'Ago/2022',
-            title: 'Agosto 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'09',
-            mes: 'Set/2022',
-            title: 'Setembro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'10',
-            mes: 'Out/2022',
-            title: 'Outubro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'11',
-            mes: 'Nov/2022',
-            title: 'Novembro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'12',
-            mes: 'Dez/2022',
-            title: 'Dezembro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-    ]
-    let data2023 = [
-        {
-            id:'01',
-            mes: 'Jan/2023',
-            title: 'Janeiro 2023',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Em aberto',
-            qr_code: '/images/qrcode.png',
-            cod_barra: '5452145421215454',
-            pdf: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'02',
-            mes: 'Fev/2023',
-            title: 'Fevereiro 2023',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Em atraso',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'03',
-            mes: 'Mar/2023',
-            title: 'Março 2023',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Paga',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'04',
-            mes: 'Abril/2023',
-            title: 'Abril 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'05',
-            mes: 'Maio/2023',
-            title: 'Maio 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'06',
-            mes:'Jun/2023',
-            title: 'Junho 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'07',
-            mes: 'Jul/2023',
-            title: 'Julho 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'08',
-            mes: 'Ago/2023',
-            title: 'Agosto 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'09',
-            mes: 'Set/2023',
-            title: 'Setembro 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'10',
-            mes: 'Out/2023',
-            title: 'Outubro 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'11',
-            mes: 'Nov/2023',
-            title: 'Novembro 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'12',
-            mes: 'Dez/2023',
-            title: 'Dezembro 2023',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: '',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-    ]
 
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
         toast?.current?.show({severity:type, summary: title, detail: msg, life: time});
     }
-
-    useEffect(() => {
-        setValue('filterYear', date)
-        setIsAccounts(data2023)
-    },[date])
 
     const copyValue = (value:any) => {
         copy(value);
@@ -543,18 +74,15 @@ export const ListAccounts = ({date,billsData}:any) => {
         })
     }
 
-    const filterAccounts = (data:any) => {
-        console.log(data)
+    const filterAccounts = async (data:any) => {
         setIsLoader(true)
-        if(data.filterYear == 2023) {
-            setIsAccounts(data2023)
-        }
-        if(data.filterYear == 2022) {
-            setIsAccounts(data2022)
-        }
-        setTimeout(() => {
+        await api.get(`/user/bills?installation=${installation}&year=${data.filterYear}`).then(res => { 
+            setBills(res.data.bills.results) 
+        }).catch(err => { 
+            console.log(err); setBills([]) 
+        }).finally(() => {
             setIsLoader(false)
-        }, 2000);
+        })
     }
 
     return (
@@ -592,7 +120,7 @@ export const ListAccounts = ({date,billsData}:any) => {
             </div>
             <div className={styles.tabAccounts}>
                 {isLoader && <SkeletonAccount />}
-                {!isLoader &&
+                {!isLoader && bills.length >= 1 ?
                     <TabView activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView'>
                         {bills.map((item:any) => {
                                 let data = new Date(item.generation_month.reference)
@@ -682,6 +210,10 @@ export const ListAccounts = ({date,billsData}:any) => {
                             })
                         }
                     </TabView>
+                    :
+                    <div className={styles.emptyAccounts}>
+                        <h2>Não há contas nesse período</h2>
+                    </div>
                 }
             </div>
             <Toast ref={toast} position="bottom-right"/>

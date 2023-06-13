@@ -6,268 +6,42 @@ import styles from './styles.module.scss'
 import { useRouter } from 'next/navigation'
 import { useTabNumber } from '@/store/tabAccount'
 
-type Accounts = {
-    id: string,
-    mes: string,
-    title: string,
-    valor: string,
-    vencimento: string,
-    consumo: string,
-    status: string,
-    qr_code: string,
-    cod_barra: string,
-    pdf: string,
-    fatura_dist: string,
-    fatura_woltz: string,
-    total: string,
-    desconto_energia: string,
-    economia: string,
-    desconto_conta: string,
-    active: boolean,
-}
+const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+const paymentStatus = [
+    {
+        label: 'Aberto',
+        status: 'isOpen'
+    },
+    {
+        label: 'Aprovação',
+        status: 'isDelay'
+    },
+    {
+        label: 'Aguardando',
+        status: 'isDelay'
+    },
+    {
+        label: 'Pago',
+        status: 'isPay'
+    },
+    {
+        label: 'Vencido',
+        status: 'isOpen'
+    },
+]
 
-export const HistoricTabs = ({date}:{date:string}) => {
+export const HistoricTabs = ({bills}:{bills:any}) => {
     const { setTabNumber } = useTabNumber()
     const { push } = useRouter()
-    const [ isNotPayAccounts, setNotPayAccounts ] = useState<Array<Accounts>>([])
-    const [ isPayAccounts, setIsPayAccounts ] = useState<Array<Accounts>>([])
-    const [ isAccounts, setIsAccounts ] = useState<Array<Accounts>>([
-        {
-            id:'01',
-            mes: 'Jan/2022',
-            title: 'Janeiro 2022',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Em aberto',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: '#',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'02',
-            mes: 'Fev/2022',
-            title: 'Fevereiro 2022',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Em atraso',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: '#',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'03',
-            mes: 'Mar/2022',
-            title: 'Março 2022',
-            valor: '26,90',
-            vencimento: '04/01/2023',
-            consumo: '40',
-            status: 'Paga',
-            qr_code: '',
-            cod_barra: '5452145421215454',
-            pdf: '#',
-            fatura_dist: '608,33',
-            fatura_woltz: '232,70',
-            total: '1.141,03',
-            desconto_energia: '6,12%',
-            economia: '13,56',
-            desconto_conta: '1,17%',
-            active: false,
-        },
-        {
-            id:'04',
-            mes: 'Abril/2022',
-            title: 'Abril 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'05',
-            mes: 'Maio/2022',
-            title: 'Maio 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'06',
-            mes:'Jun/2022',
-            title: 'Junho 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'07',
-            mes: 'Jul/2022',
-            title: 'Julho 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'08',
-            mes: 'Ago/2022',
-            title: 'Agosto 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'09',
-            mes: 'Set/2022',
-            title: 'Setembro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'10',
-            mes: 'Out/2022',
-            title: 'Outubro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'11',
-            mes: 'Nov/2022',
-            title: 'Novembro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-        {
-            id:'12',
-            mes: 'Dez/2022',
-            title: 'Dezembro 2022',
-            valor: '',
-            vencimento: '',
-            consumo: '',
-            status: 'Não disponível',
-            qr_code: '',
-            cod_barra: '',
-            pdf: '',
-            fatura_dist: '',
-            fatura_woltz: '',
-            total: '',
-            desconto_energia: '',
-            economia: '',
-            desconto_conta: '',
-            active: true,
-        },
-    ])
+    const [ isNotPayAccounts, setNotPayAccounts ] = useState<Array<any>>([])
+    const [ isPayAccounts, setIsPayAccounts ] = useState<Array<any>>([])
 
     useEffect(() => {
-        if(!isAccounts) return
-        setIsPayAccounts(isAccounts.filter((item:any) => item?.status == 'Paga'))
-        setNotPayAccounts(isAccounts.filter((item:any) => item?.status != 'Paga' && item?.status != 'Não disponível'))
+        if(!bills) return
+        setIsPayAccounts(bills.filter((item:any) => item?.payment_status == '3'))
+        setNotPayAccounts(bills.filter((item:any) => item?.payment_status != '3' && item?.status != 'Não disponível'))
         
-    },[isAccounts])
+    },[bills])
     
 
     const RouteAccount = (month:number) => {
@@ -279,33 +53,36 @@ export const HistoricTabs = ({date}:{date:string}) => {
         <div className={styles.historicTab}>
                 <TabView className='tabView historicTab'>
                     <TabPanel header="Histórico de conta">
-                        {isAccounts ? 
-                            isAccounts.map((item:any) => {
-                                const { id, mes, title, valor, vencimento, consumo, status, fatura_dist, fatura_woltz, total, desconto_energia, economia, desconto_conta, active } = item;
+                        {bills ? 
+                            bills.map((item:any) => {
+                                let data = new Date(item.generation_month.reference)
+                                let year = data.getFullYear()
+                                let month = data.getMonth()
+                                let value = Number(item.value)
                                 return (
-                                    <Accordion className={`accordion ${styles.accordion}`} key={id}>
-                                        <AccordionTab disabled={active} header={
+                                    <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
+                                        <AccordionTab header={
                                             <div className={styles.title}>
                                                 <div className={styles.text}>
-                                                    <span className={styles.data}>{title}</span>
-                                                    <span className={styles.value}>{valor ? `R$ ${valor}` : ''} </span>
-                                                    <span className={styles.consumption}>{consumo ? `${consumo}KWh` : ''}</span>
+                                                    <span className={styles.data}>{months[month + 1]} {year}</span>
+                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                    <span className={styles.consumption}>{item.injected_energy.toLocaleString('pt-br')} KWh</span>
                                                 </div>
-                                                <span className={`${styles.status} statusText ${status == 'Em aberto' ? 'isOpen' : status == 'Em atraso' ? 'isDelay' : status == 'Paga' ? 'isPay' : '' }`}>{status}</span>
+                                                <span className={`${styles.status} statusText ${paymentStatus[Number(item.payment_status)].status}`}>{paymentStatus[Number(item.payment_status)].label}</span>
                                             </div>
                                         }>
                                             <div className={styles.buttonsAccordion}>
-                                                {status == 'Paga'
+                                                {item.payment_status == '3'
                                                 ? 
-                                                    ''
+                                                    <button className="btn outline primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                        Mais detalhes
+                                                    </button>
                                                 :
-                                                    <button className="btn default primary" onClick={() => RouteAccount(id - 1)}>
+                                                    <button className="btn default primary" onClick={() => RouteAccount(item.id - 1)}>
                                                         Pagar conta
                                                     </button>
                                                 }
-                                                <button className="btn outline primary" onClick={() => RouteAccount(id - 1)}>
-                                                    Mais detalhes
-                                                </button>
+                                                
                                             </div>
                                         </AccordionTab>
                                     </Accordion>
@@ -318,31 +95,34 @@ export const HistoricTabs = ({date}:{date:string}) => {
                     <TabPanel header="Débitos">
                         {isNotPayAccounts ? 
                             isNotPayAccounts.map((item:any) => {
-                                const { id, mes, title, valor, vencimento, consumo, status, fatura_dist, fatura_woltz, total, desconto_energia, economia, desconto_conta, active } = item;
+                                let data = new Date(item.generation_month.reference)
+                                let year = data.getFullYear()
+                                let month = data.getMonth()
+                                let value = Number(item.value)
                                 return (
-                                    <Accordion className={`accordion ${styles.accordion}`} key={id}>
-                                        <AccordionTab disabled={active} header={
+                                    <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
+                                        <AccordionTab header={
                                             <div className={styles.title}>
                                                 <div className={styles.text}>
-                                                    <span className={styles.data}>{title}</span>
-                                                    <span className={styles.value}>{valor ? `R$ ${valor}` : ''} </span>
-                                                    <span className={styles.consumption}>{consumo ? `${consumo}KWh` : ''}</span>
+                                                    <span className={styles.data}>{months[month + 1]} {year}</span>
+                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                    <span className={styles.consumption}>{item.injected_energy.toLocaleString('pt-br')} KWh</span>
                                                 </div>
-                                                <span className={`${styles.status} statusText ${status == 'Em aberto' ? 'isOpen' : status == 'Em atraso' ? 'isDelay' : status == 'Paga' ? 'isPay' : '' }`}>{status}</span>
+                                                <span className={`${styles.status} statusText ${paymentStatus[Number(item.payment_status)].status}`}>{paymentStatus[Number(item.payment_status)].label}</span>
                                             </div>
                                         }>
                                             <div className={styles.buttonsAccordion}>
-                                                {status == 'Paga'
+                                                {item.payment_status == '3'
                                                 ? 
-                                                    ''
+                                                    <button className="btn outline primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                        Mais detalhes
+                                                    </button>
                                                 :
-                                                    <button className="btn default primary" onClick={() => RouteAccount(id - 1)}>
+                                                    <button className="btn default primary" onClick={() => RouteAccount(item.id - 1)}>
                                                         Pagar conta
                                                     </button>
                                                 }
-                                                <button className="btn outline primary" onClick={() => RouteAccount(id - 1)}>
-                                                    Mais detalhes
-                                                </button>
+                                                
                                             </div>
                                         </AccordionTab>
                                     </Accordion>
@@ -355,31 +135,34 @@ export const HistoricTabs = ({date}:{date:string}) => {
                     <TabPanel header="Pagos">
                         {isPayAccounts ? 
                             isPayAccounts.map((item:any) => {
-                                const { id, mes, title, valor, vencimento, consumo, status, fatura_dist, fatura_woltz, total, desconto_energia, economia, desconto_conta, active } = item;
+                                let data = new Date(item.generation_month.reference)
+                                let year = data.getFullYear()
+                                let month = data.getMonth()
+                                let value = Number(item.value)
                                 return (
-                                    <Accordion className={`accordion ${styles.accordion}`} key={id}>
-                                        <AccordionTab disabled={active} header={
+                                    <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
+                                        <AccordionTab header={
                                             <div className={styles.title}>
                                                 <div className={styles.text}>
-                                                    <span className={styles.data}>{title}</span>
-                                                    <span className={styles.value}>{valor ? `R$ ${valor}` : ''} </span>
-                                                    <span className={styles.consumption}>{consumo ? `${consumo}KWh` : ''}</span>
+                                                    <span className={styles.date}>{months[month + 1]} {year}</span>
+                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                    <span className={styles.consumption}>{item.injected_energy.toLocaleString('pt-br')} KWh</span>
                                                 </div>
-                                                <span className={`${styles.status} statusText ${status == 'Em aberto' ? 'isOpen' : status == 'Em atraso' ? 'isDelay' : status == 'Paga' ? 'isPay' : '' }`}>{status}</span>
+                                                <span className={`${styles.status} statusText ${paymentStatus[Number(item.payment_status)].status}`}>{paymentStatus[Number(item.payment_status)].label}</span>
                                             </div>
                                         }>
                                             <div className={styles.buttonsAccordion}>
-                                                {status == 'Paga'
+                                                {item.payment_status == '3'
                                                 ? 
-                                                    ''
+                                                    <button className="btn outline primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                        Mais detalhes
+                                                    </button>
                                                 :
-                                                    <button className="btn default primary" onClick={() => RouteAccount(id - 1)}>
+                                                    <button className="btn default primary" onClick={() => RouteAccount(item.id - 1)}>
                                                         Pagar conta
                                                     </button>
                                                 }
-                                                <button className="btn outline primary" onClick={() => RouteAccount(id - 1)}>
-                                                    Mais detalhes
-                                                </button>
+                                                
                                             </div>
                                         </AccordionTab>
                                     </Accordion>

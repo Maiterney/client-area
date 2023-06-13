@@ -122,3 +122,10 @@
         }
     }
 }
+.emptyAccounts {
+    background-color: var(--color-white);
+    padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
+    margin-bottom: .5%;
+    border-radius: 5px;
+    text-align: center;
+}

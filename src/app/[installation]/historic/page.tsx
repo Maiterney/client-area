@@ -1,9 +1,11 @@
+import { api } from '@/utils';
 import styles from './styles.module.scss'
 import { HistoricTabs } from '@/templates/Historic/HistoricTabs';
 
-export default function HistoricPage() {
+export default async function HistoricPage({params}:{params:{installation:string}}) {
     let date = new Date();
     let currentYear = date.getFullYear()
+    const bills = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { return res.data.bills.results }).catch(err => { console.log(err); return [] })
 
     return (
         <div className={styles.historic}>
@@ -19,7 +21,7 @@ export default function HistoricPage() {
                     <span><strong>Endereço:</strong> Rua paulo matos 1500 Cx 1</span>
                 </div>
             </div>
-            {/* <HistoricTabs date={currentYear}/> */}
+            <HistoricTabs bills={bills}/>
         </div>
     )
 }

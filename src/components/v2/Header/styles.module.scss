@@ -1,0 +1,24 @@
+.header {
+    height: 70px;
+    background-color: var(--color-white);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 calc(var(--padding) * 2);
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p {
+            display: flex;
+            flex-direction: column;
+            margin-left: calc(var(--margin) / 3);
+            text-align: start;
+            span {
+            }
+        }
+        i {
+            margin-left: 5px;
+        }
+    }
+}
