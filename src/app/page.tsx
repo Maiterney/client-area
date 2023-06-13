@@ -6,6 +6,7 @@ import { redirect } from "next/navigation"
 export default async function Home() {
   const cookie = cookies()
   const token = cookie.get('nextAuth.token')?.value
+  api.defaults.headers['Authorization'] = `Bearer ${token}`
   await api.get('/user/installations').then(res => { 
     console.log(res?.data?.installations?.results) 
     redirect(`/${res.data.installations.results[0].number}/dashboard`)
