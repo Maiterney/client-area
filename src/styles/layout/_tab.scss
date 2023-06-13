@@ -4,6 +4,9 @@
             flex: 1;
             .p-tabview-nav-link {
                 justify-content: center;
+                .p-tabview-title {
+                    text-transform: capitalize;
+                }
                 &:focus {
                     outline: none !important;
                     box-shadow: none !important;

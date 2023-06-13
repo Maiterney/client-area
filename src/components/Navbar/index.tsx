@@ -1,79 +1,60 @@
-import Link from 'next/link';
-import { InputText } from 'primereact/inputtext';
-import { MegaMenu } from 'primereact/megamenu';
-import { useRef, useState } from 'react';
+'use client'
+import { api } from '@/utils';
 import { SplitButton } from 'primereact/splitbutton';
-import { Toast } from 'primereact/toast';
-import styles from './styles.module.scss'
+import { useEffect, useState } from 'react';
+import { usePathname, useParams, useRouter } from 'next/navigation'
+import { useUserData } from '@/store/userData';
+import { useInstallations } from '@/store/installations';
+import { destroyCookie } from 'nookies';
  
-export default function Navbar (){
-    const [ isInstallation, setIsInstallation ] = useState(false);
-    const [ isProfile, setIsProfile ] = useState(false)
+export default function Navbar ({token, userData, installationsData}:{token:any, userData:any, installationsData:any}){
+    const { user, setUser } = useUserData()
+    const { installations, setInstallations } = useInstallations()
+    const [ isInstallations, setIsInstallations ] = useState(installationsData)
+    const { installation } = useParams()
+    const { push } = useRouter()
+    useEffect(() => {
+        setUser(userData)
+        setInstallations(installationsData)
+    },[userData, installationsData])
+
+    useEffect(() => {
+        api.defaults.headers['Authorization'] = `Bearer ${token}`
+        api.get(`/user/bills?installation=${installation}`).then(res => { console.log('sss',res.data) }).catch(err => { console.log(err); return [] })
+    },[])
+
+    const logout = async () => {
+        await api.put('/authenticate/logout').finally(() => { 
+                destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
+                destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
+                destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
+                destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
+        })
+        push('https://login.woltz.com.br')
+    }
 
     const items = [
         {
             label: 'Sair',
             icon: 'pi pi-sign-out',
-            command: () => {
-                console.log('ok')
-            }
+            command: () => logout()
         }
     ];
 
-    const [listInstallations, setListInstallations] = useState([
+    const listInstallations = [
         {
             label: '125212524848124',
             command: () => {
                 console.log('ok')
             }
         }
-    ])
-    
-
-    const handleOpenProfile = () => {
-        console.log('ok')
-        setIsProfile(!isProfile)
-        setIsInstallation(false)
-    }
-
-    const handleOpenInstallation = () => {
-        console.log('ok')
-        setIsInstallation(!isInstallation)
-        setIsProfile(false)
-    }   
+    ]
 
     return (
         <div className={'navbar'}>
             <nav className={'navMenu'}>
-                <SplitButton label={`Minhas instalações ${listInstallations[0].label}`} model={listInstallations} className="p-button-text navSplitButton buttonInstallation"></SplitButton>
-                <SplitButton label='Maria A. C.' model={items} className="p-button-text navSplitButton"></SplitButton>
-                {/* <ul className={`primaryMenu ${isInstallation ? 'active' : ''}`}>
-                    <li>
-                        <Link href='' className='linkMenu' onClick={handleOpenInstallation}>
-                            <div className="textLink">
-                                <p>Minhas instalações</p>
-                                <span>115825212454</span>
-                            </div>
-                            <i className='pi pi-angle-down'></i>
-                        </Link>
-                        <ul className={'subMenu'}>
-                            <li>Instalação 1</li>
-                            <li>Instalação 2</li> 
-                        </ul>
-                    </li>
-                </ul>
-                <ul className={`primaryMenu ${isProfile ? 'active' : ''}`}>
-                    <li>
-                        <Link href='' onClick={handleOpenProfile} className='linkMenu'>
-                            <img src="/images/profile.png" alt="" />
-                            <i className='pi pi-angle-down'></i>
-                        </Link>
-                        <ul className={`subMenu`}>
-                            <li>menu 1</li>
-                            <li>menu 2</li> 
-                        </ul>
-                    </li>
-                </ul> */}
+                <SplitButton label={`Minhas instalações ${installation}`} model={installations} className="p-button-text navSplitButton buttonInstallation"></SplitButton>
+                <SplitButton label={user?.name} model={items} className="p-button-text navSplitButton"></SplitButton>
             </nav>
         </div>
     )

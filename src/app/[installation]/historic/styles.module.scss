@@ -1,0 +1,31 @@
+.historic {
+    flex: 1;
+    padding: calc(var(--padding) * 3);
+    max-height: calc(100vh - 90px);
+    overflow: auto;
+    .clientDetails {
+        background-color: var(--color-white);
+        padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
+        margin-bottom: .5%;
+        border-radius: 5px;
+        h2 {
+            margin: 0;
+            padding-bottom: calc(var(--padding) / 3);
+        }
+    }
+    .installation {
+        background-color: var(--color-white);
+        padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
+        margin-bottom: .5%;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        span:first-child {
+            padding-bottom: calc(var(--padding) / 2);
+        }
+        .textArea {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

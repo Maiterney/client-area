@@ -1,0 +1,24 @@
+.historicTab {
+    .accordion {
+        .title {
+            display: flex;
+            justify-content: space-between;
+            .text {
+                flex: 1;
+                display: flex;
+                span {
+                    width: 15vw;
+                    &.data {
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+        .buttonsAccordion {
+            button {
+                margin: 0;
+                margin-right: calc(var(--margin) * 2);
+            }
+        }
+    }
+}

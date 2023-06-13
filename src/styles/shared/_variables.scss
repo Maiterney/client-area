@@ -1,6 +1,6 @@
 :root{
     //COLORS PALLETE
-    --primary-color: rgba(0,26,87,1);
+    --primary-color: rgba(0,26,87,1) !important;
     --second-color: #FF9900;
     --third-color: rgba(111, 111, 111, 0.1);
     --fourth--color: #66B945;
@@ -29,7 +29,6 @@
     --navbar-height: 80px;
 
     //FONT
-    --font-kumbh: 'Kumbh Sans', sans-serif;
     --font-size: 20px;
     --font-name: 'Roboto', sans-serif;
 

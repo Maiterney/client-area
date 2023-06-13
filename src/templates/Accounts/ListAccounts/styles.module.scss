@@ -1,0 +1,124 @@
+.installation {
+    background-color: var(--color-white);
+    padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
+    margin-bottom: .5%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    span:first-child {
+        padding-bottom: calc(var(--padding) / 2);
+    }
+    .textArea {
+        display: flex;
+        flex-direction: column;
+    }
+    .filter {
+        .formController {
+            .formRow {
+                .formGroup {
+                    display: flex;
+                    align-items: center;
+                    label {
+                        padding: 0;
+                        padding-right: calc(var(--padding) * .5);
+                        font-weight: 500;
+                        font-size: 14px;
+                    }
+                    select {
+                        width: 120px;
+                        background: transparent;
+                        border: 1px solid var(--primary-color);
+                        padding: 0 var(--padding);
+                        border-radius: 5px;
+                        color: var(--color-fourth);
+                        height: 40px;
+                        &:focus {
+                            outline: unset;
+                            color: var(--color-black);
+                            border-color: var(--color-primary);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.tabAccounts {
+    max-width: 84vw;
+    .tabContent {
+        .details {
+            border-bottom: 1px solid rgba(26,40,82,.2);
+            padding-bottom: calc(var(--padding) * 3);
+            .title {
+                h2 {
+                    color: var(--primary-color);
+                    text-transform: capitalize;
+                }
+            }
+            .accountDetail {
+                display: flex;
+                padding: 0 0 calc(var(--padding) * 3);
+                align-items: center;
+                .value, .dueDate, .consumption, .status {
+                    width: 20%;
+                    p {
+                        margin: 0;
+                        padding-bottom: calc(var(--padding) / 2);
+                    }
+                    h3 {
+                        margin: 0;
+                    }
+                }
+            }
+            .actions {
+                button {
+                    margin: 0;
+                    margin-right: calc(var(--margin) * 2);
+                    min-width: 170px;
+                }
+            }
+        }
+        .economyDetails {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .title {
+                width: 100%;
+            }
+            .cards {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                width: 50%;
+                
+                .card {
+                    width: 30%;
+                    background-color: var(--primary-color);
+                    padding: calc(var(--padding) * 2);
+                    margin-bottom: 3%;
+                    color: var(--color-white);
+                    text-align: center;
+                    border: 1px solid var(--primary-color);
+                    border-radius: 5px;
+                    p {
+                        margin: 0;
+                        padding-bottom: calc(var(--padding) / 3);
+                    }
+                    h3 {
+                        margin: 0;
+                        font-size: 14px;
+                    }
+                    &.outline {
+                        background-color: var(--color-white);
+                        color: var(--primary-color);
+                    }
+                }
+            }
+        }
+        .modalQrCode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

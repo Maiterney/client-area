@@ -12,6 +12,11 @@
             .p-button {
                 color: var(--color-white);
                 padding: calc(var(--padding) * .8) 0;
+                background-color: transparent;
+                border: 0;
+                &.p-button-icon-only {
+                    padding-left: 10px;
+                }
                 &:focus {
                     outline: none;
                     box-shadow: none;
