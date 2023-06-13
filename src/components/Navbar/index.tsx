@@ -25,12 +25,12 @@ export default function Navbar ({token, userData, installationsData}:{token:any,
 
     const logout = async () => {
         await api.put('/authenticate/logout').finally(() => { 
-                destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
         })
-        push('https://login.woltz.com.br')
+        push(`${process.env.NEXT_PUBLIC_URL_LOGIN}`)
     }
 
     const items = [
