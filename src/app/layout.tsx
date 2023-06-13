@@ -27,13 +27,13 @@ export default async function RootLayout({ children, }: { children: React.ReactN
       console.log('success')
     }).catch(err => {
       console.log('aqui')
-      // redirect('http://localhost:3001')
-      redirect('https://login.woltz.com.br')
+      redirect('http://localhost:3001')
+      // redirect('https://login.woltz.com.br')
     })
     
   } else {
-    // redirect('http://localhost:3001')
-    redirect('https://login.woltz.com.br')
+    redirect('http://localhost:3001')
+    // redirect('https://login.woltz.com.br')
   }
   return (
     <html lang="en">

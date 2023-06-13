@@ -1,16 +1,9 @@
-'use client'
-import { api } from "@/utils"
-import { useRouter } from "next/navigation"
+import { InitPage } from "@/components/Init"
+import { cookies } from "next/dist/client/components/headers"
 
 export default function Home() {
-  const { back, push } = useRouter()
-  api.get('/user/installations').then(res => { 
-    console.log(res.data.installations.results) 
-    push(`/${res.data.installations.results[0].number}/dashboard`)
-  }).catch(err => { 
-    console.log(err); 
-    back()
-  })
+  const cookie = cookies()
+  const token = cookie.get('nextAuth.token')?.value
   
-  return <></>
+  return <InitPage token={token}/>
 }
