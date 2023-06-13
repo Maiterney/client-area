@@ -59,7 +59,7 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                             bills.map((item:any) => {
                                 let data = new Date(item.generation_month.reference)
                                 let year = data.getFullYear()
-                                let month = data.getMonth()
+                                let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                                 let value = Number(item.value)
                                 return (
                                     <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
@@ -76,11 +76,11 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                                             <div className={styles.buttonsAccordion}>
                                                 {item.payment_status == '3'
                                                     ? 
-                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn outline primary">
+                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn outline primary">
                                                         Mais detalhes
                                                     </Link>
                                                     :
-                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn default primary">
+                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn default primary">
                                                         Pagar conta
                                                     </Link>
                                                 }
@@ -99,7 +99,7 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                             isNotPayAccounts.map((item:any) => {
                                 let data = new Date(item.generation_month.reference)
                                 let year = data.getFullYear()
-                                let month = data.getMonth()
+                                let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                                 let value = Number(item.value)
                                 return (
                                     <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
@@ -116,11 +116,11 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                                             <div className={styles.buttonsAccordion}>
                                                 {item.payment_status == '3'
                                                     ? 
-                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn outline primary">
+                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn outline primary">
                                                         Mais detalhes
                                                     </Link>
                                                     :
-                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn default primary">
+                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn default primary">
                                                         Pagar conta
                                                     </Link>
                                                 }
@@ -139,7 +139,7 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                             isPayAccounts.map((item:any) => {
                                 let data = new Date(item.generation_month.reference)
                                 let year = data.getFullYear()
-                                let month = data.getMonth()
+                                let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                                 let value = Number(item.value)
                                 return (
                                     <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
@@ -156,11 +156,11 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                                             <div className={styles.buttonsAccordion}>
                                                 {item.payment_status == '3'
                                                     ? 
-                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn outline primary">
+                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn outline primary">
                                                         Mais detalhes
                                                     </Link>
                                                     :
-                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn default primary">
+                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn default primary">
                                                         Pagar conta
                                                     </Link>
                                                 }

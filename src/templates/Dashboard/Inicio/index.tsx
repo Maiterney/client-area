@@ -41,19 +41,18 @@ export const Inicio = ({billsData}:{billsData:any}) => {
                         {bills.slice(0,2).map((item:any) => {
                             let data = new Date(item.generation_month.reference)
                             let year = data.getFullYear()
-                            let month = data.getMonth()
+                            let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                             let value = Number(item.value)
-                            
                             return (
                                 <AccordionTab key={item.id} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{months[month + 1]} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
                                     <div className={styles.buttonsAccordion}>
                                         {item.payment_status == '3'
                                             ? 
-                                            <Link href={`/${installation}/accounts/${year}/${month + 2}`} className="btn outline primary">
+                                            <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn outline primary">
                                                 Mais detalhes
                                             </Link>
                                             :
-                                            <Link href={`/${installation}/accounts/${year}/${month + 2}`} className="btn default primary">
+                                            <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn default primary">
                                                 Pagar conta
                                             </Link>
                                         }

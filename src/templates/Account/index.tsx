@@ -73,7 +73,7 @@ export const Account = ({ accountData }: { accountData: any }) => {
 
 
     return (
-        <>
+        <div className={styles.internalAccount}>
             <ClientDetails />
             <div className={styles.account}>
                 <div className={styles.details}>
@@ -147,6 +147,6 @@ export const Account = ({ accountData }: { accountData: any }) => {
                 </div>
                 <Toast ref={toast} position="bottom-right"/>
             </div>
-        </>
+        </div>
     )
 }
