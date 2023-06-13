@@ -5,18 +5,12 @@ import { useRouter } from "next/navigation"
  
 export const InitPage = ({token}:any) => {
     const { back, push } = useRouter()
-    if(token) {
-        api.defaults.headers['Authorization'] = `Bearer ${token}`
-        api.get('/user/installations').then(res => { 
-            console.log(res?.data?.installations?.results) 
-            push(`/${res.data.installations.results[0].number}/dashboard`)
-        }).catch(err => { 
-            console.log(err); 
-            back()
-        })
-
-    } else {
+    api.get('/user/installations').then(res => { 
+        console.log(res?.data?.installations?.results) 
+        push(`/${res.data.installations.results[0].number}/dashboard`)
+    }).catch(err => { 
+        console.log(err); 
         back()
-    }
+    })
     return <></>
 }
