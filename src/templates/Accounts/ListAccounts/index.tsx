@@ -13,6 +13,8 @@ import { useTabNumber } from '@/store/tabAccount'
 import { useBills } from '@/store/bills'
 import { api } from '@/utils'
 import { useParams } from 'next/navigation'
+import { useInstallations } from '@/store/installations'
+import { InstallationDetail } from '@/components/InstallationDetails'
 
 type ToastMessage = {
     title: string,
@@ -49,10 +51,10 @@ const paymentStatus = [
 
 export const ListAccounts = ({date,billsData}:any) => {
     const { control, handleSubmit, setValue } = useForm()
+    const { installations } = useInstallations()
     const { setTabNumber, tabNumberIndex } = useTabNumber()
     const [ displayResponsive, setDisplayResponsive ] = useState(false);
     const toast = useRef<Toast>(null);
-    const [ isAccounts, setIsAccounts ] = useState<any>([])
     const [ isLoader, setIsLoader ] = useState(true)
     const {setBills, bills} = useBills()
     const { installation } = useParams()
@@ -88,10 +90,7 @@ export const ListAccounts = ({date,billsData}:any) => {
     return (
         <>
             <div className={styles.installation}>
-                <div className={styles.textArea}>
-                    <span><strong>Instalação N°:</strong> 1515525154515</span>
-                    <span><strong>Endereço:</strong> Rua paulo matos 1500 Cx 1</span>
-                </div>
+                <InstallationDetail />
                 <div className={styles.filter}>
                     <form onChange={handleSubmit(filterAccounts)}>
                         <div className={styles.formController}>

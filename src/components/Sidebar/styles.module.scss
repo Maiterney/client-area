@@ -1,48 +1,128 @@
 .sidebar {
-    background-color: var(--color-white);
-    padding: calc(var(--padding) * 2);
+    height: 100%;
+    background-color: var(--primary-color);
+    width: 100px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    .navbar {
+    padding: calc(var(--padding) * 2) var(--padding) calc(var(--padding) * 2) var(--padding);
+    overflow: hidden;
+    // border-right: 2px solid var(--color-second);
+    position: relative;
+    &::before {
+        content: '';
+        height: 100%;
+        width: 5px;
+        background-color: var(--fourth--color);
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .sidebarLogo {
         display: flex;
-        flex-direction: column;
-        position: sticky;
-        top: 135px;
-        a {
-            display: flex;
-            align-items: flex-end;
-            margin-bottom: calc(var(--margin) / 1.5);
-            color: var(--primary-color);
-            position: relative;
-            &:before {
-                content: '';
-                position: absolute;
-                width: 0;
-                height: 2px;
-                background-color: var(--primary-color);
-                bottom: -3px;
-                transition: all .3s ease-in-out;
-            }
-            svg {
-                width: 25px;
-                margin-right: calc(var(--margin) / 2);
-            }
-            span {
-                font-size: 18px;
-            }
-            &:hover {
-                &::before {
+        justify-content: center;
+        margin-bottom: calc(var(--margin) * 2);
+        svg {
+            width: 80%;
+        }
+    }
+    ul {
+        list-style: none;
+        width: 100%;
+        flex: 1;
+        padding: 0;
+        li {
+            margin-bottom: calc(var(--margin) * 1.2);
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
+            // transition: .3s ease-in-out;
+            a {
+                display: flex;
+                align-items: center;
+                color: var(--color-white);
+                padding: calc(var(--padding) / 1.5) var(--padding);
+                transition: .3s ease-in-out;
+                justify-content: center;
+                position: relative;
+                span {
+                    width: 0;
+                    overflow: hidden;
+                    color: var(--color-white);
                     transition: all .3s ease-in-out;
-                    width: 80%;
+                }
+                &:before {
+                    content: '';
+                    position: absolute;
+                    right: -16px;
+                    top: -50px;
+                    width: 50px;
+                    height: 50px;
+                    background-color: transparent;
+                    border-radius: 50%;
+                    box-shadow: 35px 35px 0 10px transparent;
+                    pointer-events: none;
+                    // transition: .1s ease-in-out;
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    right: -16px;
+                    bottom: -50px;
+                    width: 50px;
+                    height: 50px;
+                    background-color: transparent;
+                    border-radius: 50%;
+                    box-shadow: 35px -35px 0 10px transparent;
+                    pointer-events: none;
+                    // transition: .1s ease-in-out;
+                }
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+                
+            }
+            &.activeNav, &:hover {
+                background-color: var(--bg-dash);
+                width: 100%;
+                a {
+                    color: var(--color-primary);
+                    span {
+                        color: var(--color-primary);
+                        font-weight: bold;
+                        margin-left: calc(var(--margin) * .5);
+                    }
+                    &:before {
+                        box-shadow: 35px 35px 0 10px var(--bg-dash);
+                    }
+                    &:after {
+                        box-shadow: 35px -35px 0 10px var(--bg-dash);
+                    }
                 }
             }
         }
     }
-    .logo {
-        width: 150px;
-        svg {
-            width: 100%;
+    .logout {
+        width: 100%;
+    }
+    &.active {
+        width: 260px;
+        align-items: flex-start;
+        li {
+            a {
+                justify-content: flex-start;
+                span {
+                    padding-left: var(--padding);
+                    width: auto;
+                }
+                &:hover {
+                    span {
+                        color: var(--color-primary);
+                        font-weight: bold;
+                    }
+                }
+            }
         }
     }
 }

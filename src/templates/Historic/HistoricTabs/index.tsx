@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 import { TabPanel, TabView } from 'primereact/tabview'
 import styles from './styles.module.scss'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useTabNumber } from '@/store/tabAccount'
+import Link from 'next/link'
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 const paymentStatus = [
@@ -32,6 +33,7 @@ const paymentStatus = [
 
 export const HistoricTabs = ({bills}:{bills:any}) => {
     const { setTabNumber } = useTabNumber()
+    const { installation } = useParams()
     const { push } = useRouter()
     const [ isNotPayAccounts, setNotPayAccounts ] = useState<Array<any>>([])
     const [ isPayAccounts, setIsPayAccounts ] = useState<Array<any>>([])
@@ -73,14 +75,14 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                                         }>
                                             <div className={styles.buttonsAccordion}>
                                                 {item.payment_status == '3'
-                                                ? 
-                                                    <button className="btn outline primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                    ? 
+                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn outline primary">
                                                         Mais detalhes
-                                                    </button>
-                                                :
-                                                    <button className="btn default primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                    </Link>
+                                                    :
+                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn default primary">
                                                         Pagar conta
-                                                    </button>
+                                                    </Link>
                                                 }
                                                 
                                             </div>
@@ -113,14 +115,14 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                                         }>
                                             <div className={styles.buttonsAccordion}>
                                                 {item.payment_status == '3'
-                                                ? 
-                                                    <button className="btn outline primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                    ? 
+                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn outline primary">
                                                         Mais detalhes
-                                                    </button>
-                                                :
-                                                    <button className="btn default primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                    </Link>
+                                                    :
+                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn default primary">
                                                         Pagar conta
-                                                    </button>
+                                                    </Link>
                                                 }
                                                 
                                             </div>
@@ -153,14 +155,14 @@ export const HistoricTabs = ({bills}:{bills:any}) => {
                                         }>
                                             <div className={styles.buttonsAccordion}>
                                                 {item.payment_status == '3'
-                                                ? 
-                                                    <button className="btn outline primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                    ? 
+                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn outline primary">
                                                         Mais detalhes
-                                                    </button>
-                                                :
-                                                    <button className="btn default primary" onClick={() => RouteAccount(item.id - 1)}>
+                                                    </Link>
+                                                    :
+                                                    <Link href={`/${installation}/accounts/${year}/${month}`} className="btn default primary">
                                                         Pagar conta
-                                                    </button>
+                                                    </Link>
                                                 }
                                                 
                                             </div>

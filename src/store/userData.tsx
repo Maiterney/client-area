@@ -1,10 +1,8 @@
 import { create } from 'zustand'
 
 export type User = {
-    document: string,
-    email: string,
     name: string,
-    phone: string
+    profile_photo_url: string
 }
 
 type StoreProps = {

@@ -8,6 +8,9 @@ import { useRouteState } from '@/app/hooks';
 import { useUserData } from '@/store/userData';
 import { useInstallations } from '@/store/installations';
 import { useParams } from 'next/navigation';
+import { useBills } from '@/store/bills';
+import { ClientDetails } from '@/components/ClientDetails';
+import { InstallationDetail } from '@/components/InstallationDetails';
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
@@ -16,8 +19,6 @@ export const Inicio = ({billsData}:{billsData:any}) => {
     const { installation } = useParams()
     const [ bills, setBills ] = useState(billsData)
     const { setMouthAccount } = useRouteState()
-    const { installations } = useInstallations()
-    const { user } = useUserData()
     const { push } = useRouter()
     const RouteAccount = (month:number) => {
         setMouthAccount(month)
@@ -29,15 +30,9 @@ export const Inicio = ({billsData}:{billsData:any}) => {
 
     return (
         <div className={styles.dashboardArea}>
-            <div className={styles.clientDetails}>
-                <h2>Bom dia, {user?.name}</h2>
-                <span className={styles.protocol}>
-                    <strong>N° do protocolo</strong> 1515525154515
-                </span>
-            </div>
+            <ClientDetails />
             <div className={styles.installation}>
-                <span><strong>Instalação N°:</strong> {installations[0]?.number}</span>
-                <span><strong>Endereço:</strong> {installations[0]?.address}, N°{installations[0]?.address_number} - {installations[0]?.district} - {installations[0]?.state}</span>
+                <InstallationDetail />
             </div>
             <div className={styles.accounts}>
                 <div className={styles.openAccounts}>
@@ -52,12 +47,16 @@ export const Inicio = ({billsData}:{billsData:any}) => {
                             return (
                                 <AccordionTab key={item.id} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{months[month + 1]} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
                                     <div className={styles.buttonsAccordion}>
-                                        <button className="btn default primary" onClick={() => RouteAccount(0)} >
-                                            Pagar conta
-                                        </button>
-                                        <button className="btn outline primary" onClick={() => RouteAccount(0)}>
-                                            Mais detalhes
-                                        </button>
+                                        {item.payment_status == '3'
+                                            ? 
+                                            <Link href={`/${installation}/accounts/${year}/${month + 2}`} className="btn outline primary">
+                                                Mais detalhes
+                                            </Link>
+                                            :
+                                            <Link href={`/${installation}/accounts/${year}/${month + 2}`} className="btn default primary">
+                                                Pagar conta
+                                            </Link>
+                                        }
                                     </div>
                                 </AccordionTab>
                             )
@@ -92,7 +91,6 @@ export const Inicio = ({billsData}:{billsData:any}) => {
                             let year = data.getFullYear()
                             let month = data.getMonth()
                             let value = Number(item.value)
-                            
                             return (
                                 <li key={item.id}><span>{months[month + 1]} {year}</span> <span>{item.injected_energy.toLocaleString('pt-br')} kwh</span></li>
                             )
@@ -102,7 +100,7 @@ export const Inicio = ({billsData}:{billsData:any}) => {
                         <li><span>Dezembro 2022</span> <span>40kwh</span></li> */}
                     </ul>
                     <div className={styles.button}>
-                        <Link href='/historic' className="btn default primary">
+                        <Link href={`/${installation}/historic`} className="btn default primary">
                             Histórico completo
                         </Link>
                     </div>

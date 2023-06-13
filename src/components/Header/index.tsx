@@ -1,22 +1,27 @@
 'use client'
-import { api } from '@/utils'
 import styles from './styles.module.scss'
-import { Badge } from 'primereact/badge';
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { useEffect, useRef, useState } from 'react'
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useInstallations } from '@/store/installations';
+import { useUserData } from '@/store/userData';
+import { useBills } from '@/store/bills';
 
 type User = {
     name: string,
     profile_photo_url: string
 }
  
-export const HeaderV2 = ({user, installations}:{user: User | any, installations:any}) => {
+export const Header = ({myUser, myInstallations, myBills}:{myUser: User | any, myInstallations:any, myBills:any}) => {
     const { installation } = useParams()
-    const menu = useRef<any>(null)
+    const { user, setUser } = useUserData()
+    const { installations, setInstallations } = useInstallations()
+    const { setBills } = useBills()
     const [ listInstallations, setListInstallations ] = useState<Array<any>>([])
+    const menu = useRef<any>(null)
+
     const items:MenuItem[] = [
         {
             label: user?.name,
@@ -25,12 +30,7 @@ export const HeaderV2 = ({user, installations}:{user: User | any, installations:
                     label: 'Minha conta',
                     icon: 'pi pi-cog',
                     command: () => {},
-                },
-                {
-                    label: 'Sair',
-                    icon: 'pi pi-sign-out',
-                    command: () => {},
-                },
+                }
             ]
         },
         {
@@ -43,6 +43,12 @@ export const HeaderV2 = ({user, installations}:{user: User | any, installations:
         
 
     ];
+    useEffect(() => { setInstallations(myInstallations) },[myInstallations])
+    useEffect(() => { setUser(myUser) },[myUser])
+    useEffect(() => { 
+        setBills(myBills) 
+        console.log(myBills)
+    },[myBills])
     useEffect(() => {
         installations.map((item:any) => {
             setListInstallations([
