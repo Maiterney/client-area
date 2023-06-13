@@ -19,7 +19,7 @@ export default function HistoricPage() {
                     <span><strong>Endereço:</strong> Rua paulo matos 1500 Cx 1</span>
                 </div>
             </div>
-            <HistoricTabs date={currentYear}/>
+            {/* <HistoricTabs date={currentYear}/> */}
         </div>
     )
 }
