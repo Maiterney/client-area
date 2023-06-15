@@ -29,7 +29,7 @@ export default async function AdminLayout({ children, params }: { children: Reac
   async function getBills(installation:string) {
     console.log(installation)
     api.defaults.headers['Authorization'] = `Bearer ${token}`
-    await api.get(`/user/bills?installation=${installation}`).then(res => { bills = res.data.bills.results }).catch(err => { console.log(err); bills = [] })
+    await api.get(`/user/bills?installation=${installation}`).then(res => { bills = res.data.data.bills }).catch(err => { console.log(err); bills = [] })
   }
 
   const user = await api.get('/user/profile').then(res => { 

@@ -8,7 +8,7 @@ export default async function AccountPage({params}:{params: {accountMonth:string
     const { installation, accountMonth, accountYear } = params
     api.defaults.headers['Authorization'] = `Bearer ${token}`
     const accountData = await api.get(`/user/bills?installation=${installation}&month=${accountMonth}&year=${accountYear}`).then(res => { 
-        return res.data.bills.results[0]
+        return res.data.data.bills[accountMonth]
     }).catch(err => { 
         console.log(err); return []
     })

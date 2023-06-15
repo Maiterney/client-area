@@ -45,10 +45,7 @@ export const Header = ({myUser, myInstallations, myBills}:{myUser: User | any, m
     ];
     useEffect(() => { setInstallations(myInstallations) },[myInstallations])
     useEffect(() => { setUser(myUser) },[myUser])
-    useEffect(() => { 
-        setBills(myBills) 
-        console.log(myBills)
-    },[myBills])
+    useEffect(() => { setBills(myBills) },[myBills])
     useEffect(() => {
         installations.map((item:any) => {
             setListInstallations([

@@ -1,0 +1,52 @@
+.details {
+    padding-top: var(--padding);
+    .accountDetail {
+        display: flex;
+        border-bottom: 1px solid rgba(26,40,82,.2);
+        padding-bottom: calc(var(--padding) * 3);
+        p {
+            margin-bottom: calc(var(--margin) / 2);
+        }
+        .value, .dueDate, .consumption {
+            width: 20%;
+        }
+    }
+    .economyDetails {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .title {
+            width: 100%;
+            h2 {
+                color: #495057;
+            }
+        }
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 50%;
+            align-items: center;
+            .card {
+                width: 30%;
+                background-color: var(--primary-color);
+                padding: calc(var(--padding) * 2);
+                margin-bottom: 3%;
+                color: var(--color-white);
+                border: 1px solid var(--primary-color);
+                border-radius: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                p {
+                    margin: 0;
+                    padding-bottom: calc(var(--padding) / 3);
+                }
+                &.outline {
+                    background-color: var(--color-white);
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+}

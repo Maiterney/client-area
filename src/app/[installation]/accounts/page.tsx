@@ -8,14 +8,17 @@ export default async function AccountsPage({params}:{params: {installation:strin
     const cookie = cookies()
     const token = cookie.get('nextAuth.token')?.value
     let date = new Date();
+    let currentMonth = date.getMonth() 
     let currentYear = date.getFullYear()
     api.defaults.headers['Authorization'] = `Bearer ${token}`
-    const bills = await api.get(`/user/bills?installation=${params.installation}`).then(res => { return res.data.bills.results }).catch(err => { console.log(err); return [] })
-
+    const bills = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { 
+        return res.data.data.bills
+    }).catch(err => { console.log(err); return false })
+    console.log('data',bills)
     return (
         <div className={styles.accountsComponent}>
             <ClientDetails />
-            <ListAccounts date={currentYear} billsData={bills}/>
+            <ListAccounts currentYear={currentYear} currentMonth={currentMonth} billsData={bills}/>
         </div>
     )
 }

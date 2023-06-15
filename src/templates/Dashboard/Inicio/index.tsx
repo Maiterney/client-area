@@ -11,16 +11,18 @@ import { useParams } from 'next/navigation';
 import { useBills } from '@/store/bills';
 import { ClientDetails } from '@/components/ClientDetails';
 import { InstallationDetail } from '@/components/InstallationDetails';
+import { useListMouths } from '@/store/listMonths';
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
 
-export const Inicio = ({billsData}:{billsData:any}) => {
+export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMonth: any }) => {
     const { installation } = useParams()
-    const [ bills, setBills ] = useState(billsData)
+    const { listMonths } = useListMouths()
+    const [bills, setBills] = useState(billsData)
     const { setMouthAccount } = useRouteState()
     const { push } = useRouter()
-    const RouteAccount = (month:number) => {
+    const RouteAccount = (month: number) => {
         setMouthAccount(month)
         push(`${installation}/accounts`)
     }
@@ -38,65 +40,54 @@ export const Inicio = ({billsData}:{billsData:any}) => {
                 <div className={styles.openAccounts}>
                     <h3>Contas em aberto</h3>
                     <Accordion className={`accordion ${styles.accordion}`}>
-                        {bills.slice(0,2).map((item:any) => {
-                            let data = new Date(item.generation_month.reference)
-                            let year = data.getFullYear()
-                            let month = Number(data.toLocaleString('default', { month: 'numeric' }))
-                            let value = Number(item.value)
-                            return (
-                                <AccordionTab key={item.id} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{months[month + 1]} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
-                                    <div className={styles.buttonsAccordion}>
-                                        {item.payment_status == '3'
-                                            ? 
-                                            <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn outline primary">
-                                                Mais detalhes
-                                            </Link>
-                                            :
-                                            <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn default primary">
-                                                Pagar conta
-                                            </Link>
-                                        }
-                                    </div>
-                                </AccordionTab>
-                            )
+                        {listMonths.map((item: any) => {
+                            console.log(currentMonth)
+                            if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
+                                const data = bills[item.month]
+                                let date = new Date(data.generation_month.reference)
+                                let year = date.getFullYear()
+                                let month = Number(data.toLocaleString('default', { month: 'numeric' }))
+                                let value = Number(data.value)
+                                return (
+                                    <AccordionTab key={item.label} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{item.label} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
+                                        <div className={styles.buttonsAccordion}>
+                                            {data.payment_status == '3'
+                                                ?
+                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn outline primary">
+                                                    Mais detalhes
+                                                </Link>
+                                                :
+                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                                    Pagar conta
+                                                </Link>
+                                            }
+                                        </div>
+                                    </AccordionTab>
+                                )
+                            } else {
+                                return null
+                            }
+
                         })}
-                        {/* <AccordionTab header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>Novembro 2022</span><span className={styles.value}>R$ 26,90</span></div><span className={styles.status}>Em aberto</span></div>}>
-                            <div className={styles.buttonsAccordion}>
-                                <button className="btn default primary" onClick={() => RouteAccount(1)}>
-                                    Pagar conta
-                                </button>
-                                <button className="btn outline primary" onClick={() => RouteAccount(1)}>
-                                    Mais detalhes
-                                </button>
-                            </div>
-                        </AccordionTab>
-                        <AccordionTab header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>Outubro 2022</span><span className={styles.value}>R$ 26,90</span></div><span className={styles.status}>Em aberto</span></div>}>
-                            <div className={styles.buttonsAccordion}>
-                                <button className="btn default primary" onClick={() => RouteAccount(2)}>
-                                    Pagar conta
-                                </button>
-                                <button className="btn outline primary" onClick={() => RouteAccount(2)}>
-                                    Mais detalhes
-                                </button>
-                            </div>
-                        </AccordionTab> */}
                     </Accordion>
                 </div>
                 <div className={styles.historyAccounts}>
                     <h3>Histórico de consumo</h3>
                     <ul className={styles.historyList}>
-                        {bills.slice(0,2).map((item:any) => {
-                            let data = new Date(item.generation_month.reference)
-                            let year = data.getFullYear()
-                            let month = data.getMonth()
-                            let value = Number(item.value)
-                            return (
-                                <li key={item.id}><span>{months[month + 1]} {year}</span> <span>{item.injected_energy.toLocaleString('pt-br')} kwh</span></li>
-                            )
+                        {listMonths.map((item: any) => {
+                            console.log(currentMonth)
+                            if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
+                                const data = bills[item.month]
+                                let date = new Date(data.generation_month.reference)
+                                let year = date.getFullYear()
+                                return (
+                                    <li key={item.id}><span>{item.label} {year}</span> <span>{data.injected_energy.toLocaleString('pt-br')} kwh</span></li>
+                                )
+                            } else {
+                                return null
+                            }
+
                         })}
-                        {/* <li><span>Dezembro 2022</span> <span>40kwh</span></li>
-                        <li><span>Dezembro 2022</span> <span>40kwh</span></li>
-                        <li><span>Dezembro 2022</span> <span>40kwh</span></li> */}
                     </ul>
                     <div className={styles.button}>
                         <Link href={`/${installation}/historic`} className="btn default primary">

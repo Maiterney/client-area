@@ -15,6 +15,8 @@ import { api } from '@/utils'
 import { useParams } from 'next/navigation'
 import { useInstallations } from '@/store/installations'
 import { InstallationDetail } from '@/components/InstallationDetails'
+import { SkeletonTabAccount } from '../SkeletonTabAccounts'
+import { useListMouths } from '@/store/listMonths'
 
 type ToastMessage = {
     title: string,
@@ -23,8 +25,6 @@ type ToastMessage = {
     time?:number
 }
 
-
-const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 const paymentStatus = [
     {
         label: 'Aberto',
@@ -49,7 +49,7 @@ const paymentStatus = [
 ]
 
 
-export const ListAccounts = ({date,billsData}:any) => {
+export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
     const { control, handleSubmit, setValue } = useForm()
     const { installations } = useInstallations()
     const { setTabNumber, tabNumberIndex } = useTabNumber()
@@ -58,9 +58,62 @@ export const ListAccounts = ({date,billsData}:any) => {
     const [ isLoader, setIsLoader ] = useState(true)
     const {setBills, bills} = useBills()
     const { installation } = useParams()
+    const { listMonths } = useListMouths()
+    const [ months, setMonths ] = useState([
+        {
+            label: 'janeiro',
+            month: 1
+        }, 
+        {
+            label: 'Fevereiro',
+            month: 2
+        }, 
+        {
+            label: 'março',
+            month: 3
+        }, 
+        {
+            label: 'abril',
+            month: 4
+        }, 
+        {
+            label: 'maio',
+            month: 5
+        }, 
+        {
+            label: 'junho',
+            month: 6
+        }, 
+        {
+            label: 'julho',
+            month: 7
+        }, 
+        {
+            label: 'agosto',
+            month: 8
+        }, 
+        {
+            label: 'setembro',
+            month: 9
+        }, 
+        {
+            label: 'outubro',
+            month: 10
+        }, 
+        {
+            label: 'novembro',
+            month: 11
+        }, 
+        {
+            label: 'dezembro',
+            month: 12
+        }, 
+    ])
+
     useEffect(() => {
         setBills(billsData)
         setIsLoader(false)
+        setTabNumber(Number(currentMonth))
     },[billsData])
 
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
@@ -76,15 +129,25 @@ export const ListAccounts = ({date,billsData}:any) => {
         })
     }
 
+    useEffect(() => {
+        console.log(bills)
+        // console.log(bills.filter((item:any) => bills))
+    },[])
+
     const filterAccounts = async (data:any) => {
         setIsLoader(true)
         await api.get(`/user/bills?installation=${installation}&year=${data.filterYear}`).then(res => { 
-            setBills(res.data.bills.results) 
+            setBills(res.data.data.bills) 
         }).catch(err => { 
             console.log(err); setBills([]) 
         }).finally(() => {
             setIsLoader(false)
         })
+    }
+
+    const tabClick = async (index:any) => {
+        // console.log('click', index)
+        setTabNumber(index)
     }
 
     return (
@@ -119,38 +182,44 @@ export const ListAccounts = ({date,billsData}:any) => {
             </div>
             <div className={styles.tabAccounts}>
                 {isLoader && <SkeletonAccount />}
-                {!isLoader && bills.length >= 1 ?
-                    <TabView activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView'>
-                        {bills.map((item:any) => {
-                                let data = new Date(item.generation_month.reference)
-                                let year = data.getFullYear()
-                                let month = data.getMonth()
-                                let value = Number(item.value)
-                                let dueDate = new Date(item.due_date)
+                {!isLoader ?
+                    <TabView activeIndex={tabNumberIndex} onTabChange={(e) => tabClick(e.index)} className='tabView'>
+                        {listMonths.map((item:any) => {
+                            if(bills[item.month]) {
+                                const data = bills[item.month]
+                                let dataTime = new Date(data.generation_month.reference)
+                                let year = dataTime.getFullYear()
+                                let value = Number(data.value)
+                                let dueDate = new Date(data.due_date)
+                                let cvtDueDate = dueDate.setDate(dueDate.getDate() + 1)
+                                let convertDate = new Date(cvtDueDate)
+                                let economy = Number(data.amount_saved)
+
+                                // let currentDay = new Date(data.due_date).add(Date.DAY, +1).format('Y-m-d');
+                
                                 return (
-                                    <TabPanel header={months[month + 1]} key={item.id}>
+                                    <TabPanel header={item.label} key={item.label}>
                                         <div className={styles.tabContent}>
                                             <div className={styles.details}>
                                                 <div className={styles.title}>
-                                                    <h2>{months[month + 1]} {year}</h2>
+                                                    <h2>{item.label} {year}</h2>
                                                 </div>
                                                 <div className={styles.accountDetail}>
                                                     <div className={styles.value}>
                                                         <p>Valor</p>
-                                                        <h3>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                                                        <h3>R$ {value?.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={styles.dueDate}>
                                                         <p>Vencimento</p>
-                                                        <h3>{dueDate.toLocaleDateString('pt-BR')}</h3>
+                                                        <h3>{convertDate.toLocaleDateString()}</h3>
                                                     </div>
                                                     <div className={styles.consumption}>
                                                         <p>Consumo</p>
-                                                        <h3>{item.injected_energy.toLocaleString('pt-br')}KWh</h3>
+                                                        <h3>{data.injected_energy.toLocaleString('pt-br')}KWh</h3>
                                                     </div>
                                                     <div className={styles.status}>
-                                                        {/* <button className={`btn rounded disable status ${status == 'Em aberto' ? 'isOpen' : status == 'Em atraso' ? 'isDelay' : status == 'Paga' ? 'isPay' : '' }`}> */}
-                                                        <button className={`btn rounded disable status ${paymentStatus[Number(item.payment_status)].status}`}>
-                                                            {paymentStatus[Number(item.payment_status)].label}
+                                                        <button className={`btn rounded disable status ${paymentStatus[Number(data.payment_status)].status}`}>
+                                                            {paymentStatus[Number(data.payment_status)].label}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -184,7 +253,7 @@ export const ListAccounts = ({date,billsData}:any) => {
                                                     </div>
                                                     <div className={`${styles.card} ${styles.outline}`}>
                                                         <p>Fatura Total</p>
-                                                        <h3>R$ 1.141,03</h3>
+                                                        <h3>R${value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Desconto na energia</p>
@@ -192,7 +261,7 @@ export const ListAccounts = ({date,billsData}:any) => {
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Economia</p>
-                                                        <h3>R$ 13,56</h3>
+                                                        <h3>R$ {economy.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Desconto na conta</p>
@@ -200,14 +269,191 @@ export const ListAccounts = ({date,billsData}:any) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/* <Dialog header="QR-code" visible={displayResponsive} onHide={() => setDisplayResponsive(false)} breakpoints={{'960px': '30vw'}} style={{width: '30vw'}} className={'modalQrCode'}>
-                                                <Image src={qr_code} alt='qrcode' width={450} height={450}/>
-                                            </Dialog> */}
-                                        </div>
+                                        </div> 
                                     </TabPanel>
                                 )
-                            })
+                            } else {
+                                return (
+                                    <TabPanel header={item.label} key={item.label} disabled>
+                                        <p>Não há conta nesse mês</p>
+                                    </TabPanel>
+                                )
+                            }
+
+
+
+                            /* if(item.data){
+                                let data = new Date(item.data.generation_month.reference)
+                                let year = data.getFullYear()
+                                let value = Number(item.data.value)
+                                let dueDate = new Date(item.data.due_date)
+                                return (
+                                    <TabPanel header={item.month} key={item.month}>
+                                        <div className={styles.tabContent}>
+                                            {month5 && <SkeletonTabAccount />}
+                                            {!month5 &&
+                                                <>
+                                                    <div className={styles.details}>
+                                                        <div className={styles.title}>
+                                                            <h2>{item.month} {year}</h2>
+                                                        </div>
+                                                        <div className={styles.accountDetail}>
+                                                            <div className={styles.value}>
+                                                                <p>Valor</p>
+                                                                <h3>R$ {value?.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                                                            </div>
+                                                            <div className={styles.dueDate}>
+                                                                <p>Vencimento</p>
+                                                                <h3>{dueDate.toLocaleDateString('pt-BR')}</h3>
+                                                            </div>
+                                                            <div className={styles.consumption}>
+                                                                <p>Consumo</p>
+                                                                <h3>{item.data.injected_energy.toLocaleString('pt-br')}KWh</h3>
+                                                            </div>
+                                                            <div className={styles.status}>
+                                                                <button className={`btn rounded disable status ${paymentStatus[Number(item.data.payment_status)].status}`}>
+                                                                    {paymentStatus[Number(item.data.payment_status)].label}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.actions}>
+                                                            <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
+                                                                Pagar com PIX
+                                                            </button>
+                                                            <button className="btn outline second" value={123456789} onClick={() => copyValue(123456789)} >
+                                                                Código de barras
+                                                            </button>
+                                                            <button className="btn outline second">
+                                                                Enviar por e-mail
+                                                            </button>
+                                                            <Link href={'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'} target='_blank' className="btn outline second">
+                                                                Baixar PDF
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className={styles.economyDetails}>
+                                                        <div className={styles.title}>
+                                                            <h2>Economia woltz</h2>
+                                                        </div>
+                                                        <div className={styles.cards}>
+                                                            <div className={`${styles.card} ${styles.outline}`}>
+                                                                <p>Fatura distribuidora</p>
+                                                                <h3>R$ 608,33</h3>
+                                                            </div>
+                                                            <div className={`${styles.card} ${styles.outline}`}>
+                                                                <p>Fatura Woltz</p>
+                                                                <h3>R$ 232,70</h3>
+                                                            </div>
+                                                            <div className={`${styles.card} ${styles.outline}`}>
+                                                                <p>Fatura Total</p>
+                                                                <h3>R$ 1.141,03</h3>
+                                                            </div>
+                                                            <div className={`${styles.card}`}>
+                                                                <p>Desconto na energia</p>
+                                                                <h3>6,12%</h3>
+                                                            </div>
+                                                            <div className={`${styles.card}`}>
+                                                                <p>Economia</p>
+                                                                <h3>R$ 13,56</h3>
+                                                            </div>
+                                                            <div className={`${styles.card}`}>
+                                                                <p>Desconto na conta</p>
+                                                                <h3>1,17%</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>  
+                                    </TabPanel>
+                                )
+                            } else {
+                            } */
+                        })
                         }
+                        {/* {bills.map((item:any) => {
+                            let data = new Date(item.generation_month.reference)
+                            let year = data.getFullYear()
+                            let month = data.getMonth()
+                            let value = Number(item.value)
+                            let dueDate = new Date(item.due_date)
+                            console.log('item', item)
+                            return (
+                                <TabPanel header={months[month + 1]} key={item.id}>
+                                    <div className={styles.tabContent}>
+                                        <div className={styles.details}>
+                                            <div className={styles.title}>
+                                                <h2>{months[month + 1]} {year}</h2>
+                                            </div>
+                                            <div className={styles.accountDetail}>
+                                                <div className={styles.value}>
+                                                    <p>Valor</p>
+                                                    <h3>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                                                </div>
+                                                <div className={styles.dueDate}>
+                                                    <p>Vencimento</p>
+                                                    <h3>{dueDate.toLocaleDateString('pt-BR')}</h3>
+                                                </div>
+                                                <div className={styles.consumption}>
+                                                    <p>Consumo</p>
+                                                    <h3>{item.injected_energy.toLocaleString('pt-br')}KWh</h3>
+                                                </div>
+                                                <div className={styles.status}>
+                                                    <button className={`btn rounded disable status ${paymentStatus[Number(item.payment_status)].status}`}>
+                                                        {paymentStatus[Number(item.payment_status)].label}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className={styles.actions}>
+                                                <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
+                                                    Pagar com PIX
+                                                </button>
+                                                <button className="btn outline second" value={123456789} onClick={() => copyValue(123456789)} >
+                                                    Código de barras
+                                                </button>
+                                                <button className="btn outline second">
+                                                    Enviar por e-mail
+                                                </button>
+                                                <Link href={'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'} target='_blank' className="btn outline second">
+                                                    Baixar PDF
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className={styles.economyDetails}>
+                                            <div className={styles.title}>
+                                                <h2>Economia woltz</h2>
+                                            </div>
+                                            <div className={styles.cards}>
+                                                <div className={`${styles.card} ${styles.outline}`}>
+                                                    <p>Fatura distribuidora</p>
+                                                    <h3>R$ 608,33</h3>
+                                                </div>
+                                                <div className={`${styles.card} ${styles.outline}`}>
+                                                    <p>Fatura Woltz</p>
+                                                    <h3>R$ 232,70</h3>
+                                                </div>
+                                                <div className={`${styles.card} ${styles.outline}`}>
+                                                    <p>Fatura Total</p>
+                                                    <h3>R$ 1.141,03</h3>
+                                                </div>
+                                                <div className={`${styles.card}`}>
+                                                    <p>Desconto na energia</p>
+                                                    <h3>6,12%</h3>
+                                                </div>
+                                                <div className={`${styles.card}`}>
+                                                    <p>Economia</p>
+                                                    <h3>R$ 13,56</h3>
+                                                </div>
+                                                <div className={`${styles.card}`}>
+                                                    <p>Desconto na conta</p>
+                                                    <h3>1,17%</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </TabPanel>
+                            )})
+                        } */}
                     </TabView>
                     :
                     <div className={styles.emptyAccounts}>
