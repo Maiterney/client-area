@@ -16,7 +16,7 @@ export default async function HistoricPage({params}:{params:{installation:string
 
     return (
         <div className={styles.historic}>
-            <ClientDetails />
+            {/* <ClientDetails /> */}
             <div className={styles.installation}>
                 <InstallationDetail />
             </div>

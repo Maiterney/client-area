@@ -22,4 +22,31 @@
             }
         }
     }
+    .list {
+        .title {
+            display: flex;
+            justify-content: space-between;
+            padding: calc(var(--padding) * 1.5) calc(var(--padding) * 1.2);
+            border-bottom: 1px solid rgba(0, 26, 87, 0.2);
+            .text {
+                flex: 1;
+                display: flex;
+                span {
+                    text-transform: capitalize;
+                    width: 25%;
+                    font-weight: bold;
+                    opacity: .8;
+                    &.data {
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+        .buttonsAccordion {
+            a {
+                margin: 0;
+                margin-left: calc(var(--margin) * 2);
+            }
+        }
+    }
 }

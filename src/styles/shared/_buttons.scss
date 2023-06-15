@@ -68,13 +68,15 @@
             border-color: var(--primary-color);
             color: var(--color-fourth);
             padding: calc(var(--padding) / 2) calc(var(--padding) * 2);
-
-            &:hover{
-                border-color: var(--primary-color);
-                color: var(--color-fourth);
-                background-color: var(--primary-color);
-                color: var(--color-white);
-            }    
+            
+            &:not(:disabled) {
+                &:hover{
+                    border-color: var(--primary-color);
+                    color: var(--color-fourth);
+                    background-color: var(--primary-color);
+                    color: var(--color-white);
+                } 
+            }
         }
     }
 
@@ -133,5 +135,9 @@
         border: 0;
         padding: 0;
         margin: 0;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
     }
 }

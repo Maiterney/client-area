@@ -1,12 +1,14 @@
 .tabView {
     .p-tabview-nav {
         .p-unselectable-text {
-            flex: 1;
+            // flex: 1;
             // width: calc(100% / 12);
+            width: calc(100% / 12);
             .p-tabview-nav-link {
                 justify-content: center;
                 .p-tabview-title {
                     text-transform: capitalize;
+                    font-size: 14px;
                 }
                 &:focus {
                     outline: none !important;

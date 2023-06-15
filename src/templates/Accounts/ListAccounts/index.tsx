@@ -59,61 +59,15 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
     const {setBills, bills} = useBills()
     const { installation } = useParams()
     const { listMonths } = useListMouths()
-    const [ months, setMonths ] = useState([
-        {
-            label: 'janeiro',
-            month: 1
-        }, 
-        {
-            label: 'Fevereiro',
-            month: 2
-        }, 
-        {
-            label: 'março',
-            month: 3
-        }, 
-        {
-            label: 'abril',
-            month: 4
-        }, 
-        {
-            label: 'maio',
-            month: 5
-        }, 
-        {
-            label: 'junho',
-            month: 6
-        }, 
-        {
-            label: 'julho',
-            month: 7
-        }, 
-        {
-            label: 'agosto',
-            month: 8
-        }, 
-        {
-            label: 'setembro',
-            month: 9
-        }, 
-        {
-            label: 'outubro',
-            month: 10
-        }, 
-        {
-            label: 'novembro',
-            month: 11
-        }, 
-        {
-            label: 'dezembro',
-            month: 12
-        }, 
-    ])
+
+    const [thumb, setThumb] = useState();
+
 
     useEffect(() => {
         setBills(billsData)
         setIsLoader(false)
         setTabNumber(Number(currentMonth))
+        console.log(billsData)
     },[billsData])
 
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
@@ -143,11 +97,6 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
         }).finally(() => {
             setIsLoader(false)
         })
-    }
-
-    const tabClick = async (index:any) => {
-        // console.log('click', index)
-        setTabNumber(index)
     }
 
     return (
@@ -183,7 +132,7 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
             <div className={styles.tabAccounts}>
                 {isLoader && <SkeletonAccount />}
                 {!isLoader ?
-                    <TabView activeIndex={tabNumberIndex} onTabChange={(e) => tabClick(e.index)} className='tabView'>
+                    <TabView activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView' style={{width: '100%'}}>
                         {listMonths.map((item:any) => {
                             if(bills[item.month]) {
                                 const data = bills[item.month]
@@ -193,10 +142,9 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
                                 let dueDate = new Date(data.due_date)
                                 let cvtDueDate = dueDate.setDate(dueDate.getDate() + 1)
                                 let convertDate = new Date(cvtDueDate)
-                                let economy = Number(data.amount_saved)
-
-                                // let currentDay = new Date(data.due_date).add(Date.DAY, +1).format('Y-m-d');
-                
+                                let totalAccount = Number(data.total_amount_distributor) + value
+                                let accountDiscount = Number(data.amount_saved) / Number(data.total_amount_without_discount)
+                                
                                 return (
                                     <TabPanel header={item.label} key={item.label}>
                                         <div className={styles.tabContent}>
@@ -217,25 +165,33 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
                                                         <p>Consumo</p>
                                                         <h3>{data.injected_energy.toLocaleString('pt-br')}KWh</h3>
                                                     </div>
-                                                    <div className={styles.status}>
+                                                    {/* <div className={styles.status}>
                                                         <button className={`btn rounded disable status ${paymentStatus[Number(data.payment_status)].status}`}>
                                                             {paymentStatus[Number(data.payment_status)].label}
                                                         </button>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                                 <div className={styles.actions}>
-                                                    <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
+                                                    {/* <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
                                                         Pagar com PIX
-                                                    </button>
-                                                    <button className="btn outline second" value={123456789} onClick={() => copyValue(123456789)} >
+                                                    </button> */}
+                                                    {/* <button className="btn outline second" value={123456789} onClick={() => copyValue(123456789)} >
                                                         Código de barras
-                                                    </button>
-                                                    <button className="btn outline second">
+                                                    </button> */}
+                                                    {/* <button className="btn outline second">
                                                         Enviar por e-mail
-                                                    </button>
-                                                    <Link href={'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'} target='_blank' className="btn outline second">
-                                                        Baixar PDF
-                                                    </Link>
+                                                    </button> */}
+                                                    {data.bill_generated != null && 
+                                                        <Link href={data.bill_generated} target='_blank' className="btn outline second">
+                                                            Baixar PDF
+                                                        </Link>
+                                                    }
+                                                    {data.bill_generated == null && 
+                                                        <button className="btn outline second disabledAccount" disabled>
+                                                            Fatura não gerada
+                                                        </button>
+                                                    }
+                                                    
                                                 </div>
                                             </div>
                                             <div className={styles.economyDetails}>
@@ -245,27 +201,31 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
                                                 <div className={styles.cards}>
                                                     <div className={`${styles.card} ${styles.outline}`}>
                                                         <p>Fatura distribuidora</p>
-                                                        <h3>R$ 608,33</h3>
+                                                        <h3>R$ {data.total_amount_distributor}</h3>
                                                     </div>
                                                     <div className={`${styles.card} ${styles.outline}`}>
                                                         <p>Fatura Woltz</p>
-                                                        <h3>R$ 232,70</h3>
+                                                        <h3>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={`${styles.card} ${styles.outline}`}>
                                                         <p>Fatura Total</p>
-                                                        <h3>R${value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                                                        <h3>R${totalAccount.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Desconto na energia</p>
-                                                        <h3>6,12%</h3>
+                                                        <h3>{Number(data.installation_data.agent_discount).toLocaleString('pt-br', { minimumFractionDigits: 2 })}  %</h3>
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Economia</p>
-                                                        <h3>R$ {economy.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                                                        <h3>R$ {Number(data.amount_saved).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Desconto na conta</p>
-                                                        <h3>1,17%</h3>
+                                                        <h3> 
+                                                            {Number(data.total_amount_without_discount) == 0 && '0'} 
+                                                            {Number(data.total_amount_without_discount) >= 1 && Number(accountDiscount.toFixed(2))} 
+                                                            %   
+                                                        </h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,7 +235,7 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
                             } else {
                                 return (
                                     <TabPanel header={item.label} key={item.label} disabled>
-                                        <p>Não há conta nesse mês</p>
+                                        <p style={{textAlign: 'center'}}>Não há conta nesse mês</p>
                                     </TabPanel>
                                 )
                             }

@@ -32,7 +32,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
 
     return (
         <div className={styles.dashboardArea}>
-            <ClientDetails />
+            {/* <ClientDetails /> */}
             <div className={styles.installation}>
                 <InstallationDetail />
             </div>

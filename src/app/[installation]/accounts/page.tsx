@@ -17,7 +17,7 @@ export default async function AccountsPage({params}:{params: {installation:strin
     console.log('data',bills)
     return (
         <div className={styles.accountsComponent}>
-            <ClientDetails />
+            {/* <ClientDetails /> */}
             <ListAccounts currentYear={currentYear} currentMonth={currentMonth} billsData={bills}/>
         </div>
     )

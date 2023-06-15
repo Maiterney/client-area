@@ -74,7 +74,7 @@ export const Account = ({ accountData }: { accountData: any }) => {
 
     return (
         <div className={styles.internalAccount}>
-            <ClientDetails />
+            {/* <ClientDetails /> */}
             <div className={styles.account}>
                 <div className={styles.details}>
                     <div className={styles.title}>

@@ -56,9 +56,9 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
 
     return (
         <div className={styles.historicTab}>
-            <TabView className='tabView historicTab'>
+            <TabView className='tabView historicTab' >
                 <TabPanel header="Histórico de conta">
-                    <Accordion className={`accordion ${styles.accordion}`}>
+                    <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
 
@@ -68,99 +68,38 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     let year = dataTime.getFullYear()
                                     let value = Number(data.value)
                                     return (
-                                        <AccordionTab key={item.month} header={
-                                            <div className={styles.title}>
-                                                <div className={styles.text}>
-                                                    <span className={styles.data}>{item.label} {year}</span>
-                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                    <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
-                                                </div>
-                                                <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
+                                        <div className={styles.title}>
+                                            <div className={styles.text}>
+                                                <span className={styles.data}>{item.label} {year}</span>
+                                                <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
                                             </div>
-                                        }>
+                                            <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
                                             <div className={styles.buttonsAccordion}>
-                                                {item.payment_status == '3'
-                                                    ?
-                                                    <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn outline primary">
-                                                        Mais detalhes
-                                                    </Link>
-                                                    :
-                                                    <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
-                                                        Pagar conta
-                                                    </Link>
-                                                }
-
+                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                                    Mais detalhes
+                                                </Link>
                                             </div>
-                                        </AccordionTab>
+                                        </div>
                                     )
                                 } else {
                                     return (
-                                        <AccordionTab disabled key={item.month} header={
-                                            <div className={styles.title}>
-                                                <div className={styles.text}>
-                                                    <span className={styles.data}>{item.label} 2023</span>
-                                                </div>
-                                                <span className={`${styles.status} statusText inactive`}>Não disponível</span>
+                                        <div className={styles.title}>
+                                            <div className={styles.text}>
+                                                <span className={styles.data}>{item.label} 2023</span>
                                             </div>
-                                        }>
-                                        </AccordionTab>
+                                            <span className={`${styles.status} statusText inactive`}>Não disponível</span>
+                                        </div>
                                     )
                                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                let data = new Date(item.generation_month.reference)
-                                let year = data.getFullYear()
-                                let month = Number(data.toLocaleString('default', { month: 'numeric' }))
-                                let value = Number(item.value)
-                                return (
-                                    <Accordion className={`accordion ${styles.accordion}`} key={item.id}>
-                                        <AccordionTab header={
-                                            <div className={styles.title}>
-                                                <div className={styles.text}>
-                                                    <span className={styles.data}>{months[month + 1]} {year}</span>
-                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                    <span className={styles.consumption}>{item.injected_energy.toLocaleString('pt-br')} KWh</span>
-                                                </div>
-                                                <span className={`${styles.status} statusText ${paymentStatus[Number(item.payment_status)].status}`}>{paymentStatus[Number(item.payment_status)].label}</span>
-                                            </div>
-                                        }>
-                                            <div className={styles.buttonsAccordion}>
-                                                {item.payment_status == '3'
-                                                    ?
-                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn outline primary">
-                                                        Mais detalhes
-                                                    </Link>
-                                                    :
-                                                    <Link href={`/${installation}/accounts/${year}/${month + 1}`} className="btn default primary">
-                                                        Pagar conta
-                                                    </Link>
-                                                }
-
-                                            </div>
-                                        </AccordionTab>
-                                    </Accordion>
-                                )
                             })
                             :
                             <h3>Não a contas</h3>
                         }
-                    </Accordion>
+                    </div>
                 </TabPanel>
-                <TabPanel header="Débitos">
-                    <Accordion className={`accordion ${styles.accordion}`}>
+                <TabPanel header="Em aberto/Vencidos">
+                    <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
                                 if (bills[item.month] && bills[item.month].payment_status != '3') {
@@ -168,38 +107,21 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     let dataTime = new Date(data.generation_month.reference)
                                     let year = dataTime.getFullYear()
                                     let value = Number(data.value)
-                                    let dueDate = new Date(data.due_date)
-                                    let cvtDueDate = dueDate.setDate(dueDate.getDate() + 1)
-                                    let convertDate = new Date(cvtDueDate)
-                                    let economy = Number(data.amount_saved)
-
-                                    // let currentDay = new Date(data.due_date).add(Date.DAY, +1).format('Y-m-d');
 
                                     return (
-                                        <AccordionTab key={item.month} header={
-                                            <div className={styles.title}>
-                                                <div className={styles.text}>
-                                                    <span className={styles.data}>{item.label} {year}</span>
-                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                    <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
-                                                </div>
-                                                <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
+                                        <div className={styles.title}>
+                                            <div className={styles.text}>
+                                                <span className={styles.data}>{item.label} {year}</span>
+                                                <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
                                             </div>
-                                        }>
+                                            <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
                                             <div className={styles.buttonsAccordion}>
-                                                {item.payment_status == '3'
-                                                    ?
-                                                    <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn outline primary">
-                                                        Mais detalhes
-                                                    </Link>
-                                                    :
-                                                    <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
-                                                        Pagar conta
-                                                    </Link>
-                                                }
-
+                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                                    Mais detalhes
+                                                </Link>
                                             </div>
-                                        </AccordionTab>
+                                        </div>
                                     )
                                 } else {
                                     return (
@@ -210,10 +132,10 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                             :
                             <h3>Não a contas</h3>
                         }
-                    </Accordion>
+                    </div>
                 </TabPanel>
                 <TabPanel header="Pagos">
-                    <Accordion className={`accordion ${styles.accordion}`}>
+                    <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
                                 if (bills[item.month] && bills[item.month].payment_status == '3') {
@@ -223,30 +145,19 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     let value = Number(data.value)
 
                                     return (
-                                        <AccordionTab key={item.month} header={
-                                            <div className={styles.title}>
-                                                <div className={styles.text}>
-                                                    <span className={styles.data}>{item.label} {year}</span>
-                                                    <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                    <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
-                                                </div>
-                                                <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
+                                        <div className={styles.title}>
+                                            <div className={styles.text}>
+                                                <span className={styles.data}>{item.label} {year}</span>
+                                                <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
                                             </div>
-                                        }>
+                                            <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
                                             <div className={styles.buttonsAccordion}>
-                                                {item.payment_status == '3'
-                                                    ?
-                                                    <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn outline primary">
-                                                        Mais detalhes
-                                                    </Link>
-                                                    :
-                                                    <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
-                                                        Pagar conta
-                                                    </Link>
-                                                }
-
+                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                                    Mais detalhes
+                                                </Link>
                                             </div>
-                                        </AccordionTab>
+                                        </div>
                                     )
                                 } else {
                                     return (
@@ -257,7 +168,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                             :
                             <h3>Não a contas</h3>
                         }
-                    </Accordion>
+                    </div>  
                 </TabPanel>
             </TabView>
         </div>

@@ -47,16 +47,16 @@ export const Header = ({myUser, myInstallations, myBills}:{myUser: User | any, m
     useEffect(() => { setUser(myUser) },[myUser])
     useEffect(() => { setBills(myBills) },[myBills])
     useEffect(() => {
-        installations.map((item:any) => {
-            setListInstallations([
-                ...listInstallations, {
-                    label: item.number,
-                    icon: 'pi pi-box',
-                    url: `/${item.number}/dashboard`
-                }
-            ])
+        let installationsNav = installations.map((item:any) => {
+            return {
+                label: item.number,
+                icon: 'pi pi-box',
+                url: `/${item.number}/dashboard`
+            }
         })
+        setListInstallations(installationsNav)
     },[installations])
+
     return (
         <div className={styles.header}>
             <button className='btn clean'  onClick={(e:any) => menu?.current.toggle(e)}>
