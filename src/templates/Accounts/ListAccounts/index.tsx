@@ -1,21 +1,15 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import styles from './styles.module.scss'
-import { Controller, useForm } from 'react-hook-form'
 import { TabView, TabPanel } from 'primereact/tabview';
-import { Dialog } from 'primereact/dialog';
 import copy from "copy-to-clipboard"; 
 import { Toast } from 'primereact/toast'
 import { SkeletonAccount } from '../SkeletonAccounts/index'
 import { useTabNumber } from '@/store/tabAccount'
 import { useBills } from '@/store/bills'
-import { api } from '@/utils'
-import { useParams } from 'next/navigation'
 import { useInstallations } from '@/store/installations'
 import { InstallationDetail } from '@/components/InstallationDetails'
-import { SkeletonTabAccount } from '../SkeletonTabAccounts'
 import { useListMouths } from '@/store/listMonths'
 import { FilterYear } from '@/components/FilterYear'
 import { useFilterYear } from '@/store/filterYear'
@@ -52,10 +46,7 @@ const paymentStatus = [
 
 
 export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
-    /* const { control, handleSubmit, setValue } = useForm() */
-    const { installations } = useInstallations()
     const { setTabNumber, tabNumberIndex } = useTabNumber()
-    const [ displayResponsive, setDisplayResponsive ] = useState(false);
     const { yearController, setYear } = useFilterYear()
     const toast = useRef<Toast>(null);
     const [ isLoader, setIsLoader ] = useState(true)
@@ -81,13 +72,6 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
             type: 'success'
         })
     }
-
-    useEffect(() => {
-        console.log(bills)
-        // console.log(bills.filter((item:any) => bills))
-    },[])
-
-
     return (
         <>
             <div className={styles.installation}>
