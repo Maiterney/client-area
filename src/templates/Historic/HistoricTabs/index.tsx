@@ -70,7 +70,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     let year = dataTime.getFullYear()
                                     let value = Number(data.value)
                                     return (
-                                        <div className={styles.title}>
+                                        <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
                                                 <span className={styles.data}>{item.label} {year}</span>
                                                 <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
@@ -92,7 +92,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     )
                                 } else {
                                     return (
-                                        <div className={styles.title}>
+                                        <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
                                                 <span className={styles.data}>{item.label} 2023</span>
                                             </div>
@@ -117,7 +117,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     let value = Number(data.value)
 
                                     return (
-                                        <div className={styles.title}>
+                                        <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
                                                 <span className={styles.data}>{item.label} {year}</span>
                                                 <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
@@ -136,9 +136,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                         </div>
                                     )
                                 } else {
-                                    return (
-                                        <></>
-                                    )
+                                    return null
                                 }
                             })
                             :
@@ -157,7 +155,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     let value = Number(data.value)
 
                                     return (
-                                        <div className={styles.title}>
+                                        <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
                                                 <span className={styles.data}>{item.label} {year}</span>
                                                 <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
@@ -176,9 +174,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                         </div>
                                     )
                                 } else {
-                                    return (
-                                        <></>
-                                    )
+                                    return null
                                 }
                             })
                             :
