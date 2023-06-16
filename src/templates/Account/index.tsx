@@ -6,6 +6,7 @@ import Link from 'next/link'
 import copy from 'copy-to-clipboard'
 import { Toast } from 'primereact/toast'
 import { ClientDetails } from '@/components/ClientDetails'
+import { useParams } from 'next/navigation'
 
 type ToastMessage = {
     title: string,
@@ -15,46 +16,17 @@ type ToastMessage = {
 }
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-const paymentStatus = [
-    {
-        label: 'Aberto',
-        status: 'isOpen'
-    },
-    {
-        label: 'Aprovação',
-        status: 'isDelay'
-    },
-    {
-        label: 'Aguardando',
-        status: 'isDelay'
-    },
-    {
-        label: 'Pago',
-        status: 'isPay'
-    },
-    {
-        label: 'Vencido',
-        status: 'isOpen'
-    },
-]
 
 interface Account {
 
 }
 
 export const Account = ({ accountData }: { accountData: any }) => {
+    const { accountYear, accountMonth } = useParams()
     const [ displayResponsive, setDisplayResponsive ] = useState(false);
     const toast = useRef<Toast>(null);
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
         toast?.current?.show({severity:type, summary: title, detail: msg, life: time});
-    }
-    const copyValue = (value:any) => {
-        copy(value);
-        ToastMessage({
-            title:'Código de barras copiado', 
-            msg: `${value}`, 
-            type: 'success'
-        })
     }
 
     let data = new Date(accountData?.generation_month?.reference)
@@ -72,15 +44,13 @@ export const Account = ({ accountData }: { accountData: any }) => {
     }, [accountData])
     
 
-
-
     return (
         <div className={styles.internalAccount}>
             {/* <ClientDetails /> */}
             <div className={styles.account}>
                 <div className={styles.details}>
                     <div className={styles.title}>
-                        <h2>{months[month + 1]} {year}</h2>
+                        <h2>{months[Number(accountMonth) - 1]} {accountYear}</h2>
                     </div>
                     <div className={styles.accountDetail}>
                         <div className={styles.value}>

@@ -5,6 +5,7 @@ import { cookies } from 'next/dist/client/components/headers';
 import { ClientDetails } from '@/components/ClientDetails';
 import { InstallationDetail } from '@/components/InstallationDetails';
 import { HistoricCharts } from '@/templates/Historic/HistoricCharts';
+import { FilterYear } from '@/components/FilterYear';
 
 export default async function HistoricPage({params}:{params:{installation:string}}) { 
     const cookie = cookies()
@@ -19,6 +20,7 @@ export default async function HistoricPage({params}:{params:{installation:string
             {/* <ClientDetails /> */}
             <div className={styles.installation}>
                 <InstallationDetail />
+                <FilterYear />
             </div>
             <HistoricTabs billsData={bills.bills}/>
             <HistoricCharts data={bills.charts}/>

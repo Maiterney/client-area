@@ -49,7 +49,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                 let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                                 let value = Number(data.value)
                                 return (
-                                    <AccordionTab key={item.label} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{item.label} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
+                                    <AccordionTab key={`${item.label}`} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{item.label} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
                                         <div className={styles.buttonsAccordion}>
                                             {data.payment_status == '3'
                                                 ?
@@ -81,7 +81,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                 let date = new Date(data.generation_month.reference)
                                 let year = date.getFullYear()
                                 return (
-                                    <li key={item.id}><span>{item.label} {year}</span> <span>{data.injected_energy.toLocaleString('pt-br')} kwh</span></li>
+                                    <li key={item.month}><span>{item.label} {year}</span> <span>{data.injected_energy.toLocaleString('pt-br')} kwh</span></li>
                                 )
                             } else {
                                 return null
@@ -100,19 +100,19 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                 <div className={styles.discountAnnual}>
                     <p>Desconto anual na energia</p>
                     <h3 className={styles.valueDiscount}>
-                        6,12%
+                        --%
                     </h3>
                 </div>
                 <div className={styles.economyAnnual}>
                     <p>Economia anual</p>
                     <h3 className={styles.valueDiscount}>
-                        R$ 155,00
+                        R$ --
                     </h3>
                 </div>
                 <div className={styles.totalDiscount}>
                     <p>Total de descontos</p>
                     <h3 className={styles.valueDiscount}>
-                        R$ 245,00
+                        R$ --
                     </h3>
                 </div>
             </div>

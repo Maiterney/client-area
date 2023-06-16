@@ -17,6 +17,8 @@ import { useInstallations } from '@/store/installations'
 import { InstallationDetail } from '@/components/InstallationDetails'
 import { SkeletonTabAccount } from '../SkeletonTabAccounts'
 import { useListMouths } from '@/store/listMonths'
+import { FilterYear } from '@/components/FilterYear'
+import { useFilterYear } from '@/store/filterYear'
 
 type ToastMessage = {
     title: string,
@@ -50,18 +52,15 @@ const paymentStatus = [
 
 
 export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
-    const { control, handleSubmit, setValue } = useForm()
+    /* const { control, handleSubmit, setValue } = useForm() */
     const { installations } = useInstallations()
     const { setTabNumber, tabNumberIndex } = useTabNumber()
     const [ displayResponsive, setDisplayResponsive ] = useState(false);
+    const { yearController, setYear } = useFilterYear()
     const toast = useRef<Toast>(null);
     const [ isLoader, setIsLoader ] = useState(true)
     const {setBills, bills} = useBills()
-    const { installation } = useParams()
     const { listMonths } = useListMouths()
-
-    const [thumb, setThumb] = useState();
-
 
     useEffect(() => {
         setBills(billsData)
@@ -88,50 +87,16 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
         // console.log(bills.filter((item:any) => bills))
     },[])
 
-    const filterAccounts = async (data:any) => {
-        setIsLoader(true)
-        await api.get(`/user/bills?installation=${installation}&year=${data.filterYear}`).then(res => { 
-            setBills(res.data.data.bills) 
-        }).catch(err => { 
-            console.log(err); setBills([]) 
-        }).finally(() => {
-            setIsLoader(false)
-        })
-    }
 
     return (
         <>
             <div className={styles.installation}>
                 <InstallationDetail />
-                <div className={styles.filter}>
-                    <form onChange={handleSubmit(filterAccounts)}>
-                        <div className={styles.formController}>
-                            <div className={styles.formRow}>
-                                <Controller 
-                                    name="filterYear" 
-                                    control={control}
-                                    defaultValue={''}
-                                    rules={{ required: false }}
-                                    render={({ field, fieldState }) => {
-                                        return (
-                                            <div className={`${styles.formGroup}`}>
-                                                <label htmlFor={field.name}> Selecione o ano: </label>
-                                                <select id={field.name} {...field} value={field.value}>
-                                                    <option value="2023">2023</option>
-                                                    <option value="2022">2022</option>
-                                                </select>
-                                            </div>
-                                        )
-                                    }} 
-                                />
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <FilterYear />
             </div>
             <div className={styles.tabAccounts}>
-                {isLoader && <SkeletonAccount />}
-                {!isLoader ?
+                {yearController.loading || isLoader ? <SkeletonAccount /> : null}
+                {!yearController.loading || !isLoader ?
                     <TabView activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView' style={{width: '100%'}}>
                         {listMonths.map((item:any) => {
                             if(bills[item.month]) {

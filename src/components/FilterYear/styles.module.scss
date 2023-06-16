@@ -1,0 +1,30 @@
+.filter {
+    .formController {
+        .formRow {
+            .formGroup {
+                display: flex;
+                align-items: center;
+                label {
+                    padding: 0;
+                    padding-right: calc(var(--padding) * .5);
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                select {
+                    width: 120px;
+                    background: transparent;
+                    border: 1px solid var(--primary-color);
+                    padding: 0 var(--padding);
+                    border-radius: 5px;
+                    color: var(--color-fourth);
+                    height: 40px;
+                    &:focus {
+                        outline: unset;
+                        color: var(--color-black);
+                        border-color: var(--color-primary);
+                    }
+                }
+            }
+        }
+    }
+}

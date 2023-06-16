@@ -8,6 +8,8 @@ import { useTabNumber } from '@/store/tabAccount'
 import Link from 'next/link'
 import { useBills } from '@/store/bills'
 import { useListMouths } from '@/store/listMonths'
+import { useFilterYear } from '@/store/filterYear'
+import { Skeleton } from 'primereact/skeleton'
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
@@ -18,8 +20,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
     const { installation } = useParams()
     const { push } = useRouter()
     const { bills, setBills } = useBills()
-    const [isNotPayAccounts, setNotPayAccounts] = useState<Array<any>>([])
-    const [isPayAccounts, setIsPayAccounts] = useState<Array<any>>([])
+    const { yearController } = useFilterYear()
 
     useEffect(() => {
         if (!billsData) return
@@ -28,34 +29,6 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
     }, [billsData])
 
 
-    const RouteAccount = (month: number) => {
-        setTabNumber(month)
-        push('/accounts')
-    }
-
-    const paymentStatus = [
-        {
-            label: 'Aberto',
-            status: 'isOpen'
-        },
-        {
-            label: 'Aprovação',
-            status: 'isDelay'
-        },
-        {
-            label: 'Aguardando',
-            status: 'isDelay'
-        },
-        {
-            label: 'Pago',
-            status: 'isPay'
-        },
-        {
-            label: 'Vencido',
-            status: 'isOpen'
-        },
-    ]
-
     return (
         <div className={styles.historicTab}>
             <TabView className='tabView historicTab' >
@@ -63,28 +36,59 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                     <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
+                                
+                                if(yearController.loading) {
+                                    return (
+                                        <div className={styles.title} key={item.month}>
+                                            <div className={styles.text}>
+                                                <div className={styles.period}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                                <div className={styles.value}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                                <div className={styles.consume}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                            </div>
+                                            <div className={styles.status}>
+                                                <Skeleton height="2rem" width='4rem'></Skeleton>
+                                            </div>
+                                            <div className={styles.button}>
+                                                <Skeleton height="2rem" width='7.8rem'></Skeleton>
+                                            </div>
+                                        </div>
+                                    )
+                                }
 
                                 if (bills[item.month]) {
                                     const data = bills[item.month]
                                     let dataTime = new Date(data.generation_month.reference)
-                                    let year = dataTime.getFullYear()
                                     let value = Number(data.value)
                                     return (
                                         <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
-                                                <span className={styles.data}>{item.label} {year}</span>
-                                                <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
+                                                <div className={styles.period}>
+                                                    <span className={styles.data}>{item.label} {yearController.year}</span>
+                                                </div>
+                                                <div className={styles.value}>
+                                                    <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                </div>
+                                                <div className={styles.consume}>
+                                                    <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
+                                                </div>
                                             </div>
-                                            {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            <div className={styles.status}>
+                                                {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            </div>
 
                                             {/* <span className={`${styles.status} statusText ${data.payment_status}`}>{data.payment_status}</span> */}
-                                            <div className={styles.buttonsAccordion}>
-                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                            <div className={styles.button}>
+                                                <Link href={`/${installation}/accounts/${yearController.year}/${item.month}`} className="btn default primary">
                                                     Mais detalhes
                                                 </Link>
                                             </div>
@@ -110,6 +114,31 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                     <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
+
+                                if(yearController.loading) {
+                                    return (
+                                        <div className={styles.title} key={item.month}>
+                                            <div className={styles.text}>
+                                                <div className={styles.period}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                                <div className={styles.value}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                                <div className={styles.consume}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                            </div>
+                                            <div className={styles.status}>
+                                                <Skeleton height="2rem" width='4rem'></Skeleton>
+                                            </div>
+                                            <div className={styles.button}>
+                                                <Skeleton height="2rem" width='7.8rem'></Skeleton>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+
                                 if (bills[item.month] && bills[item.month].payment_status != 'Pago') {
                                     const data = bills[item.month]
                                     let dataTime = new Date(data.generation_month.reference)
@@ -119,17 +148,27 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     return (
                                         <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
-                                                <span className={styles.data}>{item.label} {year}</span>
-                                                <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
+                                                <div className={styles.period}>
+                                                    <span className={styles.data}>{item.label} {yearController.year}</span>
+                                                </div>
+                                                <div className={styles.value}>
+                                                    <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                </div>
+                                                <div className={styles.consume}>
+                                                    <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
+                                                </div>
                                             </div>
-                                            {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
-                                            <div className={styles.buttonsAccordion}>
-                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                            <div className={styles.status}>
+                                                {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            </div>
+
+                                            {/* <span className={`${styles.status} statusText ${data.payment_status}`}>{data.payment_status}</span> */}
+                                            <div className={styles.button}>
+                                                <Link href={`/${installation}/accounts/${yearController.year}/${item.month}`} className="btn default primary">
                                                     Mais detalhes
                                                 </Link>
                                             </div>
@@ -148,6 +187,31 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                     <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
+
+                                if(yearController.loading) {
+                                    return (
+                                        <div className={styles.title} key={item.month}>
+                                            <div className={styles.text}>
+                                                <div className={styles.period}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                                <div className={styles.value}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                                <div className={styles.consume}>
+                                                    <Skeleton height="2rem" width='6rem'></Skeleton>
+                                                </div>
+                                            </div>
+                                            <div className={styles.status}>
+                                                <Skeleton height="2rem" width='4rem'></Skeleton>
+                                            </div>
+                                            <div className={styles.button}>
+                                                <Skeleton height="2rem" width='7.8rem'></Skeleton>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+
                                 if (bills[item.month] && bills[item.month].payment_status == 'Pago') {
                                     const data = bills[item.month]
                                     let dataTime = new Date(data.generation_month.reference)
@@ -157,17 +221,27 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     return (
                                         <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
-                                                <span className={styles.data}>{item.label} {year}</span>
-                                                <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
-                                                <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
+                                                <div className={styles.period}>
+                                                    <span className={styles.data}>{item.label} {yearController.year}</span>
+                                                </div>
+                                                <div className={styles.value}>
+                                                    <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
+                                                </div>
+                                                <div className={styles.consume}>
+                                                    <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
+                                                </div>
                                             </div>
-                                            {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
-                                            {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
-                                            <div className={styles.buttonsAccordion}>
-                                                <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                            <div className={styles.status}>
+                                                {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            </div>
+
+                                            {/* <span className={`${styles.status} statusText ${data.payment_status}`}>{data.payment_status}</span> */}
+                                            <div className={styles.button}>
+                                                <Link href={`/${installation}/accounts/${yearController.year}/${item.month}`} className="btn default primary">
                                                     Mais detalhes
                                                 </Link>
                                             </div>

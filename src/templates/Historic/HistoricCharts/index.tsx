@@ -2,13 +2,16 @@
 import { Chart } from 'primereact/chart';
 import styles from './styles.module.scss'
 import { useEffect, useState } from 'react';
+import { useCharts } from '@/store/charts';
  
 export const HistoricCharts = ({data}:{data:any}) => {
-    const [chartData, setChartData] = useState(data);
-    const [chartOptions, setChartOptions] = useState({});
+    const { setCharts, charts } = useCharts()
+    useEffect(() => {
+        setCharts(data)
+    },[data])
     return (
         <div className={styles.chart}>
-            <Chart type="line" width='100%' data={chartData} options={chartOptions} />
+            {charts != null && <Chart type="bar" width='100%' data={charts!} />}
         </div>
     )
 }

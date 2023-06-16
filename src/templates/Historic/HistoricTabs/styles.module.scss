@@ -31,9 +31,12 @@
             .text {
                 flex: 1;
                 display: flex;
+                width: 80%;
+                .period, .value, .consume {
+                    width: 25%;
+                }
                 span {
                     text-transform: capitalize;
-                    width: 25%;
                     font-weight: bold;
                     opacity: .8;
                     &.data {
@@ -42,10 +45,13 @@
                 }
             }
         }
-        .buttonsAccordion {
+        .button {
+            width: 150px;
+            display: flex;
+            justify-content: flex-end;
             a {
                 margin: 0;
-                margin-left: calc(var(--margin) * 2);
+                // margin-left: calc(var(--margin) * 2);
             }
         }
     }
