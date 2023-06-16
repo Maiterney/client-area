@@ -10,28 +10,7 @@ import { useBills } from '@/store/bills'
 import { useListMouths } from '@/store/listMonths'
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-const paymentStatus = [
-    {
-        label: 'Aberto',
-        status: 'isOpen'
-    },
-    {
-        label: 'Aprovação',
-        status: 'isDelay'
-    },
-    {
-        label: 'Aguardando',
-        status: 'isDelay'
-    },
-    {
-        label: 'Pago',
-        status: 'isPay'
-    },
-    {
-        label: 'Vencido',
-        status: 'isOpen'
-    },
-]
+
 
 export const HistoricTabs = ({ billsData }: { billsData: any }) => {
     const { setTabNumber } = useTabNumber()
@@ -54,6 +33,29 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
         push('/accounts')
     }
 
+    const paymentStatus = [
+        {
+            label: 'Aberto',
+            status: 'isOpen'
+        },
+        {
+            label: 'Aprovação',
+            status: 'isDelay'
+        },
+        {
+            label: 'Aguardando',
+            status: 'isDelay'
+        },
+        {
+            label: 'Pago',
+            status: 'isPay'
+        },
+        {
+            label: 'Vencido',
+            status: 'isOpen'
+        },
+    ]
+
     return (
         <div className={styles.historicTab}>
             <TabView className='tabView historicTab' >
@@ -74,7 +76,13 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                                 <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
                                                 <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
                                             </div>
-                                            <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
+                                            {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+
+                                            {/* <span className={`${styles.status} statusText ${data.payment_status}`}>{data.payment_status}</span> */}
                                             <div className={styles.buttonsAccordion}>
                                                 <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
                                                     Mais detalhes
@@ -102,7 +110,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                     <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
-                                if (bills[item.month] && bills[item.month].payment_status != '3') {
+                                if (bills[item.month] && bills[item.month].payment_status != 'Pago') {
                                     const data = bills[item.month]
                                     let dataTime = new Date(data.generation_month.reference)
                                     let year = dataTime.getFullYear()
@@ -115,7 +123,11 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                                 <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
                                                 <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
                                             </div>
-                                            <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
+                                            {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
                                             <div className={styles.buttonsAccordion}>
                                                 <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
                                                     Mais detalhes
@@ -138,7 +150,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                     <div className={styles.list}>
                         {bills ?
                             listMonths.map((item: any) => {
-                                if (bills[item.month] && bills[item.month].payment_status == '3') {
+                                if (bills[item.month] && bills[item.month].payment_status == 'Pago') {
                                     const data = bills[item.month]
                                     let dataTime = new Date(data.generation_month.reference)
                                     let year = dataTime.getFullYear()
@@ -151,7 +163,11 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                                 <span className={styles.value}>{value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
                                                 <span className={styles.consumption}>{data.injected_energy.toLocaleString('pt-br')} KWh</span>
                                             </div>
-                                            <span className={`${styles.status} statusText ${paymentStatus[Number(data.payment_status)].status}`}>{paymentStatus[Number(data.payment_status)].label}</span>
+                                            {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                            {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
                                             <div className={styles.buttonsAccordion}>
                                                 <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
                                                     Mais detalhes

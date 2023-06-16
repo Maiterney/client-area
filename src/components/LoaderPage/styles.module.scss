@@ -1,0 +1,36 @@
+.loader {
+    background: hsl(0deg 0% 8%);
+    .loaderContent {
+        display: grid;
+        place-items: center;
+        .outer {
+            width: 300px;
+            aspect-ratio: 1/0.9;
+            background: conic-gradient( from calc(0 * 1deg), black, black, hsl(calc(0 * 1deg) 100% 70%));
+            display: grid;
+            place-items: center;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            animation: rotate 2s ease-in-out infinite;
+            position: relative;
+            transform: rotate(-90deg);
+            transform-origin: center;
+            .inner {
+                width: calc(100% - 10px);
+                aspect-ratio: 1/0.9;
+                background: hsl(0deg 0% 8%);
+                clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+              }
+        }
+    }
+}
+
+
+
+@keyframes rotate {
+    from {
+      --rotation: 90;
+    }
+    to {
+      --rotation: 450;
+    }
+}

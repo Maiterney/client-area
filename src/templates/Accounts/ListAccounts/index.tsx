@@ -165,11 +165,16 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
                                                         <p>Consumo</p>
                                                         <h3>{data.injected_energy.toLocaleString('pt-br')}KWh</h3>
                                                     </div>
-                                                    {/* <div className={styles.status}>
-                                                        <button className={`btn rounded disable status ${paymentStatus[Number(data.payment_status)].status}`}>
+                                                    <div className={styles.status}>
+                                                        {data.payment_status == 'Aberto' && <button className={`btn rounded disable status isOpen`}>{data.payment_status}</button>}
+                                                        {data.payment_status == 'Aprovação' && <button className={`btn rounded disable status isDelay`}>{data.payment_status}</button>}
+                                                        {data.payment_status == 'Aguardando' && <button className={`btn rounded disable status isDelay`}>{data.payment_status}</button>}
+                                                        {data.payment_status == 'Pago' && <button className={`btn rounded disable status isPay`}>{data.payment_status}</button>}
+                                                        {data.payment_status == 'Vencido' && <button className={`btn rounded disable status isOpen`}>{data.payment_status}</button>}
+                                                        {/* <button className={`btn rounded disable status ${paymentStatus[Number(data.payment_status)].status}`}>
                                                             {paymentStatus[Number(data.payment_status)].label}
-                                                        </button>
-                                                    </div> */}
+                                                        </button> */}
+                                                    </div>
                                                 </div>
                                                 <div className={styles.actions}>
                                                     {/* <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
@@ -209,7 +214,7 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
                                                     </div>
                                                     <div className={`${styles.card} ${styles.outline}`}>
                                                         <p>Fatura Total</p>
-                                                        <h3>R${totalAccount.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                                                        <h3>R$ {totalAccount.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                                                     </div>
                                                     <div className={`${styles.card}`}>
                                                         <p>Desconto na energia</p>

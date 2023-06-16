@@ -62,6 +62,8 @@ export const Account = ({ accountData }: { accountData: any }) => {
     let month = data?.getMonth()
     let value = Number(accountData?.value)
     let dueDate = new Date(accountData?.due_date)
+    let totalAccount = Number(accountData.total_amount_distributor) + value
+    let accountDiscount = Number(accountData.amount_saved) / Number(accountData.total_amount_without_discount)
 
 
     useEffect(() => {
@@ -94,24 +96,33 @@ export const Account = ({ accountData }: { accountData: any }) => {
                             <h3>{accountData?.injected_energy.toLocaleString('pt-br')}KWh</h3>
                         </div>
                         <div className={styles.status}>
-                            <button className={`btn rounded disable status ${paymentStatus[Number(accountData?.payment_status)].status}`}>
-                                {paymentStatus[Number(accountData?.payment_status)].label}
-                            </button>
+                            {accountData.payment_status == 'Aberto' && <button className={`btn rounded disable status isOpen`}>{accountData.payment_status}</button>}
+                            {accountData.payment_status == 'Aprovação' && <button className={`btn rounded disable status isDelay`}>{accountData.payment_status}</button>}
+                            {accountData.payment_status == 'Aguardando' && <button className={`btn rounded disable status isDelay`}>{accountData.payment_status}</button>}
+                            {accountData.payment_status == 'Pago' && <button className={`btn rounded disable status isPay`}>{accountData.payment_status}</button>}
+                            {accountData.payment_status == 'Vencido' && <button className={`btn rounded disable status isOpen`}>{accountData.payment_status}</button>}
                         </div>
                     </div>
                     <div className={styles.actions}>
-                        <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
+                        {/* <button className="btn default primary" onClick={() => setDisplayResponsive(true)}>
                             Pagar com PIX
-                        </button>
-                        <button className="btn outline second" value={123456789} onClick={() => copyValue(123456789)} >
+                        </button> */}
+                        {/* <button className="btn outline second" value={123456789} onClick={() => copyValue(123456789)} >
                             Código de barras
-                        </button>
-                        <button className="btn outline second">
+                        </button> */}
+                        {/* <button className="btn outline second">
                             Enviar por e-mail
-                        </button>
-                        <Link href={'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'} target='_blank' className="btn outline second">
-                            Baixar PDF
-                        </Link>
+                        </button> */}
+                        {accountData.bill_generated != null && 
+                            <Link href={accountData.bill_generated} target='_blank' className="btn outline second">
+                                Baixar PDF
+                            </Link>
+                        }
+                        {accountData.bill_generated == null && 
+                            <button className="btn outline second disabledAccount" disabled>
+                                Fatura não gerada
+                            </button>
+                        }
                     </div>
                 </div>
                 <div className={styles.economyDetails}>
@@ -121,27 +132,31 @@ export const Account = ({ accountData }: { accountData: any }) => {
                     <div className={styles.cards}>
                         <div className={`${styles.card} ${styles.outline}`}>
                             <p>Fatura distribuidora</p>
-                            <h3>R$ 608,33</h3>
+                            <h3>R$ {accountData.total_amount_distributor}</h3>
                         </div>
                         <div className={`${styles.card} ${styles.outline}`}>
                             <p>Fatura Woltz</p>
-                            <h3>R$ 232,70</h3>
+                            <h3>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                         </div>
                         <div className={`${styles.card} ${styles.outline}`}>
                             <p>Fatura Total</p>
-                            <h3>R$ 1.141,03</h3>
+                            <h3>R$ {totalAccount.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                         </div>
                         <div className={`${styles.card}`}>
                             <p>Desconto na energia</p>
-                            <h3>6,12%</h3>
+                            <h3>{Number(accountData.installation_data.agent_discount).toLocaleString('pt-br', { minimumFractionDigits: 2 })}  %</h3>
                         </div>
                         <div className={`${styles.card}`}>
                             <p>Economia</p>
-                            <h3>R$ 13,56</h3>
+                            <h3>R$ {Number(accountData.amount_saved).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                         </div>
                         <div className={`${styles.card}`}>
                             <p>Desconto na conta</p>
-                            <h3>1,17%</h3>
+                            <h3> 
+                                {Number(accountData.total_amount_without_discount) == 0 && '0'} 
+                                {Number(accountData.total_amount_without_discount) >= 1 && Number(accountDiscount.toFixed(2))} 
+                                %   
+                            </h3>
                         </div>
                     </div>
                 </div>
