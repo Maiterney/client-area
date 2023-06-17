@@ -6,7 +6,7 @@ export const useRouteState = () => {
 
   const [ mouthAccount, setMouthAccount ] = useState<number>()
 
-  useEffect(() => {console.log(mouthAccount)},[mouthAccount])
+  // useEffect(() => {console.log(mouthAccount)},[mouthAccount])
   
   
 

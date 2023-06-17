@@ -2,7 +2,6 @@ import { ListAccounts } from '@/templates/Accounts/ListAccounts'
 import styles from './styles.module.scss'
 import { api } from '@/utils';
 import { cookies } from 'next/dist/client/components/headers';
-import { ClientDetails } from '@/components/ClientDetails';
 
 export default async function AccountsPage({params}:{params: {installation:string}}) {
     const cookie = cookies()
@@ -14,7 +13,6 @@ export default async function AccountsPage({params}:{params: {installation:strin
     const bills = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { 
         return res.data.data.bills
     }).catch(err => { console.log(err); return false })
-    console.log('data',bills)
     return (
         <div className={styles.accountsComponent}>
             {/* <ClientDetails /> */}

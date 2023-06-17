@@ -8,20 +8,21 @@ import { useParams, useRouter } from 'next/navigation';
 import { useInstallations } from '@/store/installations';
 import { useUserData } from '@/store/userData';
 import { useBills } from '@/store/bills';
+import { useCharts } from '@/store/charts';
 
 type User = {
     name: string,
     profile_photo_url: string
 }
  
-export const Header = ({myUser, myInstallations, myBills}:{myUser: User | any, myInstallations:any, myBills:any}) => {
+export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any}) => {
     const { installation } = useParams()
     const { user, setUser } = useUserData()
     const { installations, setInstallations } = useInstallations()
+    const { setCharts } = useCharts()
     const { setBills } = useBills()
     const [ listInstallations, setListInstallations ] = useState<Array<any>>([])
     const menu = useRef<any>(null)
-
     const items:MenuItem[] = [
         {
             label: user?.name,
@@ -43,9 +44,12 @@ export const Header = ({myUser, myInstallations, myBills}:{myUser: User | any, m
         
 
     ];
-    useEffect(() => { setInstallations(myInstallations) },[myInstallations])
-    useEffect(() => { setUser(myUser) },[myUser])
-    useEffect(() => { setBills(myBills) },[myBills])
+    useEffect(() => { 
+        setInstallations(myInstallations) 
+        setUser(myUser)
+        setBills(myBills)
+        setCharts(myCharts)
+    },[myInstallations, myUser, myBills, myCharts])
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {
             return {

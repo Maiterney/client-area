@@ -33,7 +33,6 @@ export const Sidebar = () => {
             slug: 'Histórico', 
         }
     ]
-    console.log(path)
     const logout = async () => {
         await api.put('/authenticate/logout').finally(() => { 
                 destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})

@@ -2,33 +2,15 @@
 import { useContext, useState } from 'react';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import styles from './styles.module.scss'
-import { useRouter } from 'next/navigation';
 import Link from 'next/link'
-import { useRouteState } from '@/app/hooks';
-import { useUserData } from '@/store/userData';
-import { useInstallations } from '@/store/installations';
 import { useParams } from 'next/navigation';
-import { useBills } from '@/store/bills';
-import { ClientDetails } from '@/components/ClientDetails';
 import { InstallationDetail } from '@/components/InstallationDetails';
 import { useListMouths } from '@/store/listMonths';
-
-const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-
 
 export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMonth: any }) => {
     const { installation } = useParams()
     const { listMonths } = useListMouths()
-    const [bills, setBills] = useState(billsData)
-    const { setMouthAccount } = useRouteState()
-    const { push } = useRouter()
-    const RouteAccount = (month: number) => {
-        setMouthAccount(month)
-        push(`${installation}/accounts`)
-    }
-
-    console.log('data', bills)
-
+    const [bills] = useState(billsData)
 
     return (
         <div className={styles.dashboardArea}>
@@ -38,10 +20,9 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
             </div>
             <div className={styles.accounts}>
                 <div className={styles.openAccounts}>
-                    <h3>Contas em aberto</h3>
+                    <h3>Ultimas contas</h3>
                     <Accordion className={`accordion ${styles.accordion}`}>
                         {listMonths.map((item: any) => {
-                            console.log(currentMonth)
                             if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
                                 const data = bills[item.month]
                                 let date = new Date(data.generation_month.reference)
@@ -49,9 +30,23 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                 let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                                 let value = Number(data.value)
                                 return (
-                                    <AccordionTab key={`${item.label}`} header={<div className={styles.title}><div className={styles.text}><span className={styles.data}>{item.label} {year}</span><span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span></div><span className={styles.status}>Em aberto</span></div>}>
+                                    <AccordionTab 
+                                        key={`${item.label}`} 
+                                        header={
+                                            <div className={styles.title}>
+                                                <div className={styles.text}>
+                                                    <span className={styles.data}>{item.label} {year}</span>
+                                                    <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span>
+                                                </div>
+                                                {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                            </div>
+                                        }>
                                         <div className={styles.buttonsAccordion}>
-                                            {data.payment_status == '3'
+                                            {data.payment_status == 'Pago'
                                                 ?
                                                 <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn outline primary">
                                                     Mais detalhes

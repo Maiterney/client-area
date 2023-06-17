@@ -45,7 +45,7 @@ const paymentStatus = [
 ]
 
 
-export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
+export const ListAccounts = ({ currentYear, currentMonth}:any) => {
     const { setTabNumber, tabNumberIndex } = useTabNumber()
     const { yearController, setYear } = useFilterYear()
     const toast = useRef<Toast>(null);
@@ -54,12 +54,9 @@ export const ListAccounts = ({billsData, currentYear, currentMonth}:any) => {
     const { listMonths } = useListMouths()
 
     useEffect(() => {
-        if (!billsData) return
-        setBills(billsData)
         setIsLoader(false)
         setTabNumber(Number(currentMonth))
-        console.log(billsData)
-    },[billsData])
+    },[currentMonth])
 
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
         toast?.current?.show({severity:type, summary: title, detail: msg, life: time});

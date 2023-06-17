@@ -24,9 +24,9 @@ export default async function RootLayout({ children, }: { children: React.ReactN
     api.defaults.headers['Authorization'] = `Bearer ${token}`
     
     await api.post('/authenticate/refresh-token', { email: userEmail, refresh_token: refreshToken }).then(res => {
-      console.log('success')
+      // console.log('success')
     }).catch(err => {
-      console.log('aqui')
+      // console.log('aqui')
       // redirect('http://localhost:3001')
       redirect(`${process.env.NEXT_PUBLIC_URL_LOGIN}`)
     })

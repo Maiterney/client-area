@@ -12,7 +12,7 @@ export const FilterYear = () => {
     const { control, handleSubmit, setValue } = useForm()
     const {setBills} = useBills()
     const { installation } = useParams()
-    const { setYear } = useFilterYear()
+    const { setYear, yearController } = useFilterYear()
     const { setCharts } = useCharts()
 
     const filterAccounts = async (data:any) => {
@@ -43,7 +43,7 @@ export const FilterYear = () => {
                         <Controller 
                             name="filterYear" 
                             control={control}
-                            defaultValue={''}
+                            defaultValue={yearController.year}
                             rules={{ required: false }}
                             render={({ field, fieldState }) => {
                                 return (

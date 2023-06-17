@@ -23,9 +23,9 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
     const { yearController } = useFilterYear()
 
     useEffect(() => {
-        if (!billsData) return
-        setBills(billsData)
-        console.log(billsData)
+        // if (!billsData) return
+        // setBills(billsData)
+        // console.log(billsData)
     }, [billsData])
 
 
@@ -34,6 +34,25 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
             <TabView className='tabView historicTab' >
                 <TabPanel header="Histórico de conta">
                     <div className={styles.list}>
+                        <div className={`${styles.headerList}`}>
+                            <div className={styles.text}>
+                                <div className={styles.period}>
+                                    <span className={styles.data}>Período</span>
+                                </div>
+                                <div className={styles.value}>
+                                    <span className={styles.value}>Valor</span>
+                                </div>
+                                <div className={styles.consume}>
+                                    <span className={styles.consumption}>Consumo</span>
+                                </div>
+                            </div>
+                            <div className={styles.status}>
+                                <span>Status</span>
+                            </div>
+                            <div className={styles.button}>
+                                <span>Ação</span>
+                            </div>
+                        </div>
                         {bills ?
                             listMonths.map((item: any) => {
                                 
@@ -69,7 +88,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                         <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
                                                 <div className={styles.period}>
-                                                    <span className={styles.data}>{item.label} {yearController.year}</span>
+                                                    <span className={styles.data}>{item.label}</span>
                                                 </div>
                                                 <div className={styles.value}>
                                                     <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
@@ -79,11 +98,11 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                                 </div>
                                             </div>
                                             <div className={styles.status}>
-                                                {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
-                                                {data.payment_status == 'Aprovação' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                                {data.payment_status == 'Aguardando' && <span className={`${styles.status} statusText isDelay`}>{data.payment_status}</span>}
-                                                {data.payment_status == 'Pago' && <span className={`${styles.status} statusText isPay`}>{data.payment_status}</span>}
-                                                {data.payment_status == 'Vencido' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aberto' && <span className={`${styles.status} btn rounded disable status isOpen`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aprovação' && <span className={`${styles.status} btn rounded disable status isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Aguardando' && <span className={`${styles.status} btn rounded disable status isDelay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Pago' && <span className={`${styles.status} btn rounded disable status isPay`}>{data.payment_status}</span>}
+                                                {data.payment_status == 'Vencido' && <span className={`${styles.status} btn rounded disable status isOpen`}>{data.payment_status}</span>}
                                             </div>
 
                                             {/* <span className={`${styles.status} statusText ${data.payment_status}`}>{data.payment_status}</span> */}
@@ -98,7 +117,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                     return (
                                         <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
-                                                <span className={styles.data}>{item.label} 2023</span>
+                                                <span className={styles.data}>{item.label}</span>
                                             </div>
                                             <span className={`${styles.status} statusText inactive`}>Não disponível</span>
                                         </div>
@@ -112,6 +131,25 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                 </TabPanel>
                 <TabPanel header="Em aberto/Vencidos">
                     <div className={styles.list}>
+                        <div className={`${styles.headerList}`}>
+                            <div className={styles.text}>
+                                <div className={styles.period}>
+                                    <span className={styles.data}>Período</span>
+                                </div>
+                                <div className={styles.value}>
+                                    <span className={styles.value}>Valor</span>
+                                </div>
+                                <div className={styles.consume}>
+                                    <span className={styles.consumption}>Consumo</span>
+                                </div>
+                            </div>
+                            <div className={styles.status}>
+                                <span>Status</span>
+                            </div>
+                            <div className={styles.button}>
+                                <span>Ação</span>
+                            </div>
+                        </div>
                         {bills ?
                             listMonths.map((item: any) => {
 
@@ -149,7 +187,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                                         <div className={styles.title} key={item.month}>
                                             <div className={styles.text}>
                                                 <div className={styles.period}>
-                                                    <span className={styles.data}>{item.label} {yearController.year}</span>
+                                                    <span className={styles.data}>{item.label}</span>
                                                 </div>
                                                 <div className={styles.value}>
                                                     <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })} </span>
@@ -185,6 +223,25 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                 </TabPanel>
                 <TabPanel header="Pagos">
                     <div className={styles.list}>
+                        <div className={`${styles.headerList}`}>
+                            <div className={styles.text}>
+                                <div className={styles.period}>
+                                    <span className={styles.data}>Período</span>
+                                </div>
+                                <div className={styles.value}>
+                                    <span className={styles.value}>Valor</span>
+                                </div>
+                                <div className={styles.consume}>
+                                    <span className={styles.consumption}>Consumo</span>
+                                </div>
+                            </div>
+                            <div className={styles.status}>
+                                <span>Status</span>
+                            </div>
+                            <div className={styles.button}>
+                                <span>Ação</span>
+                            </div>
+                        </div>
                         {bills ?
                             listMonths.map((item: any) => {
 
