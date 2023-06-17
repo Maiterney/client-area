@@ -37,7 +37,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                         <div className={`${styles.headerList}`}>
                             <div className={styles.text}>
                                 <div className={styles.period}>
-                                    <span className={styles.data}>Período</span>
+                                    <span className={styles.data}>Mês</span>
                                 </div>
                                 <div className={styles.value}>
                                     <span className={styles.value}>Valor</span>
@@ -134,7 +134,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                         <div className={`${styles.headerList}`}>
                             <div className={styles.text}>
                                 <div className={styles.period}>
-                                    <span className={styles.data}>Período</span>
+                                    <span className={styles.data}>Mês</span>
                                 </div>
                                 <div className={styles.value}>
                                     <span className={styles.value}>Valor</span>
@@ -226,7 +226,7 @@ export const HistoricTabs = ({ billsData }: { billsData: any }) => {
                         <div className={`${styles.headerList}`}>
                             <div className={styles.text}>
                                 <div className={styles.period}>
-                                    <span className={styles.data}>Período</span>
+                                    <span className={styles.data}>Mês</span>
                                 </div>
                                 <div className={styles.value}>
                                     <span className={styles.value}>Valor</span>

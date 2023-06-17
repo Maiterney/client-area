@@ -26,13 +26,13 @@ export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: Use
     const items:MenuItem[] = [
         {
             label: user?.name,
-            items: [
+            /* items: [
                 {
                     label: 'Minha conta',
                     icon: 'pi pi-cog',
                     command: () => {},
                 }
-            ]
+            ] */
         },
         {
             separator: true,
