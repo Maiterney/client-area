@@ -1,6 +1,9 @@
 .dashboardArea {
     flex: 1 ;
     padding: calc(var(--padding) * 3);
+    @media(max-width: 769px) {
+        padding: calc(var(--padding) * 1);
+    }
     .clientDetails {
         background-color: var(--color-white);
         padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
@@ -24,17 +27,28 @@
     }
     .accounts {
         display: flex;
+        @media(max-width: 769px) {
+            flex-direction: column;
+        }
         .openAccounts {
             flex: 1;
             margin-right: .25%;
             background-color: var(--color-white);
             padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
             border-radius: 5px;
+            @media(max-width: 769px) {
+                margin: var(--margin) 0;
+            }
             .accordion {
+                
                 .title {
                     display: flex;
                     justify-content: space-between;
                     width: 100%;
+                    align-items: center;
+                    @media(max-width: 769px) {
+                        padding-right: var(--padding);
+                    }
                     .text {
                         display: flex;
                         .data {
@@ -42,7 +56,9 @@
                             font-weight: 600;
                             padding-right: calc(var(--padding) * 2);
                             color: var(--primary-color);
-                            width: 180px;
+                            @media(min-width: 769px) {
+                                width: 180px;
+                            }
                             text-transform: capitalize;
                         }
                         .value {
@@ -66,6 +82,9 @@
             flex: 1;
             margin-left: .25%;
             background-color: var(--color-white);
+            @media(max-width: 769px) {
+                margin-bottom: var(--margin);
+            }
             .historyList {
                 margin: 0;
                 padding: 0;
@@ -93,6 +112,9 @@
     .economy {
         display: flex;
         justify-content: space-between;
+        @media(max-width: 769px) {
+            flex-direction: column;
+        }
         .discountAnnual, .economyAnnual, .totalDiscount {
             width: 33%;
             background-color: var(--color-white);
@@ -103,6 +125,9 @@
             align-items: center;
             padding: calc(var(--padding) * 3) 0;
             margin-top: .5%;
+            @media(max-width: 769px) {
+                width: 100%;
+            }
             p {
                 padding: 0;
                 margin: 0;   

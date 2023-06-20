@@ -11,6 +11,7 @@
     overflow: hidden;
     // border-right: 2px solid var(--color-second);
     position: relative;
+    transition: all .3s ease-in-out;
     &::before {
         content: '';
         height: 100%;
@@ -122,6 +123,42 @@
                     span {
                         color: var(--color-primary);
                         font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+    @media(max-width:769px) {
+        &.mobile {
+            padding: var(--padding) calc(var(--padding) * 2) 0;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            height: auto;
+            flex-direction: row;
+            width: 100%;
+            z-index: 2;
+            &::before {
+                height: 5px;
+                width: 100%;
+            }
+            .sidebarLogo {
+                display: none;
+            }
+            ul {
+                display: flex;
+                li {
+                    a {
+                        &::before, &::after {
+                            content: unset;
+                        }
+                    }
+                    &.activeNav, &:hover {
+                        border-radius: 30px;
+                        span {
+                            padding-left: calc(var(--padding) / 3);
+                            width: auto;
+                        }
                     }
                 }
             }

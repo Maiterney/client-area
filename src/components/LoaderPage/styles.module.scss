@@ -1,36 +1,70 @@
-.loader {
-    background: hsl(0deg 0% 8%);
-    .loaderContent {
-        display: grid;
-        place-items: center;
-        .outer {
-            width: 300px;
-            aspect-ratio: 1/0.9;
-            background: conic-gradient( from calc(0 * 1deg), black, black, hsl(calc(0 * 1deg) 100% 70%));
-            display: grid;
-            place-items: center;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            animation: rotate 2s ease-in-out infinite;
-            position: relative;
-            transform: rotate(-90deg);
-            transform-origin: center;
-            .inner {
-                width: calc(100% - 10px);
-                aspect-ratio: 1/0.9;
-                background: hsl(0deg 0% 8%);
-                clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-              }
+.loading {
+    height: 100%;
+    // height: calc(100vh - 70px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-loader-one);
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+
+    .loadingContent {
+        width: var(--loader-size-one);
+        height: var(--loader-size-one);
+      
+        .loadingRing {
+          position: absolute;
+          width: var(--loader-size-one);
+          height: var(--loader-size-one);
+          
+          &:first-child {
+            transform: skew(30deg,20deg);
+            svg {
+                animation: rotate 1s linear infinite;
+                fill: rgba(12, 63, 155, .5);
+            }
+          }
+      
+          &:last-child {
+            transform: skew(-30deg,-20deg) scale(-1, 1);
+      
+            svg {
+                animation: rotate 1s linear infinite;
+                fill: rgba(116, 222, 40, .5);
+                animation-delay: -0.5s;
+            }
+          }
+      
+          
+        }
+        
+    }
+    .logo {
+        position: absolute;
+        svg {
+            width: 120px;
+            animation: logoAnimation 1s linear infinite;
         }
     }
 }
 
-
+@keyframes logoAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    0% {
+        transform: scale(1);
+    }
+}
 
 @keyframes rotate {
-    from {
-      --rotation: 90;
-    }
     to {
-      --rotation: 450;
+      transform: rotate(360deg);
     }
 }

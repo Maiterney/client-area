@@ -13,6 +13,9 @@ import { InstallationDetail } from '@/components/InstallationDetails'
 import { useListMouths } from '@/store/listMonths'
 import { FilterYear } from '@/components/FilterYear'
 import { useFilterYear } from '@/store/filterYear'
+import { LoaderPage } from '@/components/LoaderPage';
+import { useLoaderPage } from '@/store/loaderPage';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 type ToastMessage = {
     title: string,
@@ -47,16 +50,22 @@ const paymentStatus = [
 
 export const ListAccounts = ({ currentYear, currentMonth}:any) => {
     const { setTabNumber, tabNumberIndex } = useTabNumber()
+    const { setLoaderPage } = useLoaderPage()
     const { yearController, setYear } = useFilterYear()
     const toast = useRef<Toast>(null);
     const [ isLoader, setIsLoader ] = useState(true)
     const {setBills, bills} = useBills()
     const { listMonths } = useListMouths()
+    const responsive = useMediaQuery(769)
+
+    useEffect(() => { setLoaderPage(true) }, [])
 
     useEffect(() => {
+        if(!bills) return
         setIsLoader(false)
+        setLoaderPage(false)
         setTabNumber(Number(currentMonth))
-    },[currentMonth])
+    },[currentMonth, bills])
 
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
         toast?.current?.show({severity:type, summary: title, detail: msg, life: time});
@@ -71,7 +80,7 @@ export const ListAccounts = ({ currentYear, currentMonth}:any) => {
         })
     }
     return (
-        <>
+        <LoaderPage>
             <div className={styles.installation}>
                 <InstallationDetail />
                 <FilterYear />
@@ -80,7 +89,7 @@ export const ListAccounts = ({ currentYear, currentMonth}:any) => {
             <div className={styles.tabAccounts}>
                 {yearController.loading || isLoader ? <SkeletonAccount /> : null}
                 {!yearController.loading || !isLoader ?
-                    <TabView activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView' style={{width: '100%'}}>
+                    <TabView scrollable={responsive} activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView' style={{width: '100%'}}>
                         {bills ? 
                             listMonths.map((item:any) => {
                                 if(bills[item.month]) {
@@ -203,6 +212,6 @@ export const ListAccounts = ({ currentYear, currentMonth}:any) => {
                 }
             </div>
             <Toast ref={toast} position="bottom-right"/>
-        </>
+        </LoaderPage>
     )
 }

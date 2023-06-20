@@ -28,6 +28,10 @@
         background-color: var(--bg-dash);
         // width: 100%;
         flex: 1;
+        overflow-y: scroll;
+        @media(max-width: 769px) {
+            height: calc(100vh - 100px);
+        }
     }
 }
 

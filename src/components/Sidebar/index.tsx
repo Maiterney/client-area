@@ -6,12 +6,14 @@ import { api } from '@/utils'
 import styles from './styles.module.scss'
 import { useToggleNav } from '@/store/toggleNav'
 import { IconAccounts, IconHistoric, IconHome, IconLogout, LogoWhite } from '@/svg'
+import { useMediaQuery } from '@/hooks/use-media-query'
  
 export const Sidebar = () => {
     const { toggleNav } = useToggleNav()
     const path = usePathname()
     const { installation } = useParams()
     const { push } = useRouter()
+    const responsive = useMediaQuery(769)
     
     let menu = [
         {
@@ -51,32 +53,28 @@ export const Sidebar = () => {
             case 'historic' : 
                 return <IconHistoric />
         }
-        return (<></>)
+        return (<></>) 
     }
 
     return (
-        <div className={`${styles.sidebar} ${toggleNav ?  styles.active : '' }`}>
+        <div className={`${styles.sidebar} ${toggleNav ?  styles.active : '' } ${responsive ?  styles.mobile : '' }`}>
             <div className={styles.sidebarLogo}>
                 <LogoWhite />
             </div>
             <ul>
-                {/* <li className=''><Link href={'/'}><IconHome /><span>Inicio</span></Link></li>
-                <li><Link href={'#'}><IconFinance /><span>Financeiro</span></Link></li>
-                <li><Link href={'#'}><IconMarketing /><span>Marketing</span></Link></li>
-                <li><Link href={'#'}><IconAdm /><span>Administração</span></Link></li>
-                <li><Link href={'#'}><IconBusiness /><span>Business</span></Link></li>
-                <li><Link href={'/users'}><IconUsers /><span>Usuários</span></Link></li> */}
                 {menu.map(item => {
                     return (
-                        <li key={item.id} className={path == `${item?.path}` ? styles.activeNav : 'sss'}><Link href={item.path}><Icon name={item.icon}/><span>{item.slug}</span></Link></li>
+                        <li key={item.id} className={path == `${item?.path}` ? styles.activeNav : ''}><Link href={item.path}><Icon name={item.icon}/><span>{item.slug}</span></Link></li>
                     )
                 })}
             </ul>
-            <div className={styles.logout}>
-                <ul>
-                    <li><Link href={'#'} onClick={logout}><IconLogout /> <span>Logout</span></Link></li>
-                </ul>
-            </div>
+            {!responsive &&  
+                <div className={styles.logout}>
+                    <ul>
+                        <li><Link href={'#'} onClick={logout}><IconLogout /> <span>Logout</span></Link></li>
+                    </ul>
+                </div>
+            }
         </div>
     )
 }

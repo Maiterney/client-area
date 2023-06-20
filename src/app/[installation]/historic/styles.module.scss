@@ -3,6 +3,9 @@
     padding: calc(var(--padding) * 3);
     max-height: calc(100vh - 90px);
     overflow: auto;
+    @media(max-width: 769px) {
+        padding: calc(var(--padding) * 1);
+    }
     .clientDetails {
         background-color: var(--color-white);
         padding: calc(var(--padding) * 1) calc(var(--padding) * 1.5);
@@ -26,6 +29,9 @@
         }
         .textArea {
             display: flex;
+            flex-direction: column;
+        }
+        @media(max-width: 769px) {
             flex-direction: column;
         }
     }

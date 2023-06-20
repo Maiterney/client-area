@@ -9,6 +9,11 @@ import { useInstallations } from '@/store/installations';
 import { useUserData } from '@/store/userData';
 import { useBills } from '@/store/bills';
 import { useCharts } from '@/store/charts';
+import { useToggleNav } from '@/store/toggleNav';
+import { destroyCookie } from 'nookies';
+import { api } from '@/utils';
+import { IconLogout } from '@/svg';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 type User = {
     name: string,
@@ -17,6 +22,9 @@ type User = {
  
 export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any}) => {
     const { installation } = useParams()
+    const { push } = useRouter()
+    const responsive = useMediaQuery(769)
+    const { setToggleNav, toggleNav } = useToggleNav()
     const { user, setUser } = useUserData()
     const { installations, setInstallations } = useInstallations()
     const { setCharts } = useCharts()
@@ -60,7 +68,15 @@ export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: Use
         })
         setListInstallations(installationsNav)
     },[installations])
-
+    const logout = async () => {
+        await api.put('/authenticate/logout').finally(() => { 
+                destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
+                destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
+                destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
+                destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
+        })
+        push(`${process.env.NEXT_PUBLIC_URL_LOGIN}`)
+    }
     return (
         <div className={styles.header}>
             <button className='btn clean'  onClick={(e:any) => menu?.current.toggle(e)}>
@@ -74,6 +90,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: Use
                 <i className="pi pi-angle-down" style={{ fontSize: '1rem' }}></i>
             </button>
             <Menu model={items} popup ref={menu} />
+            {responsive &&  <button className={`btn clean ${styles.logout}`} onClick={logout}><IconLogout /></button>}
         </div>
     )
 }

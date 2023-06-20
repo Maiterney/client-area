@@ -1,4 +1,9 @@
 .filter {
+    @media(max-width: 769px) {
+        display: flex;
+        margin: 0 auto;
+        padding: calc(var(--padding) / 3) 0;
+    }
     .formController {
         .formRow {
             .formGroup {
