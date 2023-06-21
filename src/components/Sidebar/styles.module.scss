@@ -147,10 +147,18 @@
             }
             ul {
                 display: flex;
+                justify-content: center;
                 li {
+                    width: auto;
+                    margin: 0 calc(var(--margin) / 2);
                     a {
                         &::before, &::after {
                             content: unset;
+                        }
+                        span {
+                            @media(max-width: 376px) {
+                                width: 0;
+                            }
                         }
                     }
                     &.activeNav, &:hover {

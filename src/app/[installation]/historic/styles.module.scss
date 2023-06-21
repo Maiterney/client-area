@@ -24,6 +24,9 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        @media(max-width: 769px) {
+            align-items: center;
+        }
         span:first-child {
             padding-bottom: calc(var(--padding) / 2);
         }
@@ -33,6 +36,7 @@
         }
         @media(max-width: 769px) {
             flex-direction: column;
+            justify-content: center;
         }
     }
 }
