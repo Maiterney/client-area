@@ -84,7 +84,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                 })}
                             </Accordion>
                             :
-                            <p>Nenhuma conta gerada</p>
+                            <p style={{textAlign: 'center'}}>Nenhuma conta gerada</p>
                         }
                     </div>
                     <div className={styles.historyAccounts}>
@@ -106,7 +106,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
 
                                 })
                                 : 
-                                <li><p>Nenhuma conta gerada</p></li>
+                                <li style={{display: 'flex', justifyContent: 'center'}}><p style={{textAlign: 'center'}}>Nenhuma conta gerada</p></li>
                             }
                             
                         </ul>
