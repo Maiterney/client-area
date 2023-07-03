@@ -14,7 +14,6 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
     const { installation } = useParams()
     const { listMonths } = useListMouths()
     const { bills } = useBills()
-    // const [bills] = useState(billsData)
     const { setLoaderPage } = useLoaderPage()
 
     useEffect(() => {
@@ -25,7 +24,6 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
     useEffect(() => {
         if(!bills) return
         setLoaderPage(false)
-        console.log(bills)
     },[bills])
 
 
