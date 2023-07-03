@@ -36,6 +36,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     const items:MenuItem[] = [
         {
             label: user?.name,
+            disabled:true,
             /* items: [
                 {
                     label: 'Minha conta',
