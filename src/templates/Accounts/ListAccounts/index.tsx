@@ -108,7 +108,7 @@ export const ListAccounts = ({ currentYear, currentMonth}:any) => {
                                             <div className={styles.tabContent}>
                                                 <div className={styles.details}>
                                                     <div className={styles.title}>
-                                                        <h2>{item.label} {year}</h2>
+                                                        <h2>{item.label} {yearController.year}</h2>
                                                     </div>
                                                     <div className={styles.accountDetail}>
                                                         <div className={styles.value}>

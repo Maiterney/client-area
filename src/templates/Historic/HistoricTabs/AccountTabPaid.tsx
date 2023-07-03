@@ -57,6 +57,9 @@ export const AccountTabPaid = () => {
                             if (bills[item.month] && bills[item.month].payment_status == 'Pago') {
                                 let data = bills[item.month]
                                 let value = Number(data.value)
+                                if(notAccount) {
+                                    setNotAccount(false)
+                                }
                                 return (
                                     <AccordionTab header={headerAccount(item, value, data)} key={item.month}>
                                         <div className={styles.accordionContent}>
@@ -134,6 +137,9 @@ export const AccountTabPaid = () => {
                         }
 
                         if (bills[item.month] && bills[item.month].payment_status == 'Pago') {
+                            if(notAccount) {
+                                setNotAccount(false)
+                            }
                             return <AccountItem data={bills[item.month]} item={item} key={item.month}/>
                         } else return null
                     })}

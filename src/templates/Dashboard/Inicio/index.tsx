@@ -38,7 +38,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                 <div className={styles.accounts}>
                     <div className={styles.openAccounts}>
                         <h3>Ultimas contas</h3>
-                        {bills.length >= 1 ? 
+                        {bills ? 
                             <Accordion className={`accordion ${styles.accordion}`}>
                                 {listMonths.map((item: any) => {
                                     if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
@@ -90,9 +90,8 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                     <div className={styles.historyAccounts}>
                         <h3>Histórico de consumo</h3>
                         <ul className={styles.historyList}>
-                            {bills.length >= 1 ? 
+                            {bills ? 
                                 listMonths.map((item: any) => {
-                                    console.log(currentMonth)
                                     if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
                                         const data = bills[item.month]
                                         let date = new Date(data.generation_month.reference)
@@ -110,7 +109,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                             }
                             
                         </ul>
-                        {bills.length >= 1 && 
+                        {bills && 
                             <div className={styles.button}>
                                 <Link href={`/${installation}/historic`} className="btn default primary">
                                     Histórico completo

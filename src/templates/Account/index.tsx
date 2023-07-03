@@ -9,6 +9,7 @@ import { ClientDetails } from '@/components/ClientDetails'
 import { useParams } from 'next/navigation'
 import { LoaderPage } from '@/components/LoaderPage'
 import { useLoaderPage } from '@/store/loaderPage'
+import { useFilterYear } from '@/store/filterYear'
 
 type ToastMessage = {
     title: string,
@@ -26,6 +27,7 @@ interface Account {
 export const Account = ({ accountData }: { accountData: any }) => {
     const { accountYear, accountMonth } = useParams()
     const { setLoaderPage } = useLoaderPage()
+    const { yearController } = useFilterYear()
     const toast = useRef<Toast>(null);
     const ToastMessage = ({title, msg, type, time = 3000}:ToastMessage) => {
         toast?.current?.show({severity:type, summary: title, detail: msg, life: time});

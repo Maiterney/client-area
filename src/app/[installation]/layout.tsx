@@ -50,7 +50,7 @@ export default async function AdminLayout({ children, params }: { children: Reac
     console.log(err); return [] 
   })
 
-  const data = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { return res.data.data }).catch(err => { console.log(err); return [] })
+  const data = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { console.log(res.data); return res.data.data }).catch(err => { console.log(err); return [] })
 
   return (
     <main className="main mainDashboard">
