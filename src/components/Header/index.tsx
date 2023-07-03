@@ -64,7 +64,6 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             yearOptions: references,
             loading: false
         })
-        console.log(references)
     },[myInstallations, myUser, myBills, myCharts, references])
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {

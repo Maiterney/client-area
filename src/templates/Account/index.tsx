@@ -45,7 +45,7 @@ export const Account = ({ accountData }: { accountData: any }) => {
     useEffect(() => {
         if(!accountData) return
         setLoaderPage(false)
-        console.log(accountData) 
+        // console.log(accountData) 
     }, [accountData])
     
 
