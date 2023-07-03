@@ -56,7 +56,7 @@ export default async function AdminLayout({ children, params }: { children: Reac
     <main className="main mainDashboard">
       <Sidebar />
       <div className="contentDashboard">
-        <Header myUser={user} myInstallations={installations} myBills={data.bills} myCharts={data.charts}/>
+        <Header myUser={user} myInstallations={installations} myBills={data.bills} myCharts={data.charts} references={data.extras.references} currentYear={currentYear}/>
         {children}
       </div>
     </main>

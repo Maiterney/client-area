@@ -17,6 +17,7 @@ export const FilterYear = () => {
 
     const filterAccounts = async (data:any) => {
         setYear({
+            yearOptions: yearController.yearOptions,
             year: data.filterYear,
             loading: true
         })
@@ -29,6 +30,7 @@ export const FilterYear = () => {
             setCharts(null)
         }).finally(() => {
             setYear({
+                yearOptions: yearController.yearOptions,
                 year: data.filterYear,
                 loading: false
             })
@@ -50,8 +52,12 @@ export const FilterYear = () => {
                                     <div className={`${styles.formGroup}`}>
                                         <label htmlFor={field.name}> Selecione o ano: </label>
                                         <select id={field.name} {...field} value={field.value}>
-                                            <option value="2023">2023</option>
-                                            <option value="2022">2022</option>
+                                            {yearController.yearOptions.map((year:string) => {
+                                                return (
+                                                    <option key={year} value={year}>{year}</option>
+                                                )
+                                            })}
+                                            {/* <option value="2022">2022</option> */}
                                         </select>
                                     </div>
                                 )

@@ -14,13 +14,14 @@ import { destroyCookie } from 'nookies';
 import { api } from '@/utils';
 import { IconLogout } from '@/svg';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { useFilterYear } from '@/store/filterYear';
 
 type User = {
     name: string,
     profile_photo_url: string
 }
  
-export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any}) => {
+export const Header = ({myUser, myInstallations, myBills, myCharts, references, currentYear}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any, references:any, currentYear:any}) => {
     const { installation } = useParams()
     const { push } = useRouter()
     const responsive = useMediaQuery(769)
@@ -29,6 +30,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: Use
     const { installations, setInstallations } = useInstallations()
     const { setCharts } = useCharts()
     const { setBills } = useBills()
+    const { setYear } = useFilterYear()
     const [ listInstallations, setListInstallations ] = useState<Array<any>>([])
     const menu = useRef<any>(null)
     const items:MenuItem[] = [
@@ -57,7 +59,13 @@ export const Header = ({myUser, myInstallations, myBills, myCharts}:{myUser: Use
         setUser(myUser)
         setBills(myBills)
         setCharts(myCharts)
-    },[myInstallations, myUser, myBills, myCharts])
+        setYear({
+            year: String(currentYear),
+            yearOptions: references,
+            loading: false
+        })
+        console.log(references)
+    },[myInstallations, myUser, myBills, myCharts, references])
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {
             return {

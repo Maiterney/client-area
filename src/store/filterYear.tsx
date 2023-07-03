@@ -2,7 +2,8 @@ import { create } from 'zustand'
 
 interface YearController {
     year: string,
-    loading: boolean
+    loading: boolean,
+    yearOptions: Array<any>
 }
 
 type StoreProps = {
@@ -15,6 +16,7 @@ let yearData = date.getFullYear()
 
 export const useFilterYear = create<StoreProps>((set) => ({
     yearController: {
+        yearOptions: [],
         year: String(yearData),
         loading: false
     },
