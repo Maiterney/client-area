@@ -31,6 +31,10 @@ export const ListAccounts = ({currentMonth}:any) => {
         setTabNumber(Number(currentMonth))
     },[currentMonth, bills])
 
+    const setTab = (id:any) => {
+        console.log(id)
+    }
+
 
     return (
         <LoaderPage>

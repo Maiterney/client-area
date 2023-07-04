@@ -58,12 +58,11 @@ export const AccountDetails = ({data, item}:any) => {
                     {/* <button className="btn outline second">
                         Enviar por e-mail
                     </button> */}
-                    {data.bill_generated != null &&
+                    {data.bill_generated != null ?
                         data.payment_status == 'Vencido' && days >= 60 ? null : 
                         <Link href={data.bill_generated} target='_blank' className="btn outline second">
                             Baixar PDF 
-                        </Link> 
-                        
+                        </Link> : null
                     }
                     {data.bill_generated == null && 
                         <button className="btn outline second disabledAccount" disabled>
