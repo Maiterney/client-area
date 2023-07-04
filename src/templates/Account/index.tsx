@@ -1,28 +1,34 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from './styles.module.scss'
 import Link from 'next/link'
 import { Toast } from 'primereact/toast'
 import { useParams } from 'next/navigation'
 import { LoaderPage } from '@/components/LoaderPage'
-import { useLoaderPage, useTradeAccount } from '@/store'
+import { useLoaderPage } from '@/store'
+import moment from 'moment';
 
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
 export const Account = ({ accountData }: { accountData: any }) => {
     const { accountYear, accountMonth } = useParams()
     const { setLoaderPage } = useLoaderPage()
-    const { setTradeAccount } = useTradeAccount()
     const toast = useRef<Toast>(null);
     let value = Number(accountData?.value)
     let dueDate = new Date(accountData?.due_date)
-
+    let dateNow = moment()
+    let dueDateAccount = moment(accountData.due_date)
+    let days = dateNow.diff(dueDateAccount, 'days');
     useEffect(() => { setLoaderPage(true) }, [])
     useEffect(() => {
         if(!accountData) return
         setLoaderPage(false)
         // console.log(accountData) 
     }, [accountData])
+
+    const sendTrade = (id:any) => {
+        console.log(id)
+    }
     
 
     return (
@@ -56,10 +62,12 @@ export const Account = ({ accountData }: { accountData: any }) => {
                             </div>
                         </div>
                         <div className={styles.actions}>
-                            {accountData.bill_generated != null && 
+
+                            {accountData.bill_generated != null &&
+                                accountData.payment_status == 'Vencido' && days >= 60 ? null : 
                                 <Link href={accountData.bill_generated} target='_blank' className="btn outline second">
-                                    Baixar PDF
-                                </Link>
+                                    Baixar PDF 
+                                </Link> 
                             }
                             {accountData.bill_generated == null && 
                                 <button className="btn outline second disabledAccount" disabled>
@@ -67,7 +75,7 @@ export const Account = ({ accountData }: { accountData: any }) => {
                                 </button>
                             }
                             {accountData.payment_status == 'Vencido' && 
-                                <button className={`btn outline isDelayAccount`} onClick={() => setTradeAccount(true)}>Negociar</button>
+                                <button className={`btn outline isDelayAccount`} onClick={() => sendTrade(accountData.id)}>Negociar</button>
                             }
                         </div>
                     </div>

@@ -24,6 +24,7 @@
     "copy-to-clipboard": "^3.3.3",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "moment": "^2.29.4",
     "next": "13.4.2",
     "nookies": "^2.5.2",
     "pdfjs-dist": "3.4.120",
