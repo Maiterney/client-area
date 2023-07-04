@@ -33,17 +33,17 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     const { setYear } = useFilterYear()
     const [ listInstallations, setListInstallations ] = useState<Array<any>>([])
     const menu = useRef<any>(null)
-    const items:MenuItem[] = [
+    /* const items:MenuItem[] = [
         {
             label: user?.name,
             disabled:true,
-            /* items: [
+            items: [
                 {
                     label: 'Minha conta',
                     icon: 'pi pi-cog',
                     command: () => {},
                 }
-            ] */
+            ]
         },
         {
             separator: true,
@@ -52,9 +52,8 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             label: 'Minhas instalações',
             items: listInstallations,
         },
-        
-
-    ];
+    ]; */
+    const items:MenuItem[] = listInstallations;
     useEffect(() => { 
         setInstallations(myInstallations) 
         setUser(myUser)
@@ -66,6 +65,10 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             loading: false
         })
     },[myInstallations, myUser, myBills, myCharts, references])
+
+    useEffect(() => {
+        console.log(listInstallations)
+    },[listInstallations])
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {
             return {
@@ -88,12 +91,9 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     return (
         <div className={styles.header}>
             <button className='btn clean'  onClick={(e:any) => menu?.current.toggle(e)}>
-                <Avatar className="p-overlay-badge" image={user?.profile_photo_url} size="large" shape="circle">
-                    {/* <Badge value="4" severity="danger" /> */}
-                </Avatar>
+                {/* <Avatar className="p-overlay-badge" image={user?.profile_photo_url} size="large" shape="circle"></Avatar> */}
                 <p>
-                    <strong>Instalação</strong>
-                    <span>{installation}</span>
+                    <strong>Minhas Instalação</strong>
                 </p>
                 <i className="pi pi-angle-down" style={{ fontSize: '1rem' }}></i>
             </button>
