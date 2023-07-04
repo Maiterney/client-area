@@ -9,7 +9,7 @@ import { useListMouths } from '@/store/listMonths';
 import { LoaderPage } from '@/components/LoaderPage';
 import { useLoaderPage } from '@/store/loaderPage';
 import { useBills } from '@/store/bills';
-import { AlertAccount } from '@/components/AlertAccount/indes';
+import { AlertAccount } from '@/components/AlertAccount';
 
 export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMonth: any }) => {
     const { installation } = useParams()
@@ -25,14 +25,6 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
 
     useEffect(() => {
         if(!bills) return
-        listMonths?.filter((item:any) => { 
-            if(bills[item.month]) {
-                bills[item.month].payment_status != 'Pago'
-                if(alertAccountToggle == false) {
-                    setAlertAccountToggle(true)
-                }
-            }
-        })
         setLoaderPage(false)
     },[bills])
 
@@ -41,7 +33,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
         <LoaderPage>
             <div className={styles.dashboardArea}>
                 {/* <ClientDetails /> */}
-                {alertAccountToggle && <AlertAccount />}
+                <AlertAccount />
                 <div className={styles.installation}>
                     <InstallationDetail />
                 </div>

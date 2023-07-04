@@ -1,20 +1,15 @@
 'use client'
 import styles from './styles.module.scss'
+import { useInstallations, useUserData, useBills, useCharts, useFilterYear, useListMouths, useAlertAccount} from '@/store';
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { useEffect, useRef, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation';
-import { useInstallations } from '@/store/installations';
-import { useUserData } from '@/store/userData';
-import { useBills } from '@/store/bills';
-import { useCharts } from '@/store/charts';
-import { useToggleNav } from '@/store/toggleNav';
+import { useRouter } from 'next/navigation';
 import { destroyCookie } from 'nookies';
 import { api } from '@/utils';
 import { IconLogout } from '@/svg';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { useFilterYear } from '@/store/filterYear';
 
 type User = {
     name: string,
@@ -22,17 +17,17 @@ type User = {
 }
  
 export const Header = ({myUser, myInstallations, myBills, myCharts, references, currentYear}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any, references:any, currentYear:any}) => {
-    const { installation } = useParams()
     const { push } = useRouter()
     const responsive = useMediaQuery(769)
-    const { setToggleNav, toggleNav } = useToggleNav()
-    const { user, setUser } = useUserData()
+    const { setUser } = useUserData()
     const { installations, setInstallations } = useInstallations()
     const { setCharts } = useCharts()
     const { setBills } = useBills()
     const { setYear } = useFilterYear()
     const [ listInstallations, setListInstallations ] = useState<Array<any>>([])
     const menu = useRef<any>(null)
+    const { listMonths } = useListMouths()
+    const { alertAccount, setAlertAccount } = useAlertAccount()
     /* const items:MenuItem[] = [
         {
             label: user?.name,
@@ -55,6 +50,14 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     ]; */
     const items:MenuItem[] = listInstallations;
     useEffect(() => { 
+        listMonths?.filter((item:any) => { 
+            if(myBills[item.month]) {
+                myBills[item.month].payment_status != 'Pago'
+                if(alertAccount == false) {
+                    setAlertAccount(true)
+                }
+            }
+        })
         setInstallations(myInstallations) 
         setUser(myUser)
         setBills(myBills)
@@ -66,9 +69,6 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         })
     },[myInstallations, myUser, myBills, myCharts, references])
 
-    useEffect(() => {
-        console.log(listInstallations)
-    },[listInstallations])
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {
             return {
@@ -93,7 +93,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             <button className='btn clean'  onClick={(e:any) => menu?.current.toggle(e)}>
                 {/* <Avatar className="p-overlay-badge" image={user?.profile_photo_url} size="large" shape="circle"></Avatar> */}
                 <p>
-                    <strong>Minhas Instalação</strong>
+                    <strong>Minhas Instalações</strong>
                 </p>
                 <i className="pi pi-angle-down" style={{ fontSize: '1rem' }}></i>
             </button>

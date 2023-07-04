@@ -68,12 +68,27 @@
             border-color: var(--primary-color);
             color: var(--color-fourth);
             padding: calc(var(--padding) / 2) calc(var(--padding) * 2);
-            
+            margin: 0 1%;
             &:not(:disabled) {
                 &:hover{
                     border-color: var(--primary-color);
                     color: var(--color-fourth);
                     background-color: var(--primary-color);
+                    color: var(--color-white);
+                } 
+            }
+        }
+        &.isDelayAccount {
+            border: 0;
+            border-bottom: 2px solid;
+            border-color: var(--color-error);
+            color: var(--color-error);
+            padding: calc(var(--padding) / 2) calc(var(--padding) * 2);
+            
+            &:not(:disabled) {
+                &:hover{
+                    border-color: var(--color-error);
+                    background-color: var(--color-error);
                     color: var(--color-white);
                 } 
             }
