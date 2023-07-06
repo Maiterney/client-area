@@ -3,10 +3,12 @@ import { Header } from "@/components/Header"
 import { Sidebar } from "@/components/Sidebar"
 import { api } from "@/utils"
 import { cookies } from "next/dist/client/components/headers"
+import { redirect } from "next/navigation"
 
 export default async function AdminLayout({ children, params }: { children: React.ReactNode, params:{installation:string} }) {
   const cookie = cookies()
   const token = cookie.get('nextAuth.token')?.value
+  const previousRedirect = cookie.has('previous')
   let date = new Date();
   let currentMonth = date.getMonth() 
   let currentYear = date.getFullYear()
@@ -46,13 +48,16 @@ export default async function AdminLayout({ children, params }: { children: Reac
     console.log(err); return [] 
   })
 
-  const data = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { return res.data.data }).catch(err => { console.log(err); return [] })
+  const data = await api.get(`/user/bills?installation=${params.installation}&year=${currentYear}`).then(res => { 
+    console.log(res.data)
+    return res.data.data 
+  }).catch(err => { console.log(err); return [] })
 
   return (
     <main className="main mainDashboard">
       <Sidebar />
       <div className="contentDashboard">
-        <Header myUser={user} myInstallations={installations} myBills={data.bills} myCharts={data.charts} references={data?.extras?.references} currentYear={currentYear}/>
+        <Header myUser={user} myInstallations={installations} myBills={data.bills} myCharts={data.charts} references={data?.extras?.references} currentYear={currentYear} currentInstallation={params.installation} previousRedirect={previousRedirect}/>
         {children}
         <AccountTrade />
       </div>

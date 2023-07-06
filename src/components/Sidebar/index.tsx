@@ -58,10 +58,8 @@ export const Sidebar = () => {
     }
 
     const setPreviousPage = (myPath:string) => {
-        console.log(path)
         Cookies.set('previous', myPath, {domain: `${process.env.NEXT_PUBLIC_DOMAIN}` , path: '/'})
         Cookies.set('type', 'client', {domain: `${process.env.NEXT_PUBLIC_DOMAIN}`, path: '/'})
-        // setCookie(null, 'previous', path, {domain: 'localhost', path: '/'})
     }
 
     return (

@@ -1,6 +1,6 @@
 'use client'
 import styles from './styles.module.scss'
-import { useInstallations, useUserData, useBills, useCharts, useFilterYear, useListMouths, useAlertAccount} from '@/store';
+import { useInstallations, useUserData, useBills, useCharts, useFilterYear, useListMouths, useAlertAccount, useLoaderPage} from '@/store';
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
@@ -16,8 +16,9 @@ type User = {
     profile_photo_url: string
 }
  
-export const Header = ({myUser, myInstallations, myBills, myCharts, references, currentYear}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any, references:any, currentYear:any}) => {
+export const Header = ({myUser, myInstallations, myBills, myCharts, references, currentYear, currentInstallation, previousRedirect}:{myUser: User | any, myInstallations:any, myBills:any, myCharts:any, references:any, currentYear:any, currentInstallation:any, previousRedirect:any}) => {
     const { push } = useRouter()
+    const { setLoaderPage } = useLoaderPage()
     const responsive = useMediaQuery(769)
     const { setUser } = useUserData()
     const { installations, setInstallations } = useInstallations()
@@ -49,6 +50,17 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         },
     ]; */
     const items:MenuItem[] = listInstallations;
+
+    useEffect(() => {
+        if(previousRedirect) {
+            listInstallations.filter((inst:any) => {
+                if(inst.label != currentInstallation) {
+                    setLoaderPage(true)
+                    push('/')
+                }
+            })
+        }
+    },[listInstallations])
     useEffect(() => { 
         listMonths?.filter((item:any) => { 
             if(myBills[item.month]) {
@@ -67,7 +79,8 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             yearOptions: references,
             loading: false
         })
-    },[myInstallations, myUser, myBills, myCharts, references])
+        
+    },[myInstallations, myUser, myBills, myCharts, references, currentInstallation])
 
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {

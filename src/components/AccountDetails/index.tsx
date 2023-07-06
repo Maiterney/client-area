@@ -69,9 +69,9 @@ export const AccountDetails = ({data, item}:any) => {
                             Fatura não gerada
                         </button>
                     }
-                    {data.payment_status == 'Vencido' && 
+                    {/* {data.payment_status == 'Vencido' && 
                         <button className={`btn outline isDelayAccount`} onClick={() => sendTrade(data.id)}>Negociar</button>
-                    }
+                    } */}
                     
                 </div>
             </div>

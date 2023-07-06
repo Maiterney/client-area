@@ -74,9 +74,9 @@ export const Account = ({ accountData }: { accountData: any }) => {
                                     Fatura não gerada
                                 </button>
                             }
-                            {accountData.payment_status == 'Vencido' && 
+                            {/* {accountData.payment_status == 'Vencido' && 
                                 <button className={`btn outline isDelayAccount`} onClick={() => sendTrade(accountData.id)}>Negociar</button>
-                            }
+                            } */}
                         </div>
                     </div>
                     <div className={styles.economyDetails}>
