@@ -1,12 +1,13 @@
 'use client'
 import Link from 'next/link'
 import { useRouter, usePathname, useParams } from 'next/navigation'
-import { destroyCookie } from 'nookies'
+import { destroyCookie, setCookie } from 'nookies'
 import { api } from '@/utils'
 import styles from './styles.module.scss'
 import { useToggleNav } from '@/store/toggleNav'
 import { IconAccounts, IconHistoric, IconHome, IconLogout, LogoWhite } from '@/svg'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import Cookies from 'js-cookie'
  
 export const Sidebar = () => {
     const { toggleNav } = useToggleNav()
@@ -37,10 +38,10 @@ export const Sidebar = () => {
     ]
     const logout = async () => {
         await api.put('/authenticate/logout').finally(() => { 
-                destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
+            Cookies.remove('nextAuth.token')
+            Cookies.remove('nextAuth.email')
+            Cookies.remove('nextAuth.expire_token')
+            Cookies.remove('nextAuth.refresh')
         })
         push(`${process.env.NEXT_PUBLIC_URL_LOGIN}`)
     }
@@ -56,6 +57,13 @@ export const Sidebar = () => {
         return (<></>) 
     }
 
+    const setPreviousPage = (myPath:string) => {
+        console.log(path)
+        Cookies.set('previous', myPath, {domain: `${process.env.NEXT_PUBLIC_DOMAIN}` , path: '/'})
+        Cookies.set('type', 'client', {domain: `${process.env.NEXT_PUBLIC_DOMAIN}`, path: '/'})
+        // setCookie(null, 'previous', path, {domain: 'localhost', path: '/'})
+    }
+
     return (
         <div className={`${styles.sidebar} ${toggleNav ?  styles.active : '' } ${responsive ?  styles.mobile : '' }`}>
             <div className={styles.sidebarLogo}>
@@ -64,14 +72,14 @@ export const Sidebar = () => {
             <ul>
                 {menu.map(item => {
                     return (
-                        <li key={item.id} className={path == `${item?.path}` ? styles.activeNav : ''}><Link href={item.path}><Icon name={item.icon}/><span>{item.slug}</span></Link></li>
+                        <li key={item.id} className={path == `${item?.path}` ? styles.activeNav : ''}><Link href={item.path} onClick={() => setPreviousPage(item?.path)}><Icon name={item.icon}/><span>{item.slug}</span></Link></li>
                     )
                 })}
             </ul>
             {!responsive &&  
                 <div className={styles.logout}>
                     <ul>
-                        <li><Link href={'#'} onClick={logout}><IconLogout /> <span>Logout</span></Link></li>
+                        <li><button className={`${styles.navLink}`} onClick={logout}><IconLogout /> <span>Logout</span></button></li>
                     </ul>
                 </div>
             }

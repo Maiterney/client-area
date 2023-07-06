@@ -1,8 +1,8 @@
 'use client'
 import { api } from '@/utils'
-import styles from './styles.module.scss'
 import { useRouter } from "next/navigation"
- 
+import { LoaderPage } from '../LoaderPage'
+
 export const InitPage = ({token}:any) => {
     const { back, push } = useRouter()
     api.defaults.headers['Authorization'] = `Bearer ${token}`
@@ -13,5 +13,5 @@ export const InitPage = ({token}:any) => {
         console.log(err); 
         back()
     })
-    return <></>
+    return <LoaderPage><></></LoaderPage>
 }

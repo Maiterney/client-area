@@ -39,7 +39,7 @@
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
             // transition: .3s ease-in-out;
-            a {
+            a, .navLink {
                 display: flex;
                 align-items: center;
                 color: var(--color-white);
@@ -88,7 +88,7 @@
             &.activeNav, &:hover {
                 background-color: var(--bg-dash);
                 width: 100%;
-                a {
+                a, .navLink {
                     color: var(--color-primary);
                     span {
                         color: var(--color-primary);
@@ -107,13 +107,19 @@
     }
     .logout {
         width: 100%;
+        button {
+            background-color: transparent;
+            border: 0;
+            width: 100%;
+            cursor: pointer;
+        }
     }
     &.active {
         width: 260px;
         min-width: 260px;
         align-items: flex-start;
         li {
-            a {
+            a, .navLink {
                 justify-content: flex-start;
                 span {
                     padding-left: var(--padding);
