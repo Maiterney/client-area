@@ -60,8 +60,9 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
                 }
             })
         }
-    },[listInstallations])
+    },[listInstallations, setLoaderPage, previousRedirect, currentInstallation, push])
     useEffect(() => { 
+        if(!myBills) return
         listMonths?.filter((item:any) => { 
             if(myBills[item.month]) {
                 myBills[item.month].payment_status != 'Pago'
@@ -79,7 +80,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             yearOptions: references,
             loading: false
         })
-        
+        console.log(myBills)
     },[myInstallations, myUser, myBills, myCharts, references, currentInstallation])
 
     useEffect(() => {

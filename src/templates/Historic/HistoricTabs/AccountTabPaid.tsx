@@ -136,7 +136,7 @@ export const AccountTabPaid = () => {
                             )
                         }
 
-                        if (bills[item.month] && bills[item.month].payment_status == 'Pago') {
+                        if (bills[item.month] && bills[item.month].payment_status == 'Pago' && bills[item.month].payment_status != 'Arquivado') {
                             if(notAccount) {
                                 setNotAccount(false)
                             }

@@ -1,0 +1,97 @@
+.formGroup {
+    display: flex;
+    margin-bottom: calc(var(--margin) / 1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    max-width: 100%;
+    label {
+        font-size: 14px;
+        position: absolute;
+        left: 1em;
+        z-index: -1;
+        transition: all .3s ease-in-out;
+        top: 15px;
+        opacity: .5;
+        &.offLabel {
+            color: transparent;
+        }
+    }
+    input,select {
+        width: 100%;
+        padding: 0 var(--padding);
+        border: 0;
+        border-bottom: 2px solid rgba(108, 108, 108, 0.489);
+        margin-top: calc(var(--margin) / 3);
+        background-color: transparent;
+        color: var(--color-black);
+        height: 40px;
+
+        &:focus, &.labelActive {
+            outline: none;
+
+            &~label {
+                color: var(--color-second);
+                top: -5px;
+                z-index: 1;
+                left: 0;
+                opacity: 1;
+                &.offLabel {
+                    color: transparent;
+                }
+            }
+
+            &~.focusBorder {
+                width: 100%;
+            }
+        }
+    }
+    textArea {
+        width: 100%;
+        max-width: 100%;
+        min-width: 50%;
+        padding: calc(var(--padding) * 2) var(--padding);
+        border: 0;
+        border-bottom: 2px solid rgba(108, 108, 108, 0.489);
+        margin-top: calc(var(--margin) / 3);
+        background-color: transparent;
+        color: var(--color-black);
+        max-height: 200px;
+        &:focus, &.labelActive {
+            outline: none;
+
+            &~label {
+                color: var(--color-second);
+                top: -5px;
+                z-index: 1;
+                left: 0;
+                opacity: 1;
+                &.offLabel {
+                    color: transparent;
+                }
+            }
+
+            &~.focusBorder {
+                width: 100%;
+            }
+        }
+    }
+    .errorMessage {
+        position: absolute;
+        font-size: 14px;
+        right: 5px;
+        bottom: 5px;
+        color: var(--color-error);
+    }
+}
+
+.formRow {
+    display: flex;
+    flex: 1;
+    margin-bottom: calc(var(--margin) * 1.5);
+    .formGroup {
+        margin: 0 .5%;
+        flex: 1;
+    }
+}

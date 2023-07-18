@@ -22,7 +22,7 @@ export const ListAccounts = ({currentMonth}:any) => {
     const responsive = useMediaQuery(769)
     const toast = useRef<Toast>(null);
 
-    useEffect(() => { setLoaderPage(true) }, [])
+    useEffect(() => { setLoaderPage(true) }, [setLoaderPage])
 
     useEffect(() => {
         if(!bills) return
@@ -30,11 +30,6 @@ export const ListAccounts = ({currentMonth}:any) => {
         setLoaderPage(false)
         setTabNumber(Number(currentMonth))
     },[currentMonth, bills])
-
-    const setTab = (id:any) => {
-        console.log(id)
-    }
-
 
     return (
         <LoaderPage>
@@ -50,7 +45,7 @@ export const ListAccounts = ({currentMonth}:any) => {
                     <TabView scrollable={responsive} activeIndex={tabNumberIndex} onTabChange={(e) => setTabNumber(e.index)} className='tabView' style={{width: '100%'}}>
                         {bills ? 
                             listMonths.map((item:any) => {
-                                if(bills[item.month]) {
+                                if(bills[item.month] && bills[item.month].payment_status != 'Arquivado') {
                                     return (
                                         <TabPanel header={item.label} key={item.label}>
                                             <AccountDetails data={bills[item.month]} item={item}/> 

@@ -10,6 +10,8 @@ import { LoaderPage } from '@/components/LoaderPage';
 import { useLoaderPage } from '@/store/loaderPage';
 import { useBills } from '@/store/bills';
 import { AlertAccount } from '@/components/AlertAccount';
+import { useFilterYear } from '@/store';
+import moment from 'moment';
 
 export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMonth: any }) => {
     const { installation } = useParams()
@@ -17,6 +19,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
     const { bills } = useBills()
     const [alertAccountToggle, setAlertAccountToggle] = useState(false)
     const { setLoaderPage } = useLoaderPage()
+    const { yearController } = useFilterYear()
 
     useEffect(() => {
         setLoaderPage(true)
@@ -43,19 +46,18 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                         {bills.length != 0 ? 
                             <Accordion className={`accordion ${styles.accordion}`}>
                                 {listMonths.map((item: any) => {
-                                    if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
+                                    if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month] && bills[item.month].payment_status != 'Arquivado') {
                                         const data = bills[item.month]
-                                        let date = new Date(data.generation_month.reference)
-                                        let year = date.getFullYear()
-                                        let month = Number(data.toLocaleString('default', { month: 'numeric' }))
                                         let value = Number(data.value)
+                                        let referenceDate = moment(data.generation_month.reference, 'DD/MM/YYYY')
+                                        let referenceYear = referenceDate.year();
                                         return (
                                             <AccordionTab 
                                                 key={`${item.label}`} 
                                                 header={
                                                     <div className={styles.title}>
                                                         <div className={styles.text}>
-                                                            <span className={styles.data}>{item.label} {year}</span>
+                                                            <span className={styles.data}>{item.label} {referenceYear}</span>
                                                             <span className={styles.value}>R$ {value.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</span>
                                                         </div>
                                                         {data.payment_status == 'Aberto' && <span className={`${styles.status} statusText isOpen`}>{data.payment_status}</span>}
@@ -66,13 +68,14 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                                     </div>
                                                 }>
                                                 <div className={styles.buttonsAccordion}>
+                                                    
                                                     {data.payment_status == 'Pago'
                                                         ?
-                                                        <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn outline primary">
+                                                        <Link href={`/${installation}/accounts/${referenceYear}/${item.month}`} className="btn outline primary">
                                                             Mais detalhes
                                                         </Link>
                                                         :
-                                                        <Link href={`/${installation}/accounts/${year}/${item.month}`} className="btn default primary">
+                                                        <Link href={`/${installation}/accounts/${referenceYear}/${item.month}`} className="btn default primary">
                                                             Pagar conta
                                                         </Link>
                                                     }
@@ -96,10 +99,10 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                 listMonths.map((item: any) => {
                                     if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
                                         const data = bills[item.month]
-                                        let date = new Date(data.generation_month.reference)
-                                        let year = date.getFullYear()
+                                        let referenceDate = moment(data.generation_month.reference, 'DD/MM/YYYY')
+                                        let referenceYear = referenceDate.year();
                                         return (
-                                            <li key={item.month}><span>{item.label} {year}</span> <span>{data.injected_energy.toLocaleString('pt-br')} kwh</span></li>
+                                            <li key={item.month}><span>{item.label} {referenceYear}</span> <span>{data.injected_energy.toLocaleString('pt-br')} kwh</span></li>
                                         )
                                     } else {
                                         return null

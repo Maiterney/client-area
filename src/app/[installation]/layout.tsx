@@ -42,7 +42,6 @@ export default async function AdminLayout({ children, params }: { children: Reac
     return [] 
   })
   const installations = await api.get('/user/installations').then(res => { 
-    // getBills(res.data.installations.results[0].number)
     return res.data.installations.results 
   }).catch(err => { 
     console.log(err); return [] 

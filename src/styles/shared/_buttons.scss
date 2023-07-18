@@ -155,4 +155,13 @@
     &:disabled {
         cursor: not-allowed;
     }
+    &.disabledButton {
+        cursor: not-allowed;
+        background-color: gray;
+        border-color: gray;
+        padding: calc(var(--padding) / 1.4) calc(var(--padding) * 2.2);
+        &:hover {
+            background-color: gray !important;
+        }
+    }
 }

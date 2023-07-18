@@ -5,7 +5,7 @@ import { destroyCookie, setCookie } from 'nookies'
 import { api } from '@/utils'
 import styles from './styles.module.scss'
 import { useToggleNav } from '@/store/toggleNav'
-import { IconAccounts, IconHistoric, IconHome, IconLogout, LogoWhite } from '@/svg'
+import { IconAccounts, IconContactUs, IconHistoric, IconHome, IconLogout, LogoWhite } from '@/svg'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import Cookies from 'js-cookie'
  
@@ -34,7 +34,13 @@ export const Sidebar = () => {
             icon: 'historic',
             path: `/${installation}/historic`,
             slug: 'Histórico', 
-        }
+        },
+        // {
+        //     id: 4,
+        //     icon: 'contactUs',
+        //     path: `/${installation}/contact-us`,
+        //     slug: 'Fale conosco', 
+        // }
     ]
     const logout = async () => {
         await api.put('/authenticate/logout').finally(() => { 
@@ -53,6 +59,8 @@ export const Sidebar = () => {
                 return <IconAccounts />
             case 'historic' : 
                 return <IconHistoric />
+            case 'contactUs' : 
+                return <IconContactUs />
         }
         return (<></>) 
     }

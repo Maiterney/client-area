@@ -151,7 +151,7 @@ export const AccountTabTotal = () => {
                             )
                         }
     
-                        if (bills[item.month]) {
+                        if (bills[item.month] && bills[item.month].payment_status != 'Arquivado') {
                             return <AccountItem data={bills[item.month]} item={item} key={item.month}/>
                         } else {
                             return (

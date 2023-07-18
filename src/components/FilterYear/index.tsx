@@ -24,6 +24,7 @@ export const FilterYear = () => {
         await api.get(`/user/bills?installation=${installation}&year=${data.filterYear}`).then(res => { 
             setBills(res.data.data.bills) 
             setCharts(res.data.data.charts)
+            console.log(res.data.data.bills)
         }).catch(err => { 
             console.log(err); 
             setBills([]) 
