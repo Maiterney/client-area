@@ -23,13 +23,13 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
 
     useEffect(() => {
         setLoaderPage(true)
-    },[])
+    },[setLoaderPage])
 
 
     useEffect(() => {
         if(!bills) return
         setLoaderPage(false)
-    },[bills])
+    },[bills, setLoaderPage])
 
 
     return (
@@ -49,7 +49,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                     if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month] && bills[item.month].payment_status != 'Arquivado') {
                                         const data = bills[item.month]
                                         let value = Number(data.value)
-                                        let referenceDate = moment(data.generation_month.reference, 'DD/MM/YYYY')
+                                        let referenceDate = moment(data.generation_month.reference, 'YYYY/MM/DD')
                                         let referenceYear = referenceDate.year();
                                         return (
                                             <AccordionTab 
@@ -99,7 +99,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                 listMonths.map((item: any) => {
                                     if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month]) {
                                         const data = bills[item.month]
-                                        let referenceDate = moment(data.generation_month.reference, 'DD/MM/YYYY')
+                                        let referenceDate = moment(data.generation_month.reference, 'YYYY/MM/DD')
                                         let referenceYear = referenceDate.year();
                                         return (
                                             <li key={item.month}><span>{item.label} {referenceYear}</span> <span>{data.injected_energy.toLocaleString('pt-br')} kwh</span></li>

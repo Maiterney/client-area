@@ -1,0 +1,15 @@
+.contactUs {
+    margin: calc(var(--margin) * 2);
+    padding: calc(var(--padding) * 2);
+    background-color: var(--color-white);
+    border-radius: 10px;
+    .title {
+        display: flex;
+        align-items: center;
+        padding-bottom: calc(var(--padding) * 1.5);
+        h3 {
+            margin: 0;
+            padding-right: calc(var(--padding) / 2);
+        }
+    }
+}

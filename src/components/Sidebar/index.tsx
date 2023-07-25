@@ -35,12 +35,12 @@ export const Sidebar = () => {
             path: `/${installation}/historic`,
             slug: 'Histórico', 
         },
-        // {
-        //     id: 4,
-        //     icon: 'contactUs',
-        //     path: `/${installation}/contact-us`,
-        //     slug: 'Fale conosco', 
-        // }
+        {
+            id: 4,
+            icon: 'contactUs',
+            path: `/${installation}/support`,
+            slug: 'Suporte', 
+        }
     ]
     const logout = async () => {
         await api.put('/authenticate/logout').finally(() => { 

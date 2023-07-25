@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import { setCookie } from 'nookies'
 
 
-const kumbh = Kumbh_Sans({ subsets: ['latin'] })
+const kumbh = Kumbh_Sans({ subsets: ['latin'], weight: ['100', '300', '500', '700', '900'] })
 
 export const metadata = {
   title: 'Portal Woltz',

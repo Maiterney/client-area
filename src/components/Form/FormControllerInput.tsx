@@ -8,10 +8,11 @@ interface FormControllerInputProps{
     control: Control,
     type: string,
     label?: string,
-    errorMessage?: string | any
+    errorMessage?: string | any,
+    limit?: any
 }
  
-export function FormControllerInput ({ name, defaultValue = '', required = false, control, type, label, errorMessage }:FormControllerInputProps) {
+export function FormControllerInput ({ name, defaultValue = '', required = false, control, type, label, errorMessage, limit = '' }:FormControllerInputProps) {
     return (
         <Controller
             name={name}
@@ -20,7 +21,7 @@ export function FormControllerInput ({ name, defaultValue = '', required = false
             rules={{ required: required }}
             render={({ field, fieldState }) => (
                 <div className={styles.formGroup}>
-                    <input type={type} {...field} className={field.value && styles.labelActive}/> 
+                    <input type={type} {...field} className={field.value && styles.labelActive} maxLength={limit}/> 
                     {label && <label htmlFor={field.name}>{label}</label>}
                     {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>} 
                 </div>

@@ -5,6 +5,6 @@ interface FormRootProps extends FormHTMLAttributes<HTMLFormElement> {}
  
 export const FormRoot = ({ ...rest }:FormRootProps) => {
     return (
-        <form {...rest}></form>
+        <form {...rest} className={styles.form}></form>
     )
 }
