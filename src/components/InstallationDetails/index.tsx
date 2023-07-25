@@ -13,7 +13,7 @@ export const InstallationDetail = () => {
 
     return (
         <div className={styles.textArea}>
-            <h2>{user?.name}</h2>
+            <h2>{user?.user.name}</h2>
             <span><strong>Instalação N°:</strong> {installationData[0]?.number}</span>
             <span><strong>Endereço:</strong> {installationData[0]?.address}, N°{installationData[0]?.address_number} - {installationData[0]?.district} - {installationData[0]?.state}</span>
         </div>
