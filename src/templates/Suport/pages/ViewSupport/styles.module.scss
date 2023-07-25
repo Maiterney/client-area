@@ -73,6 +73,7 @@
             padding: var(--padding);
             li {
                 display: flex;
+                margin-bottom: calc(var(--margin) / 2);
                 .text {
                     max-width: 40%;
                     background-color: rgba(128, 128, 128, .2);
