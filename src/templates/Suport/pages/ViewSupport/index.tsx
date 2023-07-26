@@ -11,6 +11,7 @@ import { LoaderPage } from '@/components/LoaderPage'
 import { useLoaderPage, useUserData } from '@/store'
 import { useParams } from 'next/navigation'
 import { ProgressSpinner } from 'primereact/progressspinner'
+import 'moment/locale/pt-br'
 
 interface DataProps {
     title: string,
@@ -96,14 +97,12 @@ export const ViewSupport = () => {
 
 
     const sendNewMessage = (data:any) => {
-        console.log(data);
 
         let formData:any = isData?.content_data;
 
-        console.log(user)
 
         formData.transition.push({
-            "created_at": moment().utcOffset("-03:00").format('YYYY-MM-DD HH:mm:ss'),
+            "created_at": moment.utc(),
             "type": "response",
             "user": {
                 "id": user?.user.id,
@@ -112,7 +111,6 @@ export const ViewSupport = () => {
             "message": data.message
         })
 
-        console.log(formData);
 
         
         api.put(`/user/contact-us/${id}`, formData).then(res => {
@@ -135,19 +133,19 @@ export const ViewSupport = () => {
                         <div className={styles.icon}>
                             <IconMessage />
                         </div>
-                        <p>{isData?.protocol}</p>
+                        <p>{isData?.protocol} | Criado em: {dateTime}</p>
                         <div className={styles.status}>
                             {isData?.status == 'pending' && <span className={`${styles.status} ${styles.open}`}>Aberto</span>}
                             {isData?.status == 'done' && <span className={`${styles.status} ${styles.finality}`}>Finalizado</span>}
                         </div>
                     </div>
-                    <p className={styles.title}>{isMessages?.subject} | {dateTime}</p>
+                    <p className={styles.title}>Assunto: {isMessages?.subject} </p>
                 </div>
                 <div className={styles.chat}>
                     <ul className={styles.chatList}>
                         {isData?.content_data?.transition && isData?.content_data?.transition.length >= 1 ?
                             isMessages?.transition.map((item:TransitionProps) => {
-                                const time = moment(item.created_at, "YYYYMMDD").locale('pt-BR').fromNow();
+                                const time = moment.utc(item.created_at).locale('pt-BR').fromNow();
                                 return (
                                     <li className={`${item.type == 'request' ? styles.client : styles.attendant}`} key={item.created_at}>
                                         <div className={styles.text}>

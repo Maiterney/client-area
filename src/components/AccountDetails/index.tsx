@@ -15,7 +15,7 @@ export const AccountDetails = ({data, item}:any) => {
     let days = dateNow.diff(dueDateAccount, 'days');
 
     const sendTrade = (id:any) => {
-        console.log(id)
+        // console.log(id)
     }
 
     return (

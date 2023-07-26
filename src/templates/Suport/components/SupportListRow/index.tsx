@@ -2,6 +2,7 @@ import { IconMessage } from '@/svg'
 import styles from './styles.module.scss'
 import Link from 'next/link'
 import moment from 'moment'
+import 'moment/locale/pt-br'
 
 interface SupportRowListProps {
     title: string,
@@ -12,7 +13,7 @@ interface SupportRowListProps {
 }
  
 export const SupportListRow = ({ title, status, protocol, link = '#', date }:SupportRowListProps) => {
-    const time = moment(date, "YYYYMMDD").fromNow();
+    const time = moment.utc(date).locale('pt-BR').fromNow();
     return (
         <div className={styles.rowList}>
             <div className={styles.icon}>

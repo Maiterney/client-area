@@ -37,7 +37,7 @@ export const SupportContainer = () => {
     useEffect(() => {
         setLoaderPage(true)
         api.get('/user/contact-us').then(res => { 
-            console.log(res.data.data)
+            // console.log(res.data.data)
             setIsList(res.data.data);
         }).catch(err => {
             console.log(err); 
@@ -53,7 +53,6 @@ export const SupportContainer = () => {
         
         setIsDone(listDone);
         setLoaderPage(false)
-        console.log('list',isList)
     },[setLoaderPage, isList])
 
     return (

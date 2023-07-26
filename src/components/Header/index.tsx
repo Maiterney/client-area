@@ -80,7 +80,6 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             yearOptions: references,
             loading: false
         })
-        console.log(myUser)
     },[myInstallations, myUser, myBills, myCharts, references, currentInstallation])
 
     useEffect(() => {
