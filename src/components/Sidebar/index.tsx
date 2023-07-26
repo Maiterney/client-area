@@ -39,7 +39,7 @@ export const Sidebar = () => {
             id: 4,
             icon: 'contactUs',
             path: `/${installation}/support`,
-            slug: 'Suporte', 
+            slug: 'Fale conosco', 
         }
     ]
     const logout = async () => {
