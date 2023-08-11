@@ -65,10 +65,13 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         if(!myBills) return
         listMonths?.filter((item:any) => { 
             if(myBills[item.month]) {
-                myBills[item.month].payment_status != 'Pago'
-                if(alertAccount == false) {
-                    setAlertAccount(true)
+                console.log(myBills[item.month].payment_status != 'Pago')
+                if(myBills[item.month].payment_status != 'Pago' && myBills[item.month].payment_status != 'Arquivado') {
+                    if(alertAccount == false) {
+                        setAlertAccount(true)
+                    }
                 }
+                
             }
         })
         setInstallations(myInstallations) 

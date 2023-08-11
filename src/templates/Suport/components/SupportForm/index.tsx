@@ -6,10 +6,22 @@ import { useRef, useState } from 'react'
 import { api } from '@/utils'
 import styles from './styles.module.scss';
 import { useParams, useRouter } from 'next/navigation'
+import moment from 'moment'
+
+interface TransitionProps {
+    created_at: any,
+    type: string,
+    user: {
+        id: number,
+        name: string
+    },
+    message:string
+}
 
 interface FormInputs {
     subject?: string,
-    message?: string
+    description?: string,
+    transition?: Array<TransitionProps>
 }
 
 interface ShowToastProps {
@@ -63,10 +75,22 @@ export const SupportForm = () => {
             </div>
             <MyForm.Root onSubmit={handleSubmit(sendForm)}>
                 <MyForm.Row>
-                    <MyForm.InputController name={'subject'} label='Assunto' type='text' control={control} required='Assunto e obrigatória' errorMessage={errors.subject && errors.subject.message} limit={80}/>
+                    <MyForm.InputController name={'subject'} label='Assunto' type='text' control={control} required='Campo obrigatório' errorMessage={errors.subject && errors.subject.message} limit={80}/>
+                    <MyForm.SelectController 
+                        name={'type'} 
+                        control={control} 
+                        required='Campo obrigatório' 
+                        errorMessage={errors.subject && errors.subject.message}
+                        label='Motivo do chamado'
+                        options={[
+                            {key: 'Dúvidas sobre faturas', value: 'Dúvidas sobre faturas'},
+                            {key: 'Dúvidas sobre desligamento', value: 'Dúvidas sobre desligamento'},
+                            {key: 'Outros assuntos', value: 'Outros assuntos'}
+                        ]}
+                    />
                 </MyForm.Row>
                 <MyForm.Row>
-                    <MyForm.TextAreaController name={'description'} label='Mensagem' control={control} required='Mensagem e obrigatória' errorMessage={errors.message && errors.message.message}/>
+                    <MyForm.TextAreaController name={'description'} label='Mensagem' control={control} required='Campo obrigatório' errorMessage={errors.description && errors.description.message}/>
                 </MyForm.Row>
                 <MyForm.SubmitButton loading={loaderButton} />
             </MyForm.Root>

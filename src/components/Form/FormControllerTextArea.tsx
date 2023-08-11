@@ -27,7 +27,7 @@ export function FormControllerTextArea ({ name, defaultValue = '', required = fa
                 }
                 return (
                     <div className={styles.formGroup} style={{width: '98%'}}>
-                        <textarea cols={30} rows={10} maxLength={5000} onChange={(e:any) => setValue(e.target.value)}  className={field.value && styles.labelActive}></textarea>
+                        <textarea cols={30} rows={10} maxLength={5000} onChange={(e:any) => setValue(e.target.value)} className={`${field.value && styles.labelActive} ${fieldState.error && styles.borderError}`}></textarea>
                         {label && <label htmlFor={field.name}>{label}</label>}
                         {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>} 
                         <p className={styles.charactersQuantity}>{charactersQuantity} / <span>5000</span></p>

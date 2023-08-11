@@ -30,7 +30,7 @@
 
         &:focus, &.labelActive {
             outline: none;
-
+            color: var(--color-black);
             &~label {
                 color: var(--color-second);
                 top: -7px;
@@ -48,6 +48,10 @@
                 width: 100%;
             }
         }
+    }
+    select {
+        color: transparent;
+
     }
     textArea {
         width: 100%;
@@ -85,9 +89,10 @@
     .errorMessage {
         position: absolute;
         font-size: 14px;
-        right: 5px;
+        right: 25px;
         bottom: 5px;
         color: var(--color-error);
+        z-index: -1;
     }
     .charactersQuantity {
         position: absolute;
@@ -98,6 +103,9 @@
         span {
             font-weight: 500;
         }
+    }
+    .borderError {
+        border-color: red;
     }
 }
 

@@ -1,18 +1,22 @@
 import { Controller, Control, FieldError } from 'react-hook-form'
 import styles from './styles.module.scss'
 
-interface FormControllerInputProps{
+interface OptionsProps {
+    key: string,
+    value: string
+}
+
+interface FormControllerSelectProps{
     name: any,
     defaultValue?: string
     required?: boolean | string,
     control: Control,
-    type: string,
     label?: string,
     errorMessage?: string | any,
-    limit?: any
+    options?: Array<OptionsProps>
 }
  
-export function FormControllerInput ({ name, defaultValue = '', required = false, control, type, label, errorMessage, limit = '' }:FormControllerInputProps) {
+export function FormControllerSelect ({ name, defaultValue = '', required = false, control, label, errorMessage, options }:FormControllerSelectProps) {
     return (
         <Controller
             name={name}
@@ -21,7 +25,14 @@ export function FormControllerInput ({ name, defaultValue = '', required = false
             rules={{ required: required }}
             render={({ field, fieldState }) => (
                 <div className={styles.formGroup}>
-                    <input type={type} {...field} className={`${field.value && styles.labelActive} ${fieldState.error && styles.borderError}`} maxLength={limit}/> 
+                    <select {...field} className={`${field.value && styles.labelActive} ${fieldState.error && styles.borderError}`}>
+                        <option value="">Selecione uma opção</option>
+                        {options?.map(opt => {
+                            return (
+                                <option value={opt.value} key={opt.value}>{opt.key}</option>
+                            )
+                        })}
+                    </select> 
                     {label && <label htmlFor={field.name}>{label}</label>}
                     {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>} 
                 </div>

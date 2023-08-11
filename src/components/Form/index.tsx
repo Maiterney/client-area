@@ -3,6 +3,7 @@ import { FormRow } from "./FormRow";
 import { FormControllerTextArea } from "./FormControllerTextArea";
 import { FormSubmitButton } from "./FormSubmitButton";
 import { FormRoot } from "./FormRoot";
+import { FormControllerSelect } from "./FormControllerSelect";
 
 
 export const MyForm = {
@@ -11,4 +12,5 @@ export const MyForm = {
     SubmitButton: FormSubmitButton,
     InputController: FormControllerInput,
     TextAreaController: FormControllerTextArea,
+    SelectController: FormControllerSelect,
 }

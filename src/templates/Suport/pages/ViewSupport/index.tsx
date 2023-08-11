@@ -97,7 +97,7 @@ export const ViewSupport = () => {
 
 
     const sendNewMessage = (data:any) => {
-
+        setIsLoader(true)
         let formData:any = isData?.content_data;
 
 
