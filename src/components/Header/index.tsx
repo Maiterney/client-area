@@ -36,8 +36,11 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         if(previousRedirect) {
             setLoaderPage(true)
             listInstallations.filter((inst:any) => {
-                if(inst.label == currentInstallation) return;
-
+                if(inst.label == currentInstallation) {
+                    setLoaderPage(false)
+                    return;
+                };
+                console.log('aqui')
                 Cookies.remove('previous')
                 Cookies.remove('type')
                 push('/')
