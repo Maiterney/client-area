@@ -19,16 +19,12 @@ export const Account = ({ accountData }: { accountData: any }) => {
     let dateNow = moment()
     let dueDateAccount = moment(accountData.due_date)
     let days = dateNow.diff(dueDateAccount, 'days');
-    useEffect(() => { setLoaderPage(true) }, [])
+    useEffect(() => { setLoaderPage(true) }, [setLoaderPage])
     useEffect(() => {
         if(!accountData) return
         setLoaderPage(false)
         // console.log(accountData) 
     }, [accountData])
-
-    const sendTrade = (id:any) => {
-        console.log(id)
-    }
     
 
     return (

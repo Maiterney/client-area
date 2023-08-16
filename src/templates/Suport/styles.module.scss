@@ -23,4 +23,12 @@
             }
         }
     }
+    .contentTab {
+        .isEmptyDataList {
+            display: flex;
+            justify-content: center;
+            padding: var(--padding) 0;
+            background-color: #fff;
+        }
+    }
 }

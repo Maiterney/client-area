@@ -46,7 +46,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                         {bills.length != 0 ? 
                             <Accordion className={`accordion ${styles.accordion}`}>
                                 {listMonths.map((item: any) => {
-                                    if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month] && bills[item.month].payment_status != 'Arquivado') {
+                                    if (item.month <= currentMonth && item.month >= currentMonth - 2 && bills[item.month] /* && bills[item.month].payment_status != 'Arquivado' */) {
                                         const data = bills[item.month]
                                         let value = Number(data.value)
                                         let referenceDate = moment(data.generation_month.reference, 'YYYY/MM/DD')
@@ -54,6 +54,7 @@ export const Inicio = ({ billsData, currentMonth }: { billsData: any, currentMon
                                         return (
                                             <AccordionTab 
                                                 key={`${item.label}`} 
+                                                disabled={data.payment_status == 'Arquivado' ? true : false}
                                                 header={
                                                     <div className={styles.title}>
                                                         <div className={styles.text}>

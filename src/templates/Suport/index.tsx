@@ -78,7 +78,7 @@ export const SupportContainer = () => {
                                     />
                                 )
                             })}
-
+                            {isPending?.length <= 0 && <div className={styles.isEmptyDataList}><p>Sem chamados abertos</p></div>}
                         </div>
                     </TabPanel>
                     <TabPanel header="Finalizados">
@@ -95,6 +95,7 @@ export const SupportContainer = () => {
                                     />
                                 )
                             })}
+                            {isDone?.length <= 0 && <div className={styles.isEmptyDataList}><p>Sem chamados finalizados</p></div>}
                         </div>
                     </TabPanel>
                 </TabView>

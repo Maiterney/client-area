@@ -10,6 +10,7 @@ import { destroyCookie } from 'nookies';
 import { api } from '@/utils';
 import { IconLogout } from '@/svg';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import Cookies from 'js-cookie';
 
 type User = {
     name: string,
@@ -29,35 +30,18 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     const menu = useRef<any>(null)
     const { listMonths } = useListMouths()
     const { alertAccount, setAlertAccount } = useAlertAccount()
-    /* const items:MenuItem[] = [
-        {
-            label: user?.name,
-            disabled:true,
-            items: [
-                {
-                    label: 'Minha conta',
-                    icon: 'pi pi-cog',
-                    command: () => {},
-                }
-            ]
-        },
-        {
-            separator: true,
-        },
-        {
-            label: 'Minhas instalações',
-            items: listInstallations,
-        },
-    ]; */
     const items:MenuItem[] = listInstallations;
 
     useEffect(() => {
         if(previousRedirect) {
+            setLoaderPage(true)
             listInstallations.filter((inst:any) => {
-                if(inst.label != currentInstallation) {
-                    setLoaderPage(true)
-                    push('/')
-                }
+                if(inst.label == currentInstallation) return;
+
+                Cookies.remove('previous')
+                Cookies.remove('type')
+                push('/')
+                
             })
         }
     },[listInstallations, setLoaderPage, previousRedirect, currentInstallation, push])
@@ -65,7 +49,6 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         if(!myBills) return
         listMonths?.filter((item:any) => { 
             if(myBills[item.month]) {
-                console.log(myBills[item.month].payment_status != 'Pago')
                 if(myBills[item.month].payment_status != 'Pago' && myBills[item.month].payment_status != 'Arquivado') {
                     if(alertAccount == false) {
                         setAlertAccount(true)
@@ -83,7 +66,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             yearOptions: references,
             loading: false
         })
-    },[myInstallations, myUser, myBills, myCharts, references, currentInstallation])
+    },[myInstallations, myUser, myBills, myCharts, references, currentInstallation, listMonths, setInstallations, setUser, setBills, setCharts, setYear, currentYear, alertAccount, setAlertAccount])
 
     useEffect(() => {
         let installationsNav = installations.map((item:any) => {

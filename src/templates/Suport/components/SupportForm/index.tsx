@@ -21,7 +21,8 @@ interface TransitionProps {
 interface FormInputs {
     subject?: string,
     description?: string,
-    transition?: Array<TransitionProps>
+    transition?: Array<TransitionProps>,
+    type?: string
 }
 
 interface ShowToastProps {
@@ -44,7 +45,6 @@ export const SupportForm = () => {
 
     const sendForm = (data:FormInputs) => {
         setLoaderButton(true)
-        console.log(data)
         api.post('/user/contact-us', data).then(res => {
             showToast({
                 type:'success',
@@ -80,7 +80,7 @@ export const SupportForm = () => {
                         name={'type'} 
                         control={control} 
                         required='Campo obrigatório' 
-                        errorMessage={errors.subject && errors.subject.message}
+                        errorMessage={errors.type && errors.type.message}
                         label='Motivo do chamado'
                         options={[
                             {key: 'Dúvidas sobre faturas', value: 'Dúvidas sobre faturas'},

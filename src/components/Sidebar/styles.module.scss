@@ -157,11 +157,14 @@
                 li {
                     width: auto;
                     margin: 0 calc(var(--margin) / 2);
+                    display: flex;
+                    justify-content: center;
                     a {
                         &::before, &::after {
                             content: unset;
                         }
                         span {
+                            font-size: 12px;
                             @media(max-width: 376px) {
                                 width: 0;
                             }

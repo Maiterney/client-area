@@ -114,7 +114,7 @@ export const ViewSupport = () => {
 
         
         api.put(`/user/contact-us/${id}`, formData).then(res => {
-            console.log(res)
+            // console.log(res)
         }).catch(err => {
             console.log(err)
         }).finally(() => {
