@@ -37,6 +37,7 @@
     "react-hook-form": "^7.43.9",
     "sass": "^1.62.1",
     "sweetalert2": "^11.7.5",
+    "ts-remask": "^0.2.0",
     "typescript": "5.0.4",
     "zustand": "^4.3.8"
   }

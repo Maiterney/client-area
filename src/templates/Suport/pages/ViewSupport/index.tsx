@@ -149,7 +149,7 @@ export const ViewSupport = () => {
                                 return (
                                     <li className={`${item.type == 'request' ? styles.client : styles.attendant}`} key={item.created_at}>
                                         <div className={styles.text}>
-                                            <div className={styles.titleMessage}><strong>{item.user.name}</strong> <span>{time}</span></div>
+                                            <div className={styles.titleMessage}><strong>{item.type == 'request' ? item.user.name : 'Time de Relacionamento Woltz'}</strong> <span>{time}</span></div>
                                             <p className={styles.message}>{item.message}</p>
                                         </div>
                                     </li>
