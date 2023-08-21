@@ -33,10 +33,15 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     const items:MenuItem[] = listInstallations;
 
     useEffect(() => {
+        function containsEncodedComponents(uri:any) {
+            return decodeURIComponent(uri)
+        }
+        let installationDecode = containsEncodedComponents(currentInstallation)
+
         if(previousRedirect) {
             setLoaderPage(true)
             listInstallations.filter((inst:any) => {
-                if(inst.label == currentInstallation) {
+                if(inst.label == installationDecode) {
                     setLoaderPage(false)
                     return;
                 };
@@ -76,7 +81,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
             return {
                 label: item.number,
                 icon: 'pi pi-box',
-                url: `/${item.number}/dashboard`
+                url: `/${encodeURIComponent(item.number)}/dashboard`
             }
         })
         setListInstallations(installationsNav)

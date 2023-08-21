@@ -1,0 +1,8 @@
+.profile {
+    padding: calc(var(--padding) * 2);
+    .content {
+        background-color: var(--color-white);
+        padding: calc(var(--padding) * 1);
+        border-radius: 5px;
+    }
+}
