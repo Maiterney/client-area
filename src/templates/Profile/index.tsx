@@ -5,6 +5,7 @@ import styles from './styles.module.scss'
 import { useLoaderPage, useUserData } from '@/store'
 import { MyForm } from '@/components/Form'
 import { useForm } from 'react-hook-form'
+import { AlertMessage, api } from '@/utils'
  
 export const Profile = () => {
     const { handleSubmit, reset, watch, control, formState: {errors}} = useForm()
@@ -22,6 +23,24 @@ export const Profile = () => {
     const updatePassword = (data:any) => {
         console.log(data)
         console.log(errors)
+        let formData = {
+            'old_password': data.old_password,
+            'new_password': data.new_password,
+            'new_password_confirmation': data.new_password_confirmation
+        }
+        api.patch('/user/password', formData).then(res => {
+            console.log(res)
+            AlertMessage({
+                text: 'Senha atualizada com sucesso',
+                icon: 'success'
+            })
+        }).catch(err => {
+            AlertMessage({
+                text: 'Senha incorreta',
+                icon: 'error'
+            })
+            console.log(err)
+        }).finally(() => reset(user!.user))
     }
 
     useEffect(() => {
@@ -105,12 +124,12 @@ export const Profile = () => {
                             />
 
                             <MyForm.InputController 
-                                name={'confirm_new_password'} 
+                                name={'new_password_confirmation'} 
                                 label='Confirmar nova senha' 
                                 type='password' 
                                 control={control} 
                                 required='Campo obrigatório' 
-                                errorMessage={errors.confirm_new_password && errors.confirm_new_password.message}
+                                errorMessage={errors.new_password_confirmation && errors.new_password_confirmation.message}
                                 validate={
                                     (value) => {
                                         if(value != passwordValid) {

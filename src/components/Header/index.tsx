@@ -27,10 +27,18 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
     const { setBills } = useBills()
     const { setYear } = useFilterYear()
     const [ listInstallations, setListInstallations ] = useState<Array<any>>([])
-    const menu = useRef<any>(null)
     const { listMonths } = useListMouths()
     const { alertAccount, setAlertAccount } = useAlertAccount()
     const items:MenuItem[] = listInstallations;
+    const menu = useRef<any>(null)
+    const userNav:MenuItem[] = [
+        {
+            label: 'Perfil',
+            icon: 'pi pi-user',
+            url: `/${currentInstallation}/profile`
+        }
+    ];
+    const userNavRef = useRef<any>(null)
 
     useEffect(() => {
         function containsEncodedComponents(uri:any) {
@@ -41,6 +49,7 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         if(previousRedirect) {
             setLoaderPage(true)
             listInstallations.filter((inst:any) => {
+                console.log(installationDecode, inst.label)
                 if(inst.label == installationDecode) {
                     setLoaderPage(false)
                     return;
@@ -86,25 +95,30 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         })
         setListInstallations(installationsNav)
     },[installations])
+
     const logout = async () => {
         await api.put('/authenticate/logout').finally(() => { 
-                destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
-                destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.token', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.email', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.expire_token', {domain:'woltz.com.br'})
+            destroyCookie(null, 'nextAuth.refresh', {domain:'woltz.com.br'})
         })
         push(`${process.env.NEXT_PUBLIC_URL_LOGIN}`)
     }
     return (
         <div className={styles.header}>
-            <button className='btn clean'  onClick={(e:any) => menu?.current.toggle(e)}>
-                {/* <Avatar className="p-overlay-badge" image={user?.profile_photo_url} size="large" shape="circle"></Avatar> */}
+            <button className='btn clean' onClick={(e:any) => menu?.current.toggle(e)}>
                 <p>
                     <strong>Minhas Instalações</strong>
                 </p>
                 <i className="pi pi-angle-down" style={{ fontSize: '1rem' }}></i>
             </button>
+            <button className='btn clean' onClick={(e:any) => userNavRef?.current.toggle(e)}>
+                <Avatar className="p-overlay-badge" image={myUser.user?.profile_photo_url} size="large" shape="circle"></Avatar>
+                <i className="pi pi-angle-down" style={{ fontSize: '1rem' }}></i>
+            </button>
             <Menu model={items} popup ref={menu} />
+            <Menu model={userNav} popup ref={userNavRef} />
             {responsive &&  <button className={`btn clean ${styles.logout}`} onClick={logout}><IconLogout /></button>}
         </div>
     )
