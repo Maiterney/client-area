@@ -76,7 +76,7 @@ export const SupportForm = () => {
             <MyForm.Root onSubmit={handleSubmit(sendForm)}>
                 <MyForm.Row>
                     <MyForm.InputController name={'subject'} label='Assunto' type='text' control={control} required='Campo obrigatório' errorMessage={errors.subject && errors.subject.message} limit={80}/>
-                    <MyForm.SelectController 
+                    {/* <MyForm.SelectController 
                         name={'type'} 
                         control={control} 
                         required='Campo obrigatório' 
@@ -87,7 +87,7 @@ export const SupportForm = () => {
                             {key: 'Dúvidas sobre desligamento', value: 'Dúvidas sobre desligamento'},
                             {key: 'Outros assuntos', value: 'Outros assuntos'}
                         ]}
-                    />
+                    /> */}
                 </MyForm.Row>
                 <MyForm.Row>
                     <MyForm.TextAreaController name={'description'} label='Mensagem' control={control} required='Campo obrigatório' errorMessage={errors.description && errors.description.message}/>
