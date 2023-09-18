@@ -160,7 +160,7 @@ export const ViewSupport = () => {
                         }
                     </ul>
                 </div>
-                {/* {isData?.content_data?.transition && isData?.content_data?.transition.length >= 1 && isData.content_data.transition[isData?.content_data?.transition.length - 1].type == 'response' &&
+                {isData?.content_data?.transition && isData?.content_data?.transition.length >= 1 && isData.content_data.transition[isData?.content_data?.transition.length - 1].type == 'response' &&
                     <div className={styles.sendNewMessage}>
                         <p>Nova mensagem:</p>
                         <form onSubmit={handleSubmit(sendNewMessage)} className={styles.form}>
@@ -191,7 +191,7 @@ export const ViewSupport = () => {
                             </div>
                         </form>
                     </div>
-                } */}
+                }
                 <Toast ref={toast} position="bottom-right"/>
             </div>
         </LoaderPage>

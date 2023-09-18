@@ -39,29 +39,46 @@ export const Header = ({myUser, myInstallations, myBills, myCharts, references, 
         }
     ];
     const userNavRef = useRef<any>(null)
+    function containsEncodedComponents(uri:any) {
+        return decodeURIComponent(uri)
+    }
 
     useEffect(() => {
-        function containsEncodedComponents(uri:any) {
-            return decodeURIComponent(uri)
-        }
+        if(listInstallations.length <= 0) return;
+        setLoaderPage(true)
         let installationDecode = containsEncodedComponents(currentInstallation)
-
-        if(previousRedirect) {
-            setLoaderPage(true)
-            listInstallations.filter((inst:any) => {
-                console.log(installationDecode, inst.label)
-                if(inst.label == installationDecode) {
-                    setLoaderPage(false)
-                    return;
-                };
-                console.log('aqui')
-                Cookies.remove('previous')
-                Cookies.remove('type')
-                push('/')
-                
-            })
+        let installations = listInstallations.map(item => item.label)
+        if(installations.includes(installationDecode)) {
+            setLoaderPage(false)
+        }else {
+            Cookies.remove('previous')
+            Cookies.remove('type')
+            push('/')
         }
-    },[listInstallations, setLoaderPage, previousRedirect, currentInstallation, push])
+    },[currentInstallation, listInstallations, push, setLoaderPage])
+
+
+    // useEffect(() => {
+    //     function containsEncodedComponents(uri:any) {
+    //         return decodeURIComponent(uri)
+    //     }
+    //     let installationDecode = containsEncodedComponents(currentInstallation)
+
+    //     /* if(previousRedirect) {
+    //         setLoaderPage(true)
+    //         listInstallations.filter((inst:any) => {
+    //             if(inst.label == installationDecode) {
+    //                 setLoaderPage(false)
+    //                 return inst;
+    //             };
+    //             console.log('aqui')
+    //             Cookies.remove('previous')
+    //             Cookies.remove('type')
+    //             push('/')
+                
+    //         })
+    //     } */
+    // },[listInstallations, setLoaderPage, previousRedirect, currentInstallation, push])
     useEffect(() => { 
         if(!myBills) return
         listMonths?.filter((item:any) => { 
